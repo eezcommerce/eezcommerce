@@ -6,42 +6,7 @@
 }
 
 
-.mainGrid{
-    position: absolute;
-    height: 400vh;
-    width: 100%;
-    display: grid;
-    grid-template-rows: 60px repeat(4, 1fr);
-    grid-template-columns: 100%;
-    grid-template-areas: 
-        "hdr"
-        "pt1"
-        "pt2"
-        "pt3"
-        "pt4";
-}
-
 :root{
     --bg: #fefefe;
     --accent: #519e8a;
-}
-
-
-
-.header{
-    grid-area: hdr;
-    background: var(--bg);
-    position: sticky;
-    top: 0px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-}
-
-.p1{
-    grid-area: pt1;
-    background: var(--bg);
-}
-
-.p2{
-    grid-area: pt2;
-    background: var(--accent);
 }
