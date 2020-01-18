@@ -1,0 +1,11 @@
+Copy everything under the lines below into a filed named ".env" on your system
+
+the variables you add here will be added to process.env.VARIABLE_NAME where VARIABLE_NAME is what you specify
+
+.env is not tracked by git because we'll likely be storing passwords and other sensitive information here, so if any additions or changes are added, make sure this example file is updated so that we can remain consistent with the server and dev environments
+
+if any passwords or keys are added, do NOT include the values but still include the variable name so we know what's needed on our systems
+-----------------------------------------------------------
+
+SERVER_PORT=8080
+SERVER_HOSTNAME=localhost
