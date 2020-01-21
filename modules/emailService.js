@@ -87,7 +87,7 @@ module.exports.sendVerificationEmail = (email) => {
 					<h1>Verify your email.</h1>
 				
 					<p>Click the link below to verify your email:</p>
-					<a href="http://${process.env.SERVER_HOSTNAME}:${process.env.SERVER_PORT}/verify_email/${email}/${token}">Verify</a>
+					<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Verify</a>
 				</div>
 				
 				`
