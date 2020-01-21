@@ -20,7 +20,7 @@ var dummyUsers = [
 	{
 		userId: 2,
 		userName: "User Name 2",
-		email: "testemail@email.com",
+		email: "prj666_201a07@myseneca.ca",
 		token: "",
 		password: "not_a_plaintext_password",
 		verified: false
