@@ -9,4 +9,17 @@
 :root{
     --bg: #fefefe;
     --accent: #519e8a;
+    font-family: Montserrat, Arial, Helvetica, sans-serif !important;
+}
+
+
+
+.homepageFullpage{
+    margin: 0px;
+    min-height: 100vh;
+}
+
+
+h1{
+    font-weight: 900;
 }

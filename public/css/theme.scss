@@ -1,0 +1,8 @@
+// YOU SHOULDN'T HAVE TO TOUCH THIS UNLESS YOU'RE FAMILIAR WITH SASS
+$theme-colors: (
+	"primary": #43ba9e
+);
+
+$font-family-sans-serif: Montserrat, Arial, Helvetica, sans-serif;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
