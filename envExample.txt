@@ -9,3 +9,5 @@ if any passwords or keys are added, do NOT include the values but still include 
 
 SERVER_PORT=8080
 SERVER_HOSTNAME=localhost
+EMAIL_USER="email to send from"
+EMAIL_PASS="email password"
