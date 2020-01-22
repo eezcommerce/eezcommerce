@@ -13,3 +13,5 @@ SERVER_PUBLIC_URL=http://localhost:8080
 
 EMAIL_USER="email to send from"
 EMAIL_PASS="email password"
+
+SESSION_SECRET="random, secure string. preferably >32 char long"
