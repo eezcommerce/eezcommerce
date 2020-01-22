@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require("express");
 var app = express();
 var sessions = require("client-sessions");
+var fs = require("fs")
 
 
 // dependencies
@@ -20,7 +21,7 @@ app.use(sessions({
 	cookieName: 'auth',
 	secret: process.env.SESSION_SECRET,
 	duration: 1 * 1 * 60 * 1000, 		// HH * MM * SS * MS | fill with ones to the left
-	activeDuration: 1 * 1 * 60 * 1000 
+	activeDuration: 1 * 1 * 60 * 1000
 }));
 
 
@@ -79,11 +80,11 @@ app.get("/login", (req, res) => {
 
 	// this might look a bit weird, but it's using ES6 destructuring to strip the password field just to make SURE we're not passing it back and forth
 	// it basically pulls out the password field from the user object if there is one, and collects all the remaining properties into the strippedUser object
-	const{
+	const {
 		password,
 		...strippedUser
 	} = user;
-	
+
 
 	req.auth.isLoggedIn = true;
 	req.auth.userDetails = strippedUser;
@@ -93,17 +94,17 @@ app.get("/login", (req, res) => {
 
 
 app.get('/about_me', (req, res) => {
-	if(req.auth.isLoggedIn){
+	if (req.auth.isLoggedIn) {
 		res.json(req.auth)
-	} else{
+	} else {
 		res.sendStatus(403)
 	}
-	
+
 });
 
 
 
-app.get('/logout', (req, res)=>{
+app.get('/logout', (req, res) => {
 	req.auth.isLoggedIn = false;
 	req.auth.userDetails = {};
 	res.send("logged out")
@@ -129,9 +130,22 @@ app.get("*", (req, res) => {
 	res.send("404 NOT FOUND");
 })
 
+if (process.env.ENABLE_SSL) {
+	var httpsOptions = {
+		key: fs.readFileSync(__dirname + '/cert/prj666-2021.key'),
+		cert: fs.readFileSync(__dirname + '/cert/prj666-2021.crt'),
+		ca: [
+			fs.readFileSync(__dirname + "/cert/RapidSSL_RSA_CA_2018.crt")
+		],
+	};
+	var srv = require('https').createServer(httpsOptions, app).listen(443)
+	console.log("https server listening on port 443");
+	
+}
+
 
 
 // start listening 
 app.listen(process.env.SERVER_PORT || 8080, process.env.SERVER_HOSTNAME, () => {
-	console.log("server listening on port " + process.env.SERVER_PORT || 8080);
+	console.log("http server listening on port " + process.env.SERVER_PORT || 8080);
 })
