@@ -131,16 +131,21 @@ app.get("*", (req, res) => {
 })
 
 if (process.env.ENABLE_SSL) {
-	var httpsOptions = {
-		key: fs.readFileSync(__dirname + '/cert/prj666-2021.key'),
-		cert: fs.readFileSync(__dirname + '/cert/prj666-2021.crt'),
-		ca: [
-			fs.readFileSync(__dirname + "/cert/RapidSSL_RSA_CA_2018.crt")
-		],
-	};
-	var srv = require('https').createServer(httpsOptions, app).listen(443)
-	console.log("https server listening on port 443");
-	
+	try {
+		var httpsOptions = {
+			key: fs.readFileSync(__dirname + '/cert/prj666-2021.key'),
+			cert: fs.readFileSync(__dirname + '/cert/prj666-2021.crt'),
+			ca: [
+				fs.readFileSync(__dirname + "/cert/RapidSSL_RSA_CA_2018.crt")
+			],
+		};
+		var srv = require('https').createServer(httpsOptions, app).listen(443)
+		console.log("https server listening on port 443");
+	} catch (error) {
+		console.error(error + "\n\n****\tWARNING: SSL IS NOT CONFIGURED\t****")
+	}
+
+
 }
 
 
