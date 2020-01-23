@@ -1,37 +1,28 @@
 /* CSS DOCUMENT */
 
-*{
-    margin: 0px;
-    padding: 0px;
+* {
+	margin: 0px;
+	padding: 0px;
 }
 
-
-:root{
-    --bg: #fefefe;
-    --accent: #519e8a;
-    font-family: Montserrat, Arial, Helvetica, sans-serif !important;
+:root {
+	--bg: #fefefe;
+	--accent: #519e8a;
+	font-family: Montserrat, Arial, Helvetica, sans-serif !important;
 }
 
-
-
-.homepageFullpage{
-    margin: 0px;
-    min-height: 100vh;
+.homepageFullpage {
+	margin: 0px;
+	min-height: 100vh;
 }
 
-
-.bigIcon{
-    font-size: 25vw;
+.bigIcon {
+	font-size: 25vw;
 }
 
-
-h1{
-    font-weight: 900;
+h1 {
+	font-weight: 900;
 }
-
-
-
-
 
 /* 
 @media only screen and (max-width: 992px) {
