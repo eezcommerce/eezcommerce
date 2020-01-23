@@ -1,2 +1,5 @@
 /node_modules
 .env
+/cert
+/public/css/theme.css
+/public/css/theme.css.map
