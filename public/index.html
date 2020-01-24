@@ -33,7 +33,16 @@
 			<a class="navbar-brand" href="#"
 				><img width="50px" src="/img/logo.svg"
 			/></a>
-			<ul class="nav">
+			<ul class="nav d-flex justify-content-center align-items-center">
+				<li class="nav-item mr-3">
+					<a class="text-dark" href="#">Home</a>
+				</li>
+				<li class="nav-item mr-3">
+					<a class="text-dark" href="#">Pricing</a>
+				</li>
+				<li class="nav-item mr-3">
+					<a class="text-dark" href="#">About</a>
+				</li>
 				<li class="nav-item">
 					<button class="btn badge-pill btn-outline-primary btn-sm">
 						Log-in
@@ -49,13 +58,15 @@
 		<div class="container-fullwidth">
 			<div class="row homepageFullpage">
 				<div
-					class="col bg-white pr-0 pl-0 text-center d-flex justify-content-center align-items-center"
+					class="col land-splash pr-0 pl-0 text-center d-flex justify-content-center align-items-center"
 				>
-					<div class="d-flex flex-column text-left">
+					<div
+						class="d-flex flex-column text-left text-white p-5"
+					>
 						<h1>eEz Commerce</h1>
 						<h5>the simple way to sell</h5>
 						<div class="d-flex flex-row-reverse">
-							<div class="btn badge-pill btn-primary btn-lg mt-2">
+							<div class="btn text-primary badge-pill btn-light btn-lg mt-2">
 								get started
 							</div>
 						</div>
@@ -63,9 +74,9 @@
 				</div>
 			</div>
 			<div
-				class="row homepageFullpage bg-primary text-white d-flex justify-content-center align-items-center"
+				class="row homepageFullpage bg-secondary text-primary d-flex justify-content-center align-items-center"
 			>
-				<div class="col-md-5 mt-lg-0 mt-5">
+				<div class="col-md-5 mt-lg-0 mt-5 p-5 text-primary">
 					<div class="col-md-12">
 						<h1>Create an online storefront in minutes</h1>
 						<p>
@@ -77,14 +88,14 @@
 					</div>
 				</div>
 				<div class="col-md-5 text-center">
-					<i class="far fa-clock bigIcon"></i>
+					<i class="far fa-clock bigIcon text-secondary text-neumorph-strong"></i>
 				</div>
 			</div>
 			<div
-				class="row homepageFullpage bg-white text-primary d-flex justify-content-center align-items-center"
+				class="row homepageFullpage bg-primary text-white d-flex justify-content-center align-items-center"
 			>
 				<div class="col-md-5 text-center mt-lg-0 mt-5">
-					<i class="fas fa-money-bill-wave bigIcon"></i>
+					<i class="fas fa-money-bill-wave bigIcon text-primary text-neumorph"></i>
 				</div>
 				<div class="col-md-5">
 					<div class="col-md-12">
@@ -116,5 +127,13 @@
 				</div>
 			</div>
 		</div>
+
+		<script>
+			setInterval(() => {
+				let perc = window.scrollY / window.innerHeight;
+
+				$(".land-splash").css({ "background-position-y": perc * 200});
+			}, 150);
+		</script>
 	</body>
 </html>
