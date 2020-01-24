@@ -25,28 +25,14 @@ h1 {
 }
 
 .land-splash {
-	background-image: url("../img/bg-glyph.svg");
+	background-image: url("../img/bg-glyph.png");
 	background-position: center;
 	background-size: 300px;
 	background-repeat: repeat;
 	background-attachment: fixed;
 	background-position-y: 0px;
 	background-position-x: -130px;
-	transition: all 0.15s linear;
-}
-
-.box-neumorph-strong {
-	box-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4),
-		15px 15px 30px rgba(0, 0, 0, 0.05),
-		-5px -5px 10px rgba(255, 255, 255, 0.6),
-		5px 5px 10px rgba(0, 0, 0, 0.05);
-}
-
-.box-neumorph {
-	box-shadow: -15px -15px 30px rgba(255, 255, 255, 0.05),
-		15px 15px 30px rgba(0, 0, 0, 0.05),
-		-5px -5px 10px rgba(255, 255, 255, 0.05),
-		5px 5px 10px rgba(0, 0, 0, 0.05), 0px 0px 50px 100px #43ba9e;
+	transition: background-position-y 0.05s linear;
 }
 
 .text-neumorph-strong {
@@ -59,6 +45,76 @@ h1 {
 .text-neumorph {
 	text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05),
 		15px 15px 30px rgba(0, 0, 0, 0.05),
-		-5px -5px 10px rgba(255, 255, 255, 0.1),
+		-5px -5px 10px rgba(255, 255, 255, 0.05),
 		5px 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.text-neumorph-strong-shift {
+	animation: spinstrong 5s linear infinite;
+}
+
+.text-neumorph-shift {
+	animation: spinnorm 5s linear infinite;
+}
+
+@keyframes spinnorm {
+	0%,
+	100% {
+		text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05),
+			15px 15px 30px rgba(0, 0, 0, 0.05),
+			-5px -5px 10px rgba(255, 255, 255, 0.05),
+			5px 5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	25% {
+		text-shadow: -10px 10px 25px rgba(255, 255, 255, 0.05),
+			15px -15px 30px rgba(0, 0, 0, 0.05),
+			-5px 5px 10px rgba(255, 255, 255, 0.05),
+			5px -5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	50% {
+		text-shadow: 10px 10px 25px rgba(255, 255, 255, 0.05),
+			-15px -15px 30px rgba(0, 0, 0, 0.05),
+			5px 5px 10px rgba(255, 255, 255, 0.05),
+			-5px -5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	75% {
+		text-shadow: 10px -10px 25px rgba(255, 255, 255, 0.05),
+			-15px 15px 30px rgba(0, 0, 0, 0.05),
+			5px -5px 10px rgba(255, 255, 255, 0.1),
+			-5px 5px 10px rgba(0, 0, 0, 0.05);
+	}
+}
+
+@keyframes spinstrong {
+	0%,
+	100% {
+		text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4),
+			15px 15px 30px rgba(0, 0, 0, 0.05),
+			-5px -5px 10px rgba(255, 255, 255, 0.6),
+			5px 5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	25% {
+		text-shadow: -15px 15px 30px rgba(255, 255, 255, 0.4),
+			15px -15px 30px rgba(0, 0, 0, 0.05),
+			-5px 5px 10px rgba(255, 255, 255, 0.6),
+			5px -5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	50% {
+		text-shadow: 15px 15px 30px rgba(255, 255, 255, 0.4),
+			-15px -15px 30px rgba(0, 0, 0, 0.05),
+			5px 5px 10px rgba(255, 255, 255, 0.6),
+			-5px -5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	75% {
+		text-shadow: 15px -15px 30px rgba(255, 255, 255, 0.4),
+			-15px 15px 30px rgba(0, 0, 0, 0.05),
+			5px -5px 10px rgba(255, 255, 255, 0.6),
+			-5px 5px 10px rgba(0, 0, 0, 0.05);
+	}
 }

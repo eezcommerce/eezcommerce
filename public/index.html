@@ -60,13 +60,13 @@
 				<div
 					class="col land-splash pr-0 pl-0 text-center d-flex justify-content-center align-items-center"
 				>
-					<div
-						class="d-flex flex-column text-left text-white p-5"
-					>
-						<h1>eEz Commerce</h1>
-						<h5>the simple way to sell</h5>
+					<div class="d-flex flex-column text-left text-white p-5">
+						<h1>The <u>simple</u> way to sell:</h1>
+						<h1><b>eEzCommerce</b></h1>
 						<div class="d-flex flex-row-reverse">
-							<div class="btn text-primary badge-pill btn-light btn-lg mt-2">
+							<div
+								class="btn text-primary badge-pill btn-light btn-lg mt-2"
+							>
 								get started
 							</div>
 						</div>
@@ -88,14 +88,18 @@
 					</div>
 				</div>
 				<div class="col-md-5 text-center">
-					<i class="far fa-clock bigIcon text-secondary text-neumorph-strong"></i>
+					<i
+						class="far fa-clock bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"
+					></i>
 				</div>
 			</div>
 			<div
 				class="row homepageFullpage bg-primary text-white d-flex justify-content-center align-items-center"
 			>
 				<div class="col-md-5 text-center mt-lg-0 mt-5">
-					<i class="fas fa-money-bill-wave bigIcon text-primary text-neumorph"></i>
+					<i
+						class="fas fa-money-bill-alt bigIcon text-primary text-neumorph text-neumorph-shift"
+					></i>
 				</div>
 				<div class="col-md-5">
 					<div class="col-md-12">
@@ -109,7 +113,7 @@
 				</div>
 			</div>
 			<div
-				class="row homepageFullpage bg-secondary text-black d-flex justify-content-center align-items-center"
+				class="row homepageFullpage bg-secondary text-primary d-flex justify-content-center align-items-center"
 			>
 				<div class="col-md-5 mt-lg-0 mt-5">
 					<div class="col-md-12">
@@ -123,17 +127,22 @@
 					</div>
 				</div>
 				<div class="col-md-5 text-center">
-					<i class="fas fa-chart-line bigIcon text-primary"></i>
+					<i
+						class="fas fa-expand-arrows-alt bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"
+					></i>
 				</div>
 			</div>
 		</div>
 
 		<script>
 			setInterval(() => {
-				let perc = window.scrollY / window.innerHeight;
-
-				$(".land-splash").css({ "background-position-y": perc * 200});
-			}, 150);
+				if (window.innerHeight - window.scrollY > 0) {
+					let perc = window.scrollY / window.innerHeight;
+					$(".land-splash").css({
+						"background-position-y": perc * 200
+					});
+				}
+			}, 50);
 		</script>
 	</body>
 </html>
