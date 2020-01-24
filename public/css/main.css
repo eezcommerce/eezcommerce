@@ -5,6 +5,14 @@
 	padding: 0px;
 }
 
+.container-fullwidth {
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+}
+
 :root {
 	--bg: #fefefe;
 	--accent: #519e8a;
@@ -14,6 +22,9 @@
 .homepageFullpage {
 	margin: 0px;
 	min-height: 100vh;
+	scroll-margin: 20px;
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
 }
 
 .bigIcon {
@@ -116,5 +127,11 @@ h1 {
 			-15px 15px 30px rgba(0, 0, 0, 0.05),
 			5px -5px 10px rgba(255, 255, 255, 0.6),
 			-5px 5px 10px rgba(0, 0, 0, 0.05);
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.bigIcon {
+		font-size: 50vw;
 	}
 }
