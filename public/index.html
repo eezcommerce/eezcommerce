@@ -136,8 +136,12 @@
 
 		<script>
 			setInterval(() => {
-				if (window.innerHeight - window.scrollY > 0) {
-					let perc = window.scrollY / window.innerHeight;
+				let viewport = $(".container-fullwidth")[0];
+				let perc = viewport.scrollTop / window.innerHeight;
+				console.log(perc);
+				
+				
+				if (window.innerHeight - viewport.scrollTop > 0) {
 					$(".land-splash").css({
 						"background-position-y": perc * 200
 					});
