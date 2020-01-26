@@ -61,8 +61,8 @@
 					class="col land-splash pr-0 pl-0 text-center d-flex justify-content-center align-items-center"
 				>
 					<div class="d-flex flex-column text-left text-white p-5">
-						<h1>The <u>simple</u> way to sell:</h1>
-						<h1><b>eEzCommerce</b></h1>
+						<h1>The <u>simple</u> way to sell,</h1>
+						<h1><b>eEz Commerce</b></h1>
 						<div class="d-flex flex-row-reverse">
 							<div
 								class="btn text-primary badge-pill btn-light btn-lg mt-2"
@@ -133,20 +133,5 @@
 				</div>
 			</div>
 		</div>
-
-		<script>
-			setInterval(() => {
-				let viewport = $(".container-fullwidth")[0];
-				let perc = viewport.scrollTop / window.innerHeight;
-				console.log(perc);
-				
-				
-				if (window.innerHeight - viewport.scrollTop > 0) {
-					$(".land-splash").css({
-						"background-position-y": perc * 200
-					});
-				}
-			}, 50);
-		</script>
 	</body>
 </html>

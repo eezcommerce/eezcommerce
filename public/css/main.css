@@ -37,13 +37,9 @@ h1 {
 
 .land-splash {
 	background-image: url("../img/bg-glyph.png");
-	background-position: center;
 	background-size: 300px;
 	background-repeat: repeat;
-	background-attachment: fixed;
-	background-position-y: 0px;
-	background-position-x: -130px;
-	transition: background-position-y 0.05s linear;
+	background-position-x: -50px;
 }
 
 .text-neumorph-strong {
