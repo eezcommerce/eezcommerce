@@ -23,7 +23,10 @@
 h1 {
 	font-weight: 900;
 }
-
+/* Required to make pricing/testimonial modal non-grey */
+.modal-backdrop {
+	z-index: 1020 !important;
+}
 
 /* 
 @media only screen and (max-width: 992px) {
