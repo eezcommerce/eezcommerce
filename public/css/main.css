@@ -27,10 +27,3 @@ h1 {
 .modal-backdrop {
 	z-index: 1020 !important;
 }
-
-/* 
-@media only screen and (max-width: 992px) {
-    .bigIcon{
-        font-size: 200px;
-    }
-}  */
