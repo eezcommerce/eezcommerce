@@ -29,6 +29,76 @@
 	</head>
 
 	<body>
+
+											  <div
+											  class="container"					
+										  >
+											  <div
+												  class="modal fade"
+												  id="loginModalCenter"
+												  tabindex="-1"
+												  role="dialog"
+												  aria-labelledby="loginModalCenterTitle"
+												  aria-hidden="false"
+											  ><!-- Login Modal -->
+												  <div
+													  class="modal-dialog modal-dialog-centered"
+													  role="document"
+												  >
+													  <div class="modal-content">
+														  <div class="modal-body">
+																  <button
+																  type="button"
+																  class="close"
+																  data-dismiss="modal"
+																  aria-label="Close"
+															  >
+																  <span aria-hidden="true">&times;</span>
+															  </button>
+																  <div class="modal-header">
+												  
+																		  <h1>login</h1>
+																  
+	  
+																  </div>
+														  
+																												  
+																  <form>
+																		  <div class="form-group row">
+															  
+																				  <div class="col-sm-12 text-center">
+																					<input type="text" class="form-control text-center" id="inputEmail" placeholder="enter email">
+																				  </div>
+																				</div>
+																		  <div class="form-group row">
+															  
+																			<div class="col-sm-12">
+																			  <input type="password" class="form-control text-center" id="inputPassword" placeholder="enter password">
+																			</div>
+																		  </div>
+																		</form>
+				  
+																  <div class="row">
+																	  <div class="col-xs-12">
+				  
+																	  
+																			  <div class="panel-footer">
+																				  <span style="padding-left: 20px;"><a href="#">forgot password?</a></span>
+																				  <span style="padding-left: 260px;"><a
+																					  href="http://www.jquery2dotnet.com"
+																					  class="btn badge-pill btn-outline-primary btn-sm align-right"
+																					  role="button"
+																					  >log In</a
+																				  ></span>
+																			  </div>
+																		  
+																	  </div>
+																  </div>
+															  </div>
+														  </div>
+													  </div>
+												  </div>
+											  </div><!-- Login Modal -->
 		<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
 			<a class="navbar-brand" href="#"
 				><img width="50px" src="/img/logo.svg"
@@ -44,7 +114,8 @@
 							>Pricing</a
 						>
 					</li>
-					<!-- Modal -->
+					<!-- Pricing Modal -->
+
 					<div
 						class="modal fade"
 						id="pricingModalCenter"
@@ -200,7 +271,8 @@
 				<ul class="nav">
 					<li class="nav-item">
 						<button
-							class="btn badge-pill btn-outline-primary btn-sm"
+							class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
+							data-target="#loginModalCenter"
 						>
 							Log-in
 						</button>

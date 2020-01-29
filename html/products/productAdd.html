@@ -1,134 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		/>
+		<link
+			href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+			rel="stylesheet"
+		/>
+		<!--fixes the icons-->
+		<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/> <!--fixes the icons-->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+		<title>eEz Commerce - Add Product</title>
+	</head>
 
-    <title>eEz Commerce - Add Product</title>
-</head>
+	<body>
+		<!-- nav bar-->
 
-<body>
-    <!-- nav bar-->
+		<div class="container">
+			<div class="row">
+				<div class="pb-2 mt-4 mb-2 col-md-4">
+					<!--header-->
+					<h1><strong>Add Product</strong></h1>
+				</div>
+				<br />
+				<div class="col-md-12">
+					<!--well-->
+					<form>
+						<div class="form-group row">
+							<label
+								for="productNameLabel"
+								class="col-sm-2 col-form-label mb-1"
+								>Product Name</label
+							>
+							<div class="col-sm-10">
+								<input
+									type="text"
+									class="form-control"
+									id="productNameInput"
+								/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label
+								for="priceLabel"
+								class="col-sm-2 col-form-label mb-1"
+								>Price</label
+							>
+							<div class="col-sm-10">
+								<input
+									type="text"
+									class="form-control"
+									id="priceInput"
+								/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label
+								for="quantityLabel"
+								class="col-sm-2 col-form-label mb-1"
+								>Quantity</label
+							>
+							<div class="col-sm-10">
+								<input
+									type="text"
+									class="form-control"
+									id="quantityInput"
+								/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label
+								for="descriptionLabel"
+								class="col-sm-2 col-form-label mb-1"
+								>Description</label
+							>
+							<div class="col-sm-10">
+								<textarea
+									class="form-control"
+									id="descriptionTextarea"
+									rows="3"
+								></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label
+								for="imageUploadLabel"
+								class="col-sm-2 col-form-label pb-2"
+								>Image Upload</label
+							>
+							<div class="col-sm-10">
+								<input
+									type="file"
+									class="form-control"
+									id="imageUploadInput"
+								/>
+							</div>
+						</div>
+					</form>
 
+					<br />
+					<div class="panel-body">
+						<button
+							type="button"
+							class="btn btn-outline-primary badge-pill"
+							data-toggle="modal"
+							data-target="#addProductModal"
+						>
+							Add Product
+						</button>
+						<button
+							type="button"
+							class="btn btn-outline-primary badge-pill ml-2"
+						>
+							Cancel
+						</button>
+					</div>
 
-    <div class="container">
-        <div class="row">
-            <div class="pb-2 mt-4 mb-2 col-md-4"><!--header-->
-                <h1><strong>Add Product</strong></h1>
-            </div>
-            <br>
-            <div class="col-md-12">
-                <!--well-->
-                <form>
-                    <div class="form-group row">
-                        <label for="productNameLabel" class="col-sm-2 col-form-label mb-1">Product Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="productNameInput">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="priceLabel" class="col-sm-2 col-form-label mb-1">Price</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="priceInput">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="quantityLabel" class="col-sm-2 col-form-label mb-1">Quantity</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="quantityInput">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="descriptionLabel" class="col-sm-2 col-form-label mb-1">Description</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" id="descriptionTextarea" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="imageUploadLabel" class="col-sm-2 col-form-label pb-2">Image Upload</label>                        
-                        <div class="col-sm-10">
-                                <input type="file" class="form-control" id="imageUploadInput">                            
-                        </div>                    
-                    </div>
-                </form>
+					<!--Confirm/Review added product details (popup-modal)-->
+					<div
+						class="modal fade bd-example-modal-lg"
+						tabindex="-1"
+						role="dialog"
+						id="addProductModal"
+					>
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<!-- Modal Header -->
+								<div class="modal-header">
+									<h4 class="modal-title">
+										Please Review and Confirm Information
+									</h4>
+									<button
+										type="button"
+										class="close"
+										data-dismiss="modal"
+									>
+										&times;
+									</button>
+								</div>
 
-                <br>
-                <div class="panel-body">
-                    <button type="button" class="btn btn-outline-primary badge-pill" data-toggle="modal" data-target="#addProductModal">Add Product</button>
-                    <button type="button" class="btn btn-outline-primary badge-pill ml-2">Cancel</button>
-                </div>
+								<!-- Modal body -->
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-md-4 column">
+											<img
+												src="https://images.hugoboss.com/is/image/boss/hbeu58073793_999_200"
+												class="rounded mx-auto border border-dark"
+												alt="test image"
+											/>
+										</div>
+										<div class="col-md-8 column">
+											<table
+												class="table table-borderless ml-2"
+											>
+												<colgroup>
+													<col class="col-md-4" />
+													<col class="col-md-7" />
+												</colgroup>
+												<tbody>
+													<tr>
+														<th scope="row">
+															Product Name
+														</th>
+														<td>Prod Name</td>
+													</tr>
+													<tr>
+														<th scope="row">
+															Cost Per Unit
+														</th>
+														<td>CPU</td>
+													</tr>
+													<tr>
+														<th scope="row">Qty</th>
+														<td>qty</td>
+													</tr>
+													<tr>
+														<th scope="row">
+															Description
+														</th>
+														<td>descrip</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 
-                <!--Confirm/Review added product details (popup-modal)-->
-                <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="addProductModal">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Please Review and Confirm Information</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-4 column">
-                                        <img src="https://images.hugoboss.com/is/image/boss/hbeu58073793_999_200" class="rounded mx-auto border border-dark" alt="test image">
-                                    </div>
-                                    <div class="col-md-8 column">
-                                
-                                        <table class="table table-borderless ml-2">
-                                            <colgroup>
-                                                <col class="col-md-4">
-                                                <col class="col-md-7">
-                                            </colgroup>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">Product Name</th>
-                                                    <td>Prod Name</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Cost Per Unit</th>
-                                                    <td>CPU</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Qty</th>
-                                                    <td>qty</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Description</th>
-                                                    <td>descrip</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                
-                            <!-- Modal footer -->
-                            <div class="modal-footer justify-content-start">
-                                <button type="button" class="btn btn-outline-primary badge-pill">Add Product</button>                                
-                                <button type="button" class="btn btn-outline-primary badge-pill" data-dismiss="modal">Cancel</button>
-                            </div>
-                
-                        </div>
-                    </div>
-                </div><!--modal-->
-            </div>
-        </div><!--row-->
-    </div><!--container-->
+								<!-- Modal footer -->
+								<div class="modal-footer justify-content-start">
+									<button
+										type="button"
+										class="btn btn-outline-primary badge-pill"
+									>
+										Add Product
+									</button>
+									<button
+										type="button"
+										class="btn btn-outline-primary badge-pill"
+										data-dismiss="modal"
+									>
+										Cancel
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--modal-->
+				</div>
+			</div>
+			<!--row-->
+		</div>
+		<!--container-->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="html/index.js"></script>
-</body>
-
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"
+		></script>
+		<script src="html/index.js"></script>
+	</body>
 </html>
