@@ -79,7 +79,7 @@
 											  <div class="col-sm-12">
 				
 												<input type="email" class="form-control text-center" id="inputEmail" placeholder="enter email" 
-												  required>
+												  required autofocus>
 												<div class="valid-feedback">
 												  Looks good!
 												</div>
@@ -103,10 +103,10 @@
 												  <input type="password" class="form-control text-center" name="confirmPassword" id="confirmPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="confirm password" 
 													required>
 													
-												  <div class="valid-feedback">
+												  <div id="cPwdValid" class="valid-feedback">
 													Looks good!
 												  </div>
-												  <div class="invalid-feedback">
+												  <div id="cPwdInvalid" class="invalid-feedback">
 													Passwords must match.
 												  </div>
 												</div>
@@ -125,7 +125,7 @@
 												</div>
 											  </div>
 											</div>
-											<button class="btn badge-pill btn-outline-primary btn-sm align-right" type="submit">Submit form</button>
+											<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm align-right" type="submit" disabled>Submit form</button>
 										  </form>		
 									</div>
 								</div>
