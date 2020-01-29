@@ -74,7 +74,7 @@
 										<div class="modal-header">
 											<h1>sign up</h1>
 										</div>
-										<form id="createAccount" class="needs-validation" novalidate>
+										<form method="POST" id="createAccount" class="needs-validation" novalidate>
 											<div class="form-group row">
 											  <div class="col-sm-12">
 				
@@ -116,16 +116,16 @@
 									
 											<div class="form-group">
 											  <div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-												<label class="form-check-label" for="invalidCheck">
-												  Agree to terms and conditions
+												<input class="form-check-input" type="checkbox" value="" id="agreeTerms" required>
+												<label class="form-check-label" for="agreeTerms">
+												  Agree to <a href="#"><b>terms and conditions</b></a>
 												</label>
 												<div class="invalid-feedback">
 												  You must agree before submitting.
 												</div>
 											  </div>
 											</div>
-											<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm align-right" type="submit" disabled>Submit form</button>
+											<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit" disabled>Continue</button>
 										  </form>		
 									</div>
 								</div>
