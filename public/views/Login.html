@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -29,144 +28,131 @@
 		<link rel="stylesheet" href="/css/main.css" />
 	</head>
 
-
-
 	<body>
-
-
-			<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
-					<a class="navbar-brand" href="#"
-						><img width="50px" src="/img/logo.svg"
-					/></a>
-					<span class="navbar-nav mr-auto">
-						<ul class="nav">
-							<li class="nav-item px-2">
-								<a
-									class="nav-link"
-									href="#"
-									data-toggle="modal"
-									data-target="#loginModalCenter"
-									>Pricing</a
-								>
-							</li>
-							<!-- Modal -->
-							<div
-							class="container"					
+		<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
+			<a class="navbar-brand" href="#"
+				><img width="50px" src="/img/logo.svg"
+			/></a>
+			<span class="navbar-nav mr-auto">
+				<ul class="nav">
+					<li class="nav-item px-2">
+						<a
+							class="nav-link"
+							href="#"
+							data-toggle="modal"
+							data-target="#pricingModalCenter"
+							>Pricing</a
+						>
+					</li>
+					<!-- Modal -->
+					<div class="container">
+						<div
+							class="modal fade"
+							id="loginModalCenter"
+							tabindex="-1"
+							role="dialog"
+							aria-labelledby="loginModalCenterTitle"
+							aria-hidden="false"
 						>
 							<div
-								class="modal fade"
-								id="loginModalCenter"
-								tabindex="-1"
-								role="dialog"
-								aria-labelledby="loginModalCenterTitle"
-								aria-hidden="false"
+								class="modal-dialog modal-dialog-centered"
+								role="document"
 							>
-								<div
-									class="modal-dialog modal-dialog-centered"
-									role="document"
-								>
-									<div class="modal-content">
-										<div class="modal-body">
-												<button
-												type="button"
-												class="close"
-												data-dismiss="modal"
-												aria-label="Close"
+								<div class="modal-content">
+									<div class="modal-body">
+										<button
+											type="button"
+											class="close"
+											data-dismiss="modal"
+											aria-label="Close"
+										>
+											<span aria-hidden="true"
+												>&times;</span
 											>
-												<span aria-hidden="true">&times;</span>
-											</button>
-												<div class="modal-header">
-								
-														<h1>login</h1>
-												
-												
-													
+										</button>
+										<div class="modal-header">
+											<h1>login</h1>
+										</div>
+
+										<form>
+											<div class="form-group row">
+												<div
+													class="col-sm-12 text-center"
+												>
+													<input
+														type="text"
+														class="form-control text-center"
+														id="inputEmail"
+														placeholder="enter email"
+													/>
 												</div>
-										
-										
-												
-												<form>
-														<div class="form-group row">
-											
-																<div class="col-sm-12 text-center">
-																  <input type="text" class="form-control text-center" id="inputEmail" placeholder="enter email">
-																</div>
-															  </div>
-														<div class="form-group row">
-											
-														  <div class="col-sm-12">
-															<input type="password" class="form-control text-center" id="inputPassword" placeholder="enter password">
-														  </div>
-														</div>
-													  </form>
+											</div>
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<input
+														type="password"
+														class="form-control text-center"
+														id="inputPassword"
+														placeholder="enter password"
+													/>
+												</div>
+											</div>
+										</form>
 
-												<div class="row">
-													<div class="col-xs-12">
-
-													
-															<div class="panel-footer">
-																<span style="padding-left: 20px;"><a href="#">forgot password?</a></span>
-																<span style="padding-left: 260px;"><a
-																	href="http://www.jquery2dotnet.com"
-																	class="btn badge-pill btn-outline-primary btn-sm align-right"
-																	role="button"
-																	>log In</a
-																></span>
-															</div>
-														
-													</div>
+										<div class="row">
+											<div class="col-xs-12">
+												<div class="panel-footer">
+													<span
+														style="padding-left: 20px;"
+														><a href="#"
+															>forgot password?</a
+														></span
+													>
+													<span
+														style="padding-left: 260px;"
+														><a
+															href="http://www.jquery2dotnet.com"
+															class="btn badge-pill btn-outline-primary btn-sm align-right"
+															role="button"
+															>log In</a
+														></span
+													>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-		
-							<li class="nav-item px-2">
-								<a class="nav-link" href="#">Testimonials</a>
-							</li>
-						</ul>
-					</span>
-					<span class="navbar-text">
-						<ul class="nav">
-							<li class="nav-item">
-								<button
-									class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
-									data-target="#loginModalCenter"
-								>
-									Log-in
-								</button>
-							</li>
-							<li class="nav-item">
-								<button class="btn badge-pill btn-primary ml-2 btn-sm">
-									Sign-up
-								</button>
-							</li>
-						</ul>
-					</span>
-				</nav>
+						</div>
+					</div>
 
-
-
-
-		<!-- <nav class="navbar navbar-light bg-light">
-			<a class="navbar-brand" href="#"><img src="images/eezCommerceLogo.jpg"></a>
+					<li class="nav-item px-2">
+						<a class="nav-link" href="#">Testimonials</a>
+					</li>
+				</ul>
+			</span>
+			<span class="navbar-text">
+				<ul class="nav">
+					<li class="nav-item">
+						<button
+							class="btn badge-pill btn-outline-primary btn-sm"
+							data-toggle="modal"
+							data-target="#loginModalCenter"
+						>
+							Log-in
+						</button>
+					</li>
+					<li class="nav-item">
+						<button class="btn badge-pill btn-primary ml-2 btn-sm">
+							Sign-up
+						</button>
+					</li>
+				</ul>
+			</span>
 		</nav>
-		<div class="container">
-			<div class="login-form">
-				<h1>login</h1>
-				<form action="auth" method="POST">
-					<input type="text" name="username" placeholder="Username" required>
-					<input type="password" name="password" placeholder="Password" required>
-					<input type="submit">
-				</form>
-			</div>
-		</div> -->
 
-
-
-			<!-- Modal -->
-			<div
+		<!-- Modal -->
+		<div
 			class="modal fade"
 			id="pricingModalCenter"
 			tabindex="-1"
@@ -174,10 +160,7 @@
 			aria-labelledby="pricingModalCenterTitle"
 			aria-hidden="false"
 		>
-			<div
-				class="modal-dialog modal-dialog-centered"
-				role="document"
-			>
+			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-body">
 						<button
@@ -188,15 +171,10 @@
 						>
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<div
-							class="container-fluid"
-							style="padding-left:75px;"
-						>
+						<div class="container-fluid" style="padding-left:75px;">
 							<div class="row">
 								<div class="col-xs-6">
-									<div
-										class="panel panel-primary"
-									>
+									<div class="panel panel-primary">
 										<div class="panel-heading">
 											<h3 class="panel-title">
 												Basic
@@ -214,20 +192,17 @@
 												</tr>
 												<tr class="active">
 													<td>
-														100 MB
-														Storage
+														100 MB Storage
 													</td>
 												</tr>
 												<tr class="active">
 													<td>
-														Weekly
-														Reports
+														Weekly Reports
 													</td>
 												</tr>
 												<tr class="active">
 													<td>
-														3 months
-														Support
+														3 months Support
 													</td>
 												</tr>
 											</table>
@@ -244,9 +219,7 @@
 								</div>
 
 								<div class="col-xs-6">
-									<div
-										class="panel panel-primary"
-									>
+									<div class="panel panel-primary">
 										<div class="panel-heading">
 											<h3 class="panel-title">
 												Premium
@@ -255,8 +228,7 @@
 										<div class="panel-body">
 											<div class="the-price">
 												<h1>
-													$20<span
-														class="subscript"
+													$20<span class="subscript"
 														>/mo</span
 													>
 												</h1>
@@ -274,8 +246,7 @@
 												</tr>
 												<tr class="active">
 													<td>
-														Weekly
-														Reports
+														Weekly Reports
 													</td>
 												</tr>
 												<tr class="active">

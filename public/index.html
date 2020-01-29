@@ -29,43 +29,7 @@
 	</head>
 
 	<body>
-			<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
-				  <a class="navbar-brand" href="#"
-								  ><img width="50px" src="/img/logo.svg"
-							  /></a>
-							  <span class="navbar-nav mr-auto">
-									<ul class="nav">
 
-									<li class="nav-item px-2">
-											<a class="nav-link" href="#">Pricing</a>
-									</li>
-									  <li class="nav-item px-2">
-											<a class="nav-link" href="#">Testimonials</a>
-									  </li>
-									 
-								  </ul>
-						  </span>
-					  <span class="navbar-text">
-								<ul class="nav">
-								  <li class="nav-item">
-									  <button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
-									  data-target="#loginModalCenter">
-										  Log-in
-									  </button>
-								  </li>
-								  <li class="nav-item">
-									  <button class="btn badge-pill btn-primary ml-2 btn-sm">
-										  Sign-up
-									  </button>
-								  </li>
-							  </ul>
-					  </span>
-					
-				  </nav>
-
-
-
-				  							<!-- Modal -->
 											  <div
 											  class="container"					
 										  >
@@ -76,7 +40,7 @@
 												  role="dialog"
 												  aria-labelledby="loginModalCenterTitle"
 												  aria-hidden="false"
-											  >
+											  ><!-- Login Modal -->
 												  <div
 													  class="modal-dialog modal-dialog-centered"
 													  role="document"
@@ -95,12 +59,10 @@
 												  
 																		  <h1>login</h1>
 																  
-																  
-																	  
+	  
 																  </div>
 														  
-														  
-																  
+																												  
 																  <form>
 																		  <div class="form-group row">
 															  
@@ -136,7 +98,193 @@
 														  </div>
 													  </div>
 												  </div>
-											  </div>
+											  </div><!-- Login Modal -->
+
+		<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
+			<a class="navbar-brand" href="#"
+				><img width="50px" src="/img/logo.svg"
+			/></a>
+			<span class="navbar-nav mr-auto">
+				<ul class="nav">
+					<li class="nav-item px-2">
+						<a
+							class="nav-link"
+							href="#"
+							data-toggle="modal"
+							data-target="#pricingModalCenter"
+							>Pricing</a
+						>
+					</li>
+					<!-- Pricing Modal -->
+					<div
+						class="modal fade"
+						id="pricingModalCenter"
+						tabindex="-1"
+						role="dialog"
+						aria-labelledby="pricingModalCenterTitle"
+						aria-hidden="false"
+					>
+						<div
+							class="modal-dialog modal-dialog-centered"
+							role="document"
+						>
+							<div class="modal-content">
+								<div class="modal-body">
+									<button
+										type="button"
+										class="close"
+										data-dismiss="modal"
+										aria-label="Close"
+									>
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<div
+										class="container-fluid"
+										style="padding-left:75px;"
+									>
+										<div class="row">
+											<div class="col-xs-6">
+												<div
+													class="panel panel-primary"
+												>
+													<div class="panel-heading">
+														<h3 class="panel-title">
+															Basic
+														</h3>
+													</div>
+													<div class="panel-body">
+														<div class="the-price">
+															<h1>FREE</h1>
+														</div>
+														<table class="table">
+															<tr>
+																<td>
+																	Hosting
+																</td>
+															</tr>
+															<tr class="active">
+																<td>
+																	100 MB
+																	Storage
+																</td>
+															</tr>
+															<tr class="active">
+																<td>
+																	Weekly
+																	Reports
+																</td>
+															</tr>
+															<tr class="active">
+																<td>
+																	3 months
+																	Support
+																</td>
+															</tr>
+														</table>
+													</div>
+													<div class="panel-footer">
+														<a
+															href="http://www.jquery2dotnet.com"
+															class="btn badge-pill btn-primary ml-2 "
+															role="button"
+															>Sign Up NOW!</a
+														>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-xs-6">
+												<div
+													class="panel panel-primary"
+												>
+													<div class="panel-heading">
+														<h3 class="panel-title">
+															Premium
+														</h3>
+													</div>
+													<div class="panel-body">
+														<div class="the-price">
+															<h1>
+																$20<span
+																	class="subscript"
+																	>/mo</span
+																>
+															</h1>
+														</div>
+														<table class="table">
+															<tr>
+																<td>
+																	Hosting
+																</td>
+															</tr>
+															<tr class="active">
+																<td>
+																	1 GB Storage
+																</td>
+															</tr>
+															<tr class="active">
+																<td>
+																	Weekly
+																	Reports
+																</td>
+															</tr>
+															<tr class="active">
+																<td>
+																	24/7 Support
+																</td>
+															</tr>
+														</table>
+													</div>
+													<div class="panel-footer">
+														<a
+															href="http://www.jquery2dotnet.com"
+															class="btn badge-pill btn-primary ml-2"
+															role="button"
+															>Sign Up NOW</a
+														>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- <div class="modal-footer">
+									<button
+										type="button"
+										class="btn btn-secondary"
+										data-dismiss="modal"
+									>
+										Close
+									</button>
+				
+								</div> -->
+							</div>
+						</div>
+					</div>
+
+					<li class="nav-item px-2">
+						<a class="nav-link" href="#">Testimonials</a>
+					</li>
+				</ul>
+			</span>
+			<span class="navbar-text">
+				<ul class="nav">
+					<li class="nav-item">
+						<button
+							class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
+							data-target="#loginModalCenter"
+						>
+							Log-in
+						</button>
+					</li>
+					<li class="nav-item">
+						<button class="btn badge-pill btn-primary ml-2 btn-sm">
+							Sign-up
+						</button>
+					</li>
+				</ul>
+			</span>
+		</nav>
 
 		<div class="container-fullwidth">
 			<div class="row homepageFullpage">

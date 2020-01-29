@@ -1,179 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>eEz Commerce</title>
+		<title>eEz Commerce</title>
 
+		<!-- scripts -->
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous"
+		></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
-    	<!-- scripts -->
-	<script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"
-    ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-
-    <!-- sheets -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
-  </head>
-  <body>
-
-    <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<h3>
-				Update Your Billing Information
-			</h3>
+		<!-- sheets -->
+		<link rel="stylesheet" href="/css/main.css" />
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		/>
+	</head>
+	<body>
+		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-4">
-				</div>
-				<div class="col-md-4">
+				<div class="col-md-12">
+					<h3>
+						Update Your Billing Information
+					</h3>
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<form>
+								<label
+									class="my-1 mr-2"
+									for="inlineFormCustomSelectPref"
+									>Credit Card</label
+								>
+								<select
+									class="custom-select my-1 mr-sm-2"
+									id="inlineFormCustomSelectPref"
+								>
+									<option selected>Choose...</option>
+									<option value="1">Credit Card 1</option>
+									<option value="2">Credit Card 2</option>
+									<option value="3">Credit Card 3</option>
+								</select>
 
+								<span
+									><button
+										class="btn badge-pill btn-primary btn-md mt-2"
+										data-toggle="modal"
+										data-target="#AddCCModal"
+									>
+										Add a Card
+									</button></span
+								>
 
-					<form>
-              <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Credit Card</label>
-              <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                <option selected>Choose...</option>
-                <option value="1">Credit Card 1</option>
-                <option value="2">Credit Card 2</option>
-                <option value="3">Credit Card 3</option>
-              </select>
+								<!-- Modal -->
+								<div
+									class="modal fade"
+									id="AddCCModal"
+									tabindex="-1"
+									role="dialog"
+									aria-labelledby="exampleModalLabel"
+									aria-hidden="true"
+								>
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5
+													class="modal-title"
+													id="exampleModalLabel"
+												>
+													Add A Credit Card
+												</h5>
 
-            <span><button class="btn badge-pill btn-primary btn-md mt-2" data-toggle="modal" data-target="#AddCCModal">Add a Card</button></span>
+												<button
+													type="button"
+													class="close"
+													data-dismiss="modal"
+													aria-label="Close"
+												>
+													<span aria-hidden="true"
+														>&times;</span
+													>
+												</button>
+											</div>
+											<div class="modal-body">
+												<form role="form">
+													<div class="form-group">
+														<label for="cardNumber">
+															CARD NUMBER</label
+														>
+														<div
+															class="input-group"
+														>
+															<input
+																type="text"
+																class="form-control"
+																id="cardNumber"
+																placeholder="Valid Card Number"
+																required
+																autofocus
+															/>
+															<span
+																class="input-group-addon"
+																><span
+																	class="glyphicon glyphicon-lock"
+																></span
+															></span>
+														</div>
+													</div>
+													<div class="row">
+														<div
+															class="col-xs-6 col-md-6"
+														>
+															<div
+																class="form-group"
+															>
+																<label
+																	for="expiryMonthYear"
+																>
+																	EXPIRY
+																	DATE</label
+																>
+																<div
+																	class="col-xs-6 col-lg-6"
+																>
+																	<input
+																		type="text"
+																		class="form-control"
+																		id="expiryMonth"
+																		placeholder="MMYY"
+																		required
+																	/>
+																</div>
+															</div>
+														</div>
+														<div
+															class="col-xs-4 col-md-4 pull-right"
+														>
+															<div
+																class="form-group"
+															>
+																<label
+																	for="cvCode"
+																>
+																	CV
+																	CODE</label
+																>
+																<input
+																	type="password"
+																	class="form-control"
+																	id="cvCode"
+																	placeholder="CV"
+																	required
+																/>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button
+													type="button"
+													class="btn btn-secondary"
+													data-dismiss="modal"
+												>
+													Close
+												</button>
+												<button
+													type="button"
+													class="btn btn-primary"
+												>
+													Add Card
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
 
+								<div
+									class="custom-control custom-checkbox my-1 mr-sm-2"
+								>
+									<input
+										type="checkbox"
+										class="custom-control-input"
+										id="customControlInline"
+									/>
+									<label
+										class="custom-control-label"
+										for="customControlInline"
+										>Remember my preference</label
+									>
+								</div>
+								<br />
+								<h3>Billing</h3>
+								<div class="form-group row">
+									<label
+										for="FirstName"
+										class="col-sm-2 col-form-label"
+										>First Name</label
+									>
+									<div class="col-sm-4">
+										<input
+											type="text"
+											class="form-control"
+											id="firstName"
+											placeholder="First Name"
+										/>
+									</div>
 
-<!-- Modal -->
-<div class="modal fade" id="AddCCModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add A Credit Card</h5>
-          
-         
+									<label
+										for="LastName"
+										class="col-sm-2 col-form-label"
+										>Last Name</label
+									>
+									<div class="col-sm-4">
+										<input
+											type="text"
+											class="form-control"
+											id="lastName"
+											placeholder="Last Name"
+										/>
+									</div>
+								</div>
 
+								<div class="form-group row">
+									<label
+										for="address"
+										class="col-sm-2 col-form-label"
+										>Address</label
+									>
+									<div class="col-sm-10">
+										<input
+											type="text"
+											class="form-control"
+											id="address"
+											placeholder="Address"
+										/>
+									</div>
+								</div>
 
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form role="form">
-                <div class="form-group">
-                    <label for="cardNumber">
-                        CARD NUMBER</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="cardNumber" placeholder="Valid Card Number"
-                            required autofocus />
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 col-md-6">
-                        <div class="form-group">
-                            <label for="expiryMonthYear">
-                                EXPIRY DATE</label>
-                            <div class="col-xs-6 col-lg-6">
-                                <input type="text" class="form-control" id="expiryMonth" placeholder="MMYY" required />
-                            </div>
-                          
-                        </div>
-                    </div>
-                    <div class="col-xs-4 col-md-4 pull-right">
-                        <div class="form-group">
-                            <label for="cvCode">
-                                CV CODE</label>
-                            <input type="password" class="form-control" id="cvCode" placeholder="CV" required />
-                        </div>
-                    </div>
-                </div>
-                </form>
-    
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Add Card</button>
-        </div>
-      </div>
-    </div>
-  </div>
+								<div class="form-group row">
+									<label
+										for="city"
+										class="col-sm-2 col-form-label"
+										>City</label
+									>
+									<div class="col-sm-10">
+										<input
+											type="text"
+											class="form-control"
+											id="city"
+											placeholder="City"
+										/>
+									</div>
+								</div>
 
+								<div class="form-group row">
+									<label
+										for="Province"
+										class="col-sm-2 col-form-label"
+										>Province</label
+									>
+									<div class="col-sm-4">
+										<select
+											class="custom-select my-1 mr-sm-2"
+										>
+											<option selected value="1"
+												>ON</option
+											>
+											<option value="2">QC</option>
+											<option value="3">NS</option>
+											<option value="4">NB</option>
+											<option value="5">MB</option>
+											<option value="6">BC</option>
+											<option value="7">PEI</option>
+											<option value="8">SK</option>
+											<option value="9">AB</option>
+											<option value="10">NL</option>
+											<option value="11">NT</option>
+											<option value="12">YT</option>
+											<option value="13">NU</option>
+										</select>
+									</div>
 
+									<label
+										for="PostalCode"
+										class="col-sm-2 col-form-label"
+										>PostalCode</label
+									>
+									<div class="col-sm-4">
+										<input
+											type="text"
+											class="form-control"
+											id="postalCode"
+											placeholder="A1B 2C3"
+										/>
+									</div>
+								</div>
 
-
-              <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                <input type="checkbox" class="custom-control-input" id="customControlInline">
-                <label class="custom-control-label" for="customControlInline">Remember my preference</label>
-              </div>
-              <br>
-              <h3>Billing</h3>
-                        <div class="form-group row">
-                          <label for="FirstName" class="col-sm-2 col-form-label">First Name</label>
-                          <div class="col-sm-4">
-                            <input type="text" class="form-control" id="firstName" placeholder="First Name">
-                          </div>
-
-                          <label for="LastName" class="col-sm-2 col-form-label">Last Name</label>
-                          <div class="col-sm-4">
-                            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
-                          </div>
-                        </div>
-                     
-                        <div class="form-group row">
-                          <label for="address" class="col-sm-2 col-form-label">Address</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" id="address" placeholder="Address">
-                          </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="city" class="col-sm-2 col-form-label">City</label>
-                            <div class="col-sm-10">
-                              <input type="text" class="form-control" id="city" placeholder="City">
-                            </div>
-                          </div>
-
-                       <div class="form-group row">
-                          <label for="Province" class="col-sm-2 col-form-label">Province</label>
-                          <div class="col-sm-4">
-                              <select class="custom-select my-1 mr-sm-2">
-                                  <option selected value="1">ON</option>
-                                  <option value="2">QC</option>
-                                  <option value="3">NS</option>
-                                  <option value="4">NB</option>
-                                  <option value="5">MB</option>
-                                  <option value="6">BC</option>
-                                  <option value="7">PEI</option>
-                                  <option value="8">SK</option>
-                                  <option value="9">AB</option>
-                                  <option value="10">NL</option>
-                                  <option value="11">NT</option>
-                                  <option value="12">YT</option>
-                                  <option value="13">NU</option>
-                              </select>
-                          </div>
-
-                          <label for="PostalCode" class="col-sm-2 col-form-label">PostalCode</label>
-                          <div class="col-sm-4">
-                            <input type="text" class="form-control" id="postalCode" placeholder="A1B 2C3">
-                          </div>
-                        </div>
-
-                          <button type="submit" class="btn badge-pill btn-primary btn-md mt-2">Update</button>
-                      </form>
-				</div>
-				<div class="col-md-4">
+								<button
+									type="submit"
+									class="btn badge-pill btn-primary btn-md mt-2"
+								>
+									Update
+								</button>
+							</form>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-
-
-  </body>
+	</body>
 </html>
