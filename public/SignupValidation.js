@@ -36,12 +36,12 @@
         }
     });
 
-//Clear modal on hide
-    $('#signupModalCenter').on('hidden.bs.modal', function () {
-      $(this).find('form').trigger('reset');
-  })
+        //Clear modal on hide
+        $('#signupModalCenter').on('hidden.bs.modal', function () {
+          $(this).find('form').trigger('reset');
+      })
 
-    let currForm1 = document.getElementById('myForm1');
+    let currForm1 = document.getElementById('createAccount');
       // Validate on submit:
       currForm1.addEventListener('submit', function(event) {
         if (currForm1.checkValidity() === false) {
@@ -65,4 +65,5 @@
         });
       });
     });
+
 
