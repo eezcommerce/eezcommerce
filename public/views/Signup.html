@@ -14,24 +14,149 @@
 		></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+		<script src="../SignupValidation.js"></script>
+
 		<!-- sheets -->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css?family=Montserrat:400,900&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="/css/theme.css" />
 		<link rel="stylesheet" href="/css/main.css" />
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
 	</head>
 
 	<body>
-		<nav class="navbar navbar-light bg-light">
-			<a class="navbar-brand" href="#"><img src="images/eezCommerceLogo.jpg"/></a>
+		<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
+			<a class="navbar-brand" href="#"
+				><img width="50px" src="/img/logo.svg"
+			/></a>
+			<span class="navbar-nav mr-auto">
+				<ul class="nav">
+					<li class="nav-item px-2">
+						<a
+							class="nav-link"
+							href="#"
+							data-toggle="modal"
+							data-target="#pricingModalCenter"
+							>Pricing</a
+						>
+					</li>
+					<!-- Signup Modal -->
+					<div class="container">
+						<div
+							class="modal fade"
+							id="signupModalCenter"
+							tabindex="-1"
+							role="dialog"
+							aria-labelledby="signupModalCenterTitle"
+							aria-hidden="false"
+						>
+							<div
+								class="modal-dialog modal-dialog-centered"
+								role="document"
+							>
+								<div class="modal-content">
+									<div class="modal-body">
+										<button
+											type="button"
+											class="close"
+											data-dismiss="modal"
+											aria-label="Close"
+										>
+											<span aria-hidden="true"
+												>&times;</span
+											>
+										</button>
+										<div class="modal-header">
+											<h1>sign up</h1>
+										</div>
+										<form method="POST" id="createAccount" class="needs-validation" novalidate>
+											<div class="form-group row">
+											  <div class="col-sm-12">
+				
+												<input type="email" class="form-control text-center" id="inputEmail" placeholder="enter email" 
+												  required autofocus>
+												<div class="valid-feedback">
+												  Looks good!
+												</div>
+											  </div>
+											</div>
+											<div class="form-group row">
+											  <div class="col-sm-12">
+												<input type="password" class="form-control text-center" name="inputPassword" id="inputPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="enter password" 
+												  required>
+												<div class="valid-feedback">
+												  Looks good!
+												</div>
+												<div class="invalid-feedback">
+													Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
+												  </div>
+											  </div>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-sm-12">
+												  <input type="password" class="form-control text-center" name="confirmPassword" id="confirmPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="confirm password" 
+													required>
+													
+												  <div id="cPwdValid" class="valid-feedback">
+													Looks good!
+												  </div>
+												  <div id="cPwdInvalid" class="invalid-feedback">
+													Passwords must match.
+												  </div>
+												</div>
+											  </div>
+
+									
+									
+											<div class="form-group">
+											  <div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="agreeTerms" required>
+												<label class="form-check-label" for="agreeTerms">
+												  Agree to <a href="#"><b>terms and conditions</b></a>
+												</label>
+												<div class="invalid-feedback">
+												  You must agree before submitting.
+												</div>
+											  </div>
+											</div>
+											<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit" disabled>Continue</button>
+										  </form>		
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><!-- Signup Modal -->
+
+					<li class="nav-item px-2">
+						<a class="nav-link" href="#">Testimonials</a>
+					</li>
+				</ul>
+			</span>
+			<span class="navbar-text">
+				<ul class="nav">
+					<li class="nav-item">
+						<button
+							class="btn badge-pill btn-outline-primary btn-sm"
+							data-toggle="modal"
+							data-target="#loginModalCenter"
+						>
+							Log-in
+						</button>
+					</li>
+					<li class="nav-item">
+						<button class="btn badge-pill btn-primary ml-2 btn-sm" data-toggle="modal"
+						data-target="#signupModalCenter">
+							Sign-up
+						</button>
+					</li>
+				</ul>
+			</span>
 		</nav>
-		<div class="container">
-			<h2>Sign Up</h2>
-			<form action="Questions.html">
-				<input type="text" name="email" placeholder="Email" required />
-				<br />
-				<input type="password" name="pass" placeholder="Password" required /><br />
-				<input type="password" name="conPass" placeholder="Confirm Password" required /><br />
-				<input type="submit" value="Sign Up" />
-			</form>
-		</div>
 	</body>
 </html>
