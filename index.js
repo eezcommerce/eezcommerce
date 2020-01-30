@@ -1,14 +1,16 @@
 require("dotenv").config();
 
+// dependencies
 const express = require("express");
 var app = express();
 var sessions = require("client-sessions");
 var fs = require("fs");
+var bodyParser = require('body-parser')
 
-// dependencies
 
 // custom modules
-const mailService = require(__dirname + "/modules/emailService.js");
+const mailService = require("./modules/emailService.js");
+const userService = require("./modules/userService.js");
 
 // express middlewares & setup
 app.use(express.static("public"));
@@ -18,9 +20,14 @@ app.use(
 		cookieName: "auth",
 		secret: process.env.SESSION_SECRET,
 		duration: 1 * 1 * 60 * 1000, // HH * MM * SS * MS | fill with ones to the left
-		activeDuration: 1 * 1 * 60 * 1000
+		activeDuration: 1 * 60 * 60 * 1000
 	})
 );
+
+
+app.use(bodyParser.json())
+
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // ROUTES
 // 		->	GET 	Place all GET routes here
@@ -56,25 +63,6 @@ app.get("/verify_email/:email/:token", (req, res) => {
 		});
 });
 
-// this will move to the post route when form data is needed
-app.get("/login", (req, res) => {
-	// We're going to simulate a user that would be returned from the database
-	const user = {
-		id: 1,
-		name: "John Smith",
-		company: "Paintings4You",
-		email: "email@email.com",
-		password: "asecretnonplaintextpassword"
-	};
-
-	// this might look a bit weird, but it's using ES6 destructuring to strip the password field just to make SURE we're not passing it back and forth
-	// it basically pulls out the password field from the user object if there is one, and collects all the remaining properties into the strippedUser object
-	const { password, ...strippedUser } = user;
-
-	req.auth.isLoggedIn = true;
-	req.auth.userDetails = strippedUser;
-	res.send("logged in");
-});
 
 app.get("/about_me", (req, res) => {
 	if (req.auth.isLoggedIn) {
@@ -84,14 +72,47 @@ app.get("/about_me", (req, res) => {
 	}
 });
 
+
+app.get("/dashboard", (req, res) => {
+	if (req.auth.isLoggedIn) {
+		res.sendFile(__dirname+"/public/views/Dashboard.html")
+	} else {
+		res.redirect("/");
+	}
+})
+
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
 	req.auth.userDetails = {};
-	res.send("logged out");
+	res.send("logged out <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 });
 
 // ROUTES
 // 		->	POST 	Place all POST routes here
+
+app.post("/signup", (req, res) => {
+	userService.create({ email: req.body.email, password: req.body.inputPassword }).then((result) => {
+		res.json(result);
+	}).catch((err) => {
+		res.json({ error: err })
+	})
+
+})
+
+
+app.post("/login", (req, res) => {
+
+	userService.authenticate(req.body.email, req.body.password).then((user) => {
+		req.auth.isLoggedIn = true;
+		req.auth.userDetails = user;
+		res.json(user);
+	}).catch((err) => {
+		res.json({ error: err })
+	})
+
+});
+
+
 
 // Express MiddleWares
 
