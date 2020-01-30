@@ -16,103 +16,63 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
 		<!-- sheets -->
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
-		/>
-		<link
-			href="https://fonts.googleapis.com/css?family=Montserrat:400,900&display=swap"
-			rel="stylesheet"
-		/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,900&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="/css/theme.css" />
 		<link rel="stylesheet" href="/css/main.css" />
 	</head>
 
 	<body>
+		<div class="container">
+			<div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="loginModalCenterTitle" aria-hidden="false">
+				<!-- Login Modal -->
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<div class="modal-header">
+								<h1>login</h1>
+							</div>
 
-											  <div
-											  class="container"					
-										  >
-											  <div
-												  class="modal fade"
-												  id="loginModalCenter"
-												  tabindex="-1"
-												  role="dialog"
-												  aria-labelledby="loginModalCenterTitle"
-												  aria-hidden="false"
-											  ><!-- Login Modal -->
-												  <div
-													  class="modal-dialog modal-dialog-centered"
-													  role="document"
-												  >
-													  <div class="modal-content">
-														  <div class="modal-body">
-																  <button
-																  type="button"
-																  class="close"
-																  data-dismiss="modal"
-																  aria-label="Close"
-															  >
-																  <span aria-hidden="true">&times;</span>
-															  </button>
-																  <div class="modal-header">
-												  
-																		  <h1>login</h1>
-																  
-	  
-																  </div>
-														  
-																												  
-																  <form>
-																		  <div class="form-group row">
-															  
-																				  <div class="col-sm-12 text-center">
-																					<input type="text" class="form-control text-center" id="inputEmail" placeholder="enter email">
-																				  </div>
-																				</div>
-																		  <div class="form-group row">
-															  
-																			<div class="col-sm-12">
-																			  <input type="password" class="form-control text-center" id="inputPassword" placeholder="enter password">
-																			</div>
-																		  </div>
-																		</form>
-				  
-																  <div class="row">
-																	  <div class="col-xs-12">
-				  
-																	  
-																			  <div class="panel-footer">
-																				  <span style="padding-left: 20px;"><a href="#">forgot password?</a></span>
-																				  <span style="padding-left: 260px;"><a
-																					  href="http://www.jquery2dotnet.com"
-																					  class="btn badge-pill btn-outline-primary btn-sm align-right"
-																					  role="button"
-																					  >log In</a
-																				  ></span>
-																			  </div>
-																		  
-																	  </div>
-																  </div>
-															  </div>
-														  </div>
-													  </div>
-												  </div>
-											  </div><!-- Login Modal -->
+							<form>
+								<div class="form-group row">
+									<div class="col-sm-12 text-center">
+										<input type="text" class="form-control text-center" id="inputEmail" placeholder="enter email" />
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-12">
+										<input type="password" class="form-control text-center" id="inputPassword" placeholder="enter password" />
+									</div>
+								</div>
+							</form>
+
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="panel-footer">
+										<span style="padding-left: 20px;"><a href="#">forgot password?</a></span>
+										<span style="padding-left: 260px;"
+											><a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-outline-primary btn-sm align-right" role="button"
+												>log In</a
+											></span
+										>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Login Modal -->
 		<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
-			<a class="navbar-brand" href="#"
-				><img width="50px" src="/img/logo.svg"
-			/></a>
+			<a class="navbar-brand" href="#"><img width="50px" src="/img/logo.svg"/></a>
 			<span class="navbar-nav mr-auto">
 				<ul class="nav">
 					<li class="nav-item px-2">
-						<a
-							class="nav-link"
-							href="#"
-							data-toggle="modal"
-							data-target="#pricingModalCenter"
-							>Pricing</a
-						>
+						<a class="nav-link" href="#" data-toggle="modal" data-target="#pricingModalCenter">Pricing</a>
 					</li>
 					<!-- Pricing Modal -->
 
@@ -124,29 +84,16 @@
 						aria-labelledby="pricingModalCenterTitle"
 						aria-hidden="false"
 					>
-						<div
-							class="modal-dialog modal-dialog-centered"
-							role="document"
-						>
+						<div class="modal-dialog modal-dialog-centered" role="document">
 							<div class="modal-content">
 								<div class="modal-body">
-									<button
-										type="button"
-										class="close"
-										data-dismiss="modal"
-										aria-label="Close"
-									>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<div
-										class="container-fluid"
-										style="padding-left:75px;"
-									>
+									<div class="container-fluid" style="padding-left:75px;">
 										<div class="row">
 											<div class="col-xs-6">
-												<div
-													class="panel panel-primary"
-												>
+												<div class="panel panel-primary">
 													<div class="panel-heading">
 														<h3 class="panel-title">
 															Basic
@@ -164,39 +111,29 @@
 															</tr>
 															<tr class="active">
 																<td>
-																	100 MB
-																	Storage
+																	100 MB Storage
 																</td>
 															</tr>
 															<tr class="active">
 																<td>
-																	Weekly
-																	Reports
+																	Weekly Reports
 																</td>
 															</tr>
 															<tr class="active">
 																<td>
-																	3 months
-																	Support
+																	3 months Support
 																</td>
 															</tr>
 														</table>
 													</div>
 													<div class="panel-footer">
-														<a
-															href="http://www.jquery2dotnet.com"
-															class="btn badge-pill btn-primary ml-2 "
-															role="button"
-															>Sign Up NOW!</a
-														>
+														<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2 " role="button">Sign Up NOW!</a>
 													</div>
 												</div>
 											</div>
 
 											<div class="col-xs-6">
-												<div
-													class="panel panel-primary"
-												>
+												<div class="panel panel-primary">
 													<div class="panel-heading">
 														<h3 class="panel-title">
 															Premium
@@ -204,12 +141,7 @@
 													</div>
 													<div class="panel-body">
 														<div class="the-price">
-															<h1>
-																$20<span
-																	class="subscript"
-																	>/mo</span
-																>
-															</h1>
+															<h1>$20<span class="subscript">/mo</span></h1>
 														</div>
 														<table class="table">
 															<tr>
@@ -224,8 +156,7 @@
 															</tr>
 															<tr class="active">
 																<td>
-																	Weekly
-																	Reports
+																	Weekly Reports
 																</td>
 															</tr>
 															<tr class="active">
@@ -236,12 +167,7 @@
 														</table>
 													</div>
 													<div class="panel-footer">
-														<a
-															href="http://www.jquery2dotnet.com"
-															class="btn badge-pill btn-primary ml-2"
-															role="button"
-															>Sign Up NOW</a
-														>
+														<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2" role="button">Sign Up NOW</a>
 													</div>
 												</div>
 											</div>
@@ -270,10 +196,7 @@
 			<span class="navbar-text">
 				<ul class="nav">
 					<li class="nav-item">
-						<button
-							class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
-							data-target="#loginModalCenter"
-						>
+						<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal" data-target="#loginModalCenter">
 							Log-in
 						</button>
 					</li>
@@ -288,9 +211,7 @@
 
 		<div class="container-fullwidth">
 			<div class="row homepageFullpage">
-				<div
-					class="col bg-white pr-0 pl-0 text-center d-flex justify-content-center align-items-center"
-				>
+				<div class="col bg-white pr-0 pl-0 text-center d-flex justify-content-center align-items-center">
 					<div class="d-flex flex-column text-left">
 						<h1>eEz Commerce</h1>
 						<h5>the simple way to sell</h5>
@@ -302,17 +223,13 @@
 					</div>
 				</div>
 			</div>
-			<div
-				class="row homepageFullpage bg-primary text-white d-flex justify-content-center align-items-center"
-			>
+			<div class="row homepageFullpage bg-primary text-white d-flex justify-content-center align-items-center">
 				<div class="col-md-5 mt-lg-0 mt-5">
 					<div class="col-md-12">
 						<h1>Create an online storefront in minutes</h1>
 						<p>
-							With a few quick questions you'll have an online
-							presence for your business in no time at all. Plus,
-							we'll guide you through it and be with you every
-							step of the way.
+							With a few quick questions you'll have an online presence for your business in no time at all. Plus, we'll guide you through
+							it and be with you every step of the way.
 						</p>
 					</div>
 				</div>
@@ -320,9 +237,7 @@
 					<i class="far fa-clock bigIcon"></i>
 				</div>
 			</div>
-			<div
-				class="row homepageFullpage bg-white text-primary d-flex justify-content-center align-items-center"
-			>
+			<div class="row homepageFullpage bg-white text-primary d-flex justify-content-center align-items-center">
 				<div class="col-md-5 text-center mt-lg-0 mt-5">
 					<i class="fas fa-money-bill-wave bigIcon"></i>
 				</div>
@@ -330,24 +245,19 @@
 					<div class="col-md-12">
 						<h1>Generate new revenue streams</h1>
 						<p>
-							Whether you're an independent artist or an
-							established physical store, we can help you generate
-							new revenue streams allowing you to grow
+							Whether you're an independent artist or an established physical store, we can help you generate new revenue streams allowing
+							you to grow
 						</p>
 					</div>
 				</div>
 			</div>
-			<div
-				class="row homepageFullpage bg-secondary text-black d-flex justify-content-center align-items-center"
-			>
+			<div class="row homepageFullpage bg-secondary text-black d-flex justify-content-center align-items-center">
 				<div class="col-md-5 mt-lg-0 mt-5">
 					<div class="col-md-12">
 						<h1>Keep growing, and growing, and growing...</h1>
 						<p>
-							Our platform scales with your business, meaning that
-							we won't hold you back. Our low fee plans mean that
-							you can focus on keeping up with sales instead of
-							making sure your platform does.
+							Our platform scales with your business, meaning that we won't hold you back. Our low fee plans mean that you can focus on
+							keeping up with sales instead of making sure your platform does.
 						</p>
 					</div>
 				</div>

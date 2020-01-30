@@ -37,9 +37,7 @@ app.get("/send_verification_email_test/:email", (req, res) => {
 			res.send("Couldn't send email. Check the URL and try again.");
 
 			if (e.toString().indexOf("Greeting") >= 0) {
-				console.log(
-					e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***"
-				);
+				console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
 			}
 		});
 });
@@ -120,7 +118,5 @@ if (process.env.ENABLE_SSL) {
 
 // start listening
 app.listen(process.env.SERVER_PORT || 8080, process.env.SERVER_HOSTNAME, () => {
-	console.log(
-		"http server listening on port " + process.env.SERVER_PORT || 8080
-	);
+	console.log("http server listening on port " + process.env.SERVER_PORT || 8080);
 });
