@@ -5,8 +5,7 @@ const express = require("express");
 var app = express();
 var sessions = require("client-sessions");
 var fs = require("fs");
-var bodyParser = require('body-parser')
-
+var bodyParser = require("body-parser");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
@@ -24,10 +23,9 @@ app.use(
 	})
 );
 
+app.use(bodyParser.json());
 
-app.use(bodyParser.json())
-
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // ROUTES
 // 		->	GET 	Place all GET routes here
@@ -63,7 +61,6 @@ app.get("/verify_email/:email/:token", (req, res) => {
 		});
 });
 
-
 app.get("/about_me", (req, res) => {
 	if (req.auth.isLoggedIn) {
 		res.json(req.auth);
@@ -72,14 +69,13 @@ app.get("/about_me", (req, res) => {
 	}
 });
 
-
 app.get("/dashboard", (req, res) => {
 	if (req.auth.isLoggedIn) {
-		res.sendFile(__dirname+"/public/views/Dashboard.html")
+		res.sendFile(__dirname + "/public/views/Dashboard.html");
 	} else {
 		res.redirect("/");
 	}
-})
+});
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
@@ -91,28 +87,28 @@ app.get("/logout", (req, res) => {
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
-	userService.create({ email: req.body.email, password: req.body.inputPassword }).then((result) => {
-		res.json(result);
-	}).catch((err) => {
-		res.json({ error: err })
-	})
-
-})
-
-
-app.post("/login", (req, res) => {
-
-	userService.authenticate(req.body.email, req.body.password).then((user) => {
-		req.auth.isLoggedIn = true;
-		req.auth.userDetails = user;
-		res.json(user);
-	}).catch((err) => {
-		res.json({ error: err })
-	})
-
+	userService
+		.create({ email: req.body.email, password: req.body.inputPassword })
+		.then(result => {
+			res.json(result);
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
 });
 
-
+app.post("/login", (req, res) => {
+	userService
+		.authenticate(req.body.email, req.body.password)
+		.then(user => {
+			req.auth.isLoggedIn = true;
+			req.auth.userDetails = user;
+			res.json(user);
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
 
 // Express MiddleWares
 
