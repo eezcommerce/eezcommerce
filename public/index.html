@@ -14,6 +14,7 @@
 		></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+		<script src="/js/SignupValidation.js"></script>
 
 		<!-- sheets -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
@@ -24,49 +25,125 @@
 
 	<body>
 		<div class="container">
-			<div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="loginModalCenterTitle" aria-hidden="false">
+			<div class="modal fade" id="loginModalCenter">
 				<!-- Login Modal -->
-				<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-body">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
+							<button type="button" class="close" data-dismiss="modal">
+								<span>&times;</span>
 							</button>
 							<div class="modal-header">
 								<h1>login</h1>
 							</div>
 
-							<form>
+							<form method="POST" id="authenticateLogin">
 								<div class="form-group row">
 									<div class="col-sm-12 text-center">
-										<input type="text" class="form-control text-center" id="inputEmail" placeholder="enter email" />
+										<input type="email" class="form-control text-center" id="loginEmail" placeholder="enter email" />
 									</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-12">
-										<input type="password" class="form-control text-center" id="inputPassword" placeholder="enter password" />
+										<input type="password" class="form-control text-center" id="loginPassword" placeholder="enter password" />
 									</div>
+								</div>
+
+								<div class="col-xs-12">
+									<span><a href="./views/ForgottenPassword.html">forgot password?</a></span>
+									<span><button type="submit" class="btn badge-pill btn-outline-primary btn-sm float-right">log In</button></span>
 								</div>
 							</form>
-
-							<div class="row">
-								<div class="col-xs-12">
-									<div class="panel-footer">
-										<span style="padding-left: 20px;"><a href="#">forgot password?</a></span>
-										<span style="padding-left: 260px;"
-											><a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-outline-primary btn-sm align-right" role="button"
-												>log In</a
-											></span
-										>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- Login Modal -->
+
+		<!-- Signup Modal -->
+		<div class="container">
+			<div class="modal fade" id="signupModalCenter">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<button type="button" class="close" data-dismiss="modal">
+								<span>&times;</span>
+							</button>
+							<div class="modal-header">
+								<h1>sign up</h1>
+							</div>
+							<form method="POST" id="createAccount" class="needs-validation" novalidate>
+								<div class="form-group row">
+									<div class="col-sm-12">
+										<input type="email" class="form-control text-center" id="inputEmail" placeholder="enter email" required autofocus />
+										<div class="valid-feedback">
+											Looks good!
+										</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-12">
+										<input
+											type="password"
+											class="form-control text-center"
+											name="inputPassword"
+											id="inputPassword"
+											pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+											placeholder="enter password"
+											required
+										/>
+										<div class="valid-feedback">
+											Looks good!
+										</div>
+										<div class="invalid-feedback">
+											Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-sm-12">
+										<input
+											type="password"
+											class="form-control text-center"
+											name="confirmPassword"
+											id="confirmPassword"
+											pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+											placeholder="confirm password"
+											required
+										/>
+
+										<div id="cPwdValid" class="valid-feedback">
+											Looks good!
+										</div>
+										<div id="cPwdInvalid" class="invalid-feedback">
+											Passwords must match.
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="agreeTerms" required />
+										<label class="form-check-label" for="agreeTerms">
+											Agree to <a href="#"><b>terms and conditions</b></a>
+										</label>
+										<div class="invalid-feedback">
+											You must agree before submitting.
+										</div>
+									</div>
+								</div>
+								<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit" disabled>
+									Continue
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
 			<a class="navbar-brand" href="#"><img width="50px" src="/img/logo.svg"/></a>
 			<span class="navbar-nav mr-auto">
@@ -76,14 +153,7 @@
 					</li>
 					<!-- Pricing Modal -->
 
-					<div
-						class="modal fade"
-						id="pricingModalCenter"
-						tabindex="-1"
-						role="dialog"
-						aria-labelledby="pricingModalCenterTitle"
-						aria-hidden="false"
-					>
+					<div class="modal fade" id="pricingModalCenter" tabindex="-1" role="dialog">
 						<div class="modal-dialog modal-dialog-centered" role="document">
 							<div class="modal-content">
 								<div class="modal-body">
@@ -174,16 +244,6 @@
 										</div>
 									</div>
 								</div>
-								<!-- <div class="modal-footer">
-									<button
-										type="button"
-										class="btn btn-secondary"
-										data-dismiss="modal"
-									>
-										Close
-									</button>
-				
-								</div> -->
 							</div>
 						</div>
 					</div>
@@ -201,7 +261,7 @@
 						</button>
 					</li>
 					<li class="nav-item">
-						<button class="btn badge-pill btn-primary ml-2 btn-sm">
+						<button class="btn badge-pill btn-primary ml-2 btn-sm" data-toggle="modal" data-target="#signupModalCenter">
 							Sign-up
 						</button>
 					</li>
@@ -211,16 +271,12 @@
 
 		<div class="container-fullwidth">
 			<div class="row homepageFullpage">
-				<div
-					class="col land-splash pr-0 pl-0 text-center d-flex justify-content-center align-items-center"
-				>
+				<div class="col land-splash pr-0 pl-0 text-center d-flex justify-content-center align-items-center">
 					<div class="d-flex flex-column text-left text-white p-5">
 						<h1>The <u>simple</u> way to sell,</h1>
 						<h1><b>eEz Commerce</b></h1>
 						<div class="d-flex flex-row-reverse">
-							<div
-								class="btn text-primary badge-pill btn-light btn-lg mt-2"
-							>
+							<div class="btn text-primary badge-pill btn-light btn-lg mt-2">
 								get started
 							</div>
 						</div>
@@ -240,18 +296,12 @@
 					</div>
 				</div>
 				<div class="col-md-5 text-center">
-					<i
-						class="far fa-clock bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"
-					></i>
+					<i class="far fa-clock bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"></i>
 				</div>
 			</div>
-			<div
-				class="row homepageFullpage bg-primary text-white d-flex flex-column flex-md-row justify-content-center align-items-center"
-			>
+			<div class="row homepageFullpage bg-primary text-white d-flex flex-column flex-md-row justify-content-center align-items-center">
 				<div class="col-md-5 text-center mt-lg-0 mt-5">
-					<i
-						class="fas fa-money-bill-alt bigIcon text-primary text-neumorph text-neumorph-shift"
-					></i>
+					<i class="fas fa-money-bill-alt bigIcon text-primary text-neumorph text-neumorph-shift"></i>
 				</div>
 				<div class="col-md-5 mt-lg-0 mt-5 p-5 ">
 					<div class="col-md-12">
@@ -276,9 +326,7 @@
 					</div>
 				</div>
 				<div class="col-md-5 text-center mt-5 mt-md-0">
-					<i
-						class="fas fa-expand-arrows-alt bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"
-					></i>
+					<i class="fas fa-expand-arrows-alt bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"></i>
 				</div>
 			</div>
 		</div>

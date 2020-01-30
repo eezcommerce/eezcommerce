@@ -47,16 +47,12 @@ h1 {
 }
 
 .text-neumorph-strong {
-	text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4),
-		15px 15px 30px rgba(0, 0, 0, 0.05),
-		-5px -5px 10px rgba(255, 255, 255, 0.6),
+	text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4), 15px 15px 30px rgba(0, 0, 0, 0.05), -5px -5px 10px rgba(255, 255, 255, 0.6),
 		5px 5px 10px rgba(0, 0, 0, 0.05);
 }
 
 .text-neumorph {
-	text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05),
-		15px 15px 30px rgba(0, 0, 0, 0.05),
-		-5px -5px 10px rgba(255, 255, 255, 0.05),
+	text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05), 15px 15px 30px rgba(0, 0, 0, 0.05), -5px -5px 10px rgba(255, 255, 255, 0.05),
 		5px 5px 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -71,30 +67,22 @@ h1 {
 @keyframes spinnorm {
 	0%,
 	100% {
-		text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05),
-			15px 15px 30px rgba(0, 0, 0, 0.05),
-			-5px -5px 10px rgba(255, 255, 255, 0.05),
+		text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05), 15px 15px 30px rgba(0, 0, 0, 0.05), -5px -5px 10px rgba(255, 255, 255, 0.05),
 			5px 5px 10px rgba(0, 0, 0, 0.05);
 	}
 
 	25% {
-		text-shadow: -10px 10px 25px rgba(255, 255, 255, 0.05),
-			15px -15px 30px rgba(0, 0, 0, 0.05),
-			-5px 5px 10px rgba(255, 255, 255, 0.05),
+		text-shadow: -10px 10px 25px rgba(255, 255, 255, 0.05), 15px -15px 30px rgba(0, 0, 0, 0.05), -5px 5px 10px rgba(255, 255, 255, 0.05),
 			5px -5px 10px rgba(0, 0, 0, 0.05);
 	}
 
 	50% {
-		text-shadow: 10px 10px 25px rgba(255, 255, 255, 0.05),
-			-15px -15px 30px rgba(0, 0, 0, 0.05),
-			5px 5px 10px rgba(255, 255, 255, 0.05),
+		text-shadow: 10px 10px 25px rgba(255, 255, 255, 0.05), -15px -15px 30px rgba(0, 0, 0, 0.05), 5px 5px 10px rgba(255, 255, 255, 0.05),
 			-5px -5px 10px rgba(0, 0, 0, 0.05);
 	}
 
 	75% {
-		text-shadow: 10px -10px 25px rgba(255, 255, 255, 0.05),
-			-15px 15px 30px rgba(0, 0, 0, 0.05),
-			5px -5px 10px rgba(255, 255, 255, 0.1),
+		text-shadow: 10px -10px 25px rgba(255, 255, 255, 0.05), -15px 15px 30px rgba(0, 0, 0, 0.05), 5px -5px 10px rgba(255, 255, 255, 0.1),
 			-5px 5px 10px rgba(0, 0, 0, 0.05);
 	}
 }
@@ -102,30 +90,22 @@ h1 {
 @keyframes spinstrong {
 	0%,
 	100% {
-		text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4),
-			15px 15px 30px rgba(0, 0, 0, 0.05),
-			-5px -5px 10px rgba(255, 255, 255, 0.6),
+		text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4), 15px 15px 30px rgba(0, 0, 0, 0.05), -5px -5px 10px rgba(255, 255, 255, 0.6),
 			5px 5px 10px rgba(0, 0, 0, 0.05);
 	}
 
 	25% {
-		text-shadow: -15px 15px 30px rgba(255, 255, 255, 0.4),
-			15px -15px 30px rgba(0, 0, 0, 0.05),
-			-5px 5px 10px rgba(255, 255, 255, 0.6),
+		text-shadow: -15px 15px 30px rgba(255, 255, 255, 0.4), 15px -15px 30px rgba(0, 0, 0, 0.05), -5px 5px 10px rgba(255, 255, 255, 0.6),
 			5px -5px 10px rgba(0, 0, 0, 0.05);
 	}
 
 	50% {
-		text-shadow: 15px 15px 30px rgba(255, 255, 255, 0.4),
-			-15px -15px 30px rgba(0, 0, 0, 0.05),
-			5px 5px 10px rgba(255, 255, 255, 0.6),
+		text-shadow: 15px 15px 30px rgba(255, 255, 255, 0.4), -15px -15px 30px rgba(0, 0, 0, 0.05), 5px 5px 10px rgba(255, 255, 255, 0.6),
 			-5px -5px 10px rgba(0, 0, 0, 0.05);
 	}
 
 	75% {
-		text-shadow: 15px -15px 30px rgba(255, 255, 255, 0.4),
-			-15px 15px 30px rgba(0, 0, 0, 0.05),
-			5px -5px 10px rgba(255, 255, 255, 0.6),
+		text-shadow: 15px -15px 30px rgba(255, 255, 255, 0.4), -15px 15px 30px rgba(0, 0, 0, 0.05), 5px -5px 10px rgba(255, 255, 255, 0.6),
 			-5px 5px 10px rgba(0, 0, 0, 0.05);
 	}
 }
