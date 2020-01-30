@@ -30,7 +30,8 @@
 		"sass": "^1.25.0"
 	},
 	"prettier": {
-		"tabWidth": 4,
-		"useTabs": true
+		"tabWidth": 2,
+		"useTabs": true,
+		"printWidth": 140
 	}
 }
