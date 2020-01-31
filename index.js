@@ -117,7 +117,7 @@ app.get("/logout", (req, res) => {
 app.post("/signup", (req, res) => {
 	userService
 		.create({ email: req.body.email, password: req.body.inputPassword })
-		.then(result => {
+		.then(() => {
 			res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 		})
 		.catch(err => {
