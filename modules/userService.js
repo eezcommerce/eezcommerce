@@ -1,11 +1,12 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
 
-//EnsureIndex deprecation replaced by with useCreateIndex
-mongoose.set('useCreateIndex',true);
+
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
+		//EnsureIndex deprecation replaced by with useCreateIndex
+		useCreateIndex: true,
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	});
