@@ -34,13 +34,19 @@
 								<span>&times;</span>
 							</button>
 							<div class="modal-header">
-								<h1>login</h1>
+								<h1>Login</h1>
 							</div>
 
 							<form method="POST" id="authenticateLogin" action="/login">
 								<div class="form-group row">
 									<div class="col-sm-12 text-center">
-										<input type="email" name="email" class="form-control text-center" id="loginEmail" placeholder="enter email" />
+										<input
+											type="email"
+											name="email"
+											class="form-control text-center"
+											id="loginEmail"
+											placeholder="Email"
+										/>
 									</div>
 								</div>
 								<div class="form-group row">
@@ -50,14 +56,18 @@
 											name="password"
 											class="form-control text-center"
 											id="loginPassword"
-											placeholder="enter password"
+											placeholder="Password"
 										/>
 									</div>
 								</div>
 
 								<div class="col-xs-12">
-									<span><a href="./views/ForgottenPassword.html">forgot password?</a></span>
-									<span><button type="submit" class="btn badge-pill btn-outline-primary btn-sm float-right">log In</button></span>
+									<span><a href="./views/ForgottenPassword.html">Forgot password?</a></span>
+									<span
+										><button type="submit" class="btn badge-pill btn-outline-primary btn-sm float-right">
+											log In
+										</button></span
+									>
 								</div>
 							</form>
 						</div>
@@ -77,7 +87,7 @@
 								<span>&times;</span>
 							</button>
 							<div class="modal-header">
-								<h1>sign up</h1>
+								<h1>Signup</h1>
 							</div>
 							<form method="POST" id="createAccount" class="needs-validation" novalidate action="/signup">
 								<div class="form-group row">
@@ -111,7 +121,8 @@
 											Looks good!
 										</div>
 										<div class="invalid-feedback">
-											Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
+											Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more
+											characters
 										</div>
 									</div>
 								</div>
@@ -148,7 +159,12 @@
 										</div>
 									</div>
 								</div>
-								<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit" disabled>
+								<button
+									id="submitBtn"
+									class="btn badge-pill btn-outline-primary btn-sm float-right"
+									type="submit"
+									disabled
+								>
 									Continue
 								</button>
 							</form>
@@ -211,7 +227,12 @@
 														</table>
 													</div>
 													<div class="panel-footer">
-														<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2 " role="button">Sign Up NOW!</a>
+														<a
+															href="http://www.jquery2dotnet.com"
+															class="btn badge-pill btn-primary ml-2 "
+															role="button"
+															>Sign Up NOW!</a
+														>
 													</div>
 												</div>
 											</div>
@@ -251,7 +272,9 @@
 														</table>
 													</div>
 													<div class="panel-footer">
-														<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2" role="button">Sign Up NOW</a>
+														<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2" role="button"
+															>Sign Up NOW</a
+														>
 													</div>
 												</div>
 											</div>
@@ -270,13 +293,17 @@
 			<span class="navbar-text">
 				<ul class="nav">
 					<li class="nav-item">
-						<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal" data-target="#loginModalCenter">
-							Log-in
+						<button
+							class="btn badge-pill btn-outline-primary btn-sm"
+							data-toggle="modal"
+							data-target="#loginModalCenter"
+						>
+							Login
 						</button>
 					</li>
 					<li class="nav-item">
 						<button class="btn badge-pill btn-primary ml-2 btn-sm" data-toggle="modal" data-target="#signupModalCenter">
-							Sign-up
+							Signup
 						</button>
 					</li>
 				</ul>
@@ -291,7 +318,7 @@
 						<h1><b>eEz Commerce</b></h1>
 						<div class="d-flex flex-row-reverse">
 							<div class="btn text-primary badge-pill btn-light btn-lg mt-2">
-								get started
+								Get Started
 							</div>
 						</div>
 					</div>
@@ -304,8 +331,8 @@
 					<div class="col-md-12">
 						<h1>Create an online storefront in minutes</h1>
 						<p>
-							With a few quick questions you'll have an online presence for your business in no time at all. Plus, we'll guide you through
-							it and be with you every step of the way.
+							With a few quick questions you'll have an online presence for your business in no time at all. Plus, we'll
+							guide you through it and be with you every step of the way.
 						</p>
 					</div>
 				</div>
@@ -313,7 +340,9 @@
 					<i class="far fa-clock bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"></i>
 				</div>
 			</div>
-			<div class="row homepageFullpage bg-primary text-white d-flex flex-column flex-md-row justify-content-center align-items-center">
+			<div
+				class="row homepageFullpage bg-primary text-white d-flex flex-column flex-md-row justify-content-center align-items-center"
+			>
 				<div class="col-md-5 text-center mt-lg-0 mt-5">
 					<i class="fas fa-money-bill-alt bigIcon text-primary text-neumorph text-neumorph-shift"></i>
 				</div>
@@ -321,8 +350,8 @@
 					<div class="col-md-12">
 						<h1>Generate new revenue streams</h1>
 						<p>
-							Whether you're an independent artist or an established physical store, we can help you generate new revenue streams allowing
-							you to grow
+							Whether you're an independent artist or an established physical store, we can help you generate new
+							revenue streams allowing you to grow
 						</p>
 					</div>
 				</div>
@@ -334,13 +363,15 @@
 					<div class="col-md-12">
 						<h1>Keep growing, and growing, and growing...</h1>
 						<p>
-							Our platform scales with your business, meaning that we won't hold you back. Our low fee plans mean that you can focus on
-							keeping up with sales instead of making sure your platform does.
+							Our platform scales with your business, meaning that we won't hold you back. Our low fee plans mean that
+							you can focus on keeping up with sales instead of making sure your platform does.
 						</p>
 					</div>
 				</div>
 				<div class="col-md-5 text-center mt-5 mt-md-0">
-					<i class="fas fa-expand-arrows-alt bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"></i>
+					<i
+						class="fas fa-expand-arrows-alt bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"
+					></i>
 				</div>
 			</div>
 		</div>

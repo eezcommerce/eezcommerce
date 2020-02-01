@@ -6,14 +6,22 @@ var app = express();
 var sessions = require("client-sessions");
 var fs = require("fs");
 var bodyParser = require("body-parser");
+var exphbs = require("express-handlebars");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 
 // express middlewares & setup
+
+// Sets the express view engine to use handlebars (file endings in .hbs)
+app.engine(".hbs", exphbs({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
+
+// creates a static server on the "public directory" (kinda like an apache server)
 app.use(express.static("public"));
 
+// sets up the session cookie for authorization
 app.use(
 	sessions({
 		cookieName: "auth",
@@ -23,9 +31,27 @@ app.use(
 	})
 );
 
+// these two statements allow us to take data from a POST and use it (its available via req.body)
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// protecting the /dashboard route (and subroutes) only be available if logged in
+app.use("/dashboard", (req, res, next) => {
+	if (req.auth.isLoggedIn) {
+		next();
+	} else {
+		res.status(403).send("403 Unauthorized <a href='/'>home</a>");
+	}
+});
+
+// allows us to reuse the header.html wherever we need it
+var standardHeader;
+try {
+	standardHeader = fs.readFileSync("./common/header.html", "utf8");
+} catch (error) {
+	console.error("\n\tMissing header file\n");
+}
 
 // ROUTES
 // 		->	GET 	Place all GET routes here
@@ -71,11 +97,13 @@ app.get("/about_me", (req, res) => {
 
 app.get("/dashboard", (req, res) => {
 	if (req.auth.isLoggedIn) {
-		res.sendFile(__dirname + "/public/views/Dashboard.html");
+		res.render("overview", { layout: "dashboard", header: standardHeader });
 	} else {
 		res.redirect("/");
 	}
 });
+
+app.get("/dashboard/overview");
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
@@ -89,11 +117,12 @@ app.get("/logout", (req, res) => {
 app.post("/signup", (req, res) => {
 	userService
 		.create({ email: req.body.email, password: req.body.inputPassword })
-		.then(result => {
-			res.json(result);
+		.then(() => {
+			res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 		})
 		.catch(err => {
-			res.json({ error: err });
+			res.send("signup error " + err.errmsg);
+			console.error(err);
 		});
 });
 
@@ -103,7 +132,7 @@ app.post("/login", (req, res) => {
 		.then(user => {
 			req.auth.isLoggedIn = true;
 			req.auth.userDetails = user;
-			res.json(user);
+			res.redirect("/dashboard");
 		})
 		.catch(err => {
 			res.json({ error: err });

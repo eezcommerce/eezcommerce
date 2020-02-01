@@ -4,7 +4,8 @@ var bcrypt = require("bcryptjs");
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
 		useNewUrlParser: true,
-		useUnifiedTopology: true
+		useUnifiedTopology: true,
+		useCreateIndex: true
 	});
 }
 
