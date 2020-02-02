@@ -58,8 +58,8 @@ try {
 
 app.get("/home", (req, res) => {
 	console.log(__dirname);
-    res.sendFile('public/index.html' , { root : __dirname});
-    //res.render("home"); //Change to this when HBS is implemented
+	res.sendFile("public/index.html", { root: __dirname });
+	//res.render("home"); //Change to this when HBS is implemented
 });
 
 app.get("/send_verification_email_test/:email", (req, res) => {
