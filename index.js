@@ -57,7 +57,6 @@ try {
 // 		->	GET 	Place all GET routes here
 
 app.get("/home", (req, res) => {
-	console.log(__dirname);
 	res.sendFile("public/index.html", { root: __dirname });
 	//res.render("home"); //Change to this when HBS is implemented
 });
