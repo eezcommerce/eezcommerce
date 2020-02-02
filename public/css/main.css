@@ -41,6 +41,15 @@
 h1 {
 	font-weight: 1000;
 }
+#errorTitle{
+	color:red;
+	font-family:Montserrat;
+	font-weight: bold;
+}
+#errorBlock {
+	padding-top:15%;
+	height:100%;
+}
 /* Required to make pricing/testimonial modal non-grey */
 .modal-backdrop {
 	z-index: 1020 !important;
