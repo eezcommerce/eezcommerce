@@ -112,7 +112,7 @@ app.get("/dashboard/overview");
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
-	req.auth.userDetails = {};
+	req.auth.userDetails  = {};
 	res.send("logged out <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 });
 
@@ -123,12 +123,15 @@ app.post("/signup", (req, res) => {
 	userService
 		.create({ email: req.body.email, password: req.body.inputPassword })
 		.then(() => {
-			res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+			res.sendFile("public/views/EmailVerificationSent.html", { root: __dirname });
+			//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 		})
 		.catch(err => {
 			res.send("signup error " + err.errmsg);
 			console.error(err);
 		});
+
+		
 });
 
 app.post("/login", (req, res) => {
