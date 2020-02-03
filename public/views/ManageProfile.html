@@ -15,21 +15,20 @@
 	</head>
 	<body>
 		<div class="container">
-            <h1>Manage Profile</h1>
-            <h3>Business Profile</h3>
-            <form >
+      <h1 >Manage Profile</h1>
+      <h3>Business Profile</h3>
                 <div class="form-group row">
                   <div class="col-2">
                     <p class="text-right">Business Name</p>
                   </div>
-                  <div class="col-5">
+                  <div class="col-7">
                     <input type="text" class="form-control" placeholder="Business name">
                   </div>
                 </div>
                 <div class="row">
                     <div class="col-2">
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
                         <p class="text-right" ><small>Maximum 64 characters</small></p>
                     </div>
                   </div>
@@ -37,12 +36,19 @@
                     <div class="col-2">
                         <p class="text-right">Business Category</p>
                     </div>
-                    <div class="col-5">
-                        <select id="bCategory" class="form-control" id="bCategory">
-                            <option selected>Assorted</option>
-                            <option>Sports</option>
-                            <option>Travel</option>
-                            <option>Services</option>
+                    <div class="col-7">
+                        <select id="bCategory" class="form-control" id="bCategory"><!--populate from mongodb later-->
+                            <option selected>Arts & Marketing</option>
+                            <option>Automotive</option>
+                            <option>Business Services</option>
+                            <option>Event Planning</option>
+                            <option>Financial Services</option>
+                            <option>Home Improvement</option>
+                            <option>Lifestyle Services</option>
+                            <option>Medical & Health</option>
+                            <option>Pet Service</option>
+                            <option>Personal Care</option>
+                            <option>Other</option>
                           </select>
                     </div>
                   </div>
@@ -50,7 +56,7 @@
                     <div class="col-2" >
                         <p class="text-right">Business Descrption</p>
                     </div>
-                    <div class="col-5">
+                    <div class="col-7">
                       <textarea  class="form-control" placeholder="Business name" id="bDescrption"></textarea>
                     </div>
                   </div>
@@ -61,7 +67,7 @@
                         <button class="btn badge-pill btn-outline-success btn-sm align-right">Update</button>
                     </div>
                   </div>
-              </form>
+              </form
         </div>
     </body>
     </html>
