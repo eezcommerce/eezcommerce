@@ -50,7 +50,7 @@ module.exports.sendVerificationEmail = email => {
 		crypto.randomBytes(16, (err, res) => {
 			// convert bytes to hex string for writing to a URL
 			let token = res.toString("hex");
-		
+
 			// TODO store token in DB
 			// temp: just accessing array of fake users
 
