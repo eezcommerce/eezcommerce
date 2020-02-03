@@ -15,36 +15,31 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 		<script>
-		function validateQuestions(){
-			
-			if($('#question1').val() != $('#question2').val() &&  $('#question1').val() != $('#question3').val() && $('#question2').val() != $('#question3').val()){
-				
-				
-				return true;
-		}else{
-			if($('#question1').val() == $('#question2').val() ){
-				alert("No duplicate Questions are allowed!");
-			$('#question1').addClass("is-invalid");
-			$('#question2').addClass("is-invalid");
-			}
-			else if($('#question1').val() == $('#question3').val() ){
-				alert("No duplicate Questions are allowed!");
-			$('#question1').addClass("is-invalid");
-			$('#question3').addClass("is-invalid");
-			}
-			else if($('#question2').val() == $('#question3').val() ){
-				alert("No duplicate Questions are allowed!");
-			$('#question2').addClass("is-invalid");
-			$('#question3').addClass("is-invalid");
-			}
-			
+			function validateQuestions() {
+				if (
+					$("#question1").val() != $("#question2").val() &&
+					$("#question1").val() != $("#question3").val() &&
+					$("#question2").val() != $("#question3").val()
+				) {
+					return true;
+				} else {
+					if ($("#question1").val() == $("#question2").val()) {
+						alert("No duplicate Questions are allowed!");
+						$("#question1").addClass("is-invalid");
+						$("#question2").addClass("is-invalid");
+					} else if ($("#question1").val() == $("#question3").val()) {
+						alert("No duplicate Questions are allowed!");
+						$("#question1").addClass("is-invalid");
+						$("#question3").addClass("is-invalid");
+					} else if ($("#question2").val() == $("#question3").val()) {
+						alert("No duplicate Questions are allowed!");
+						$("#question2").addClass("is-invalid");
+						$("#question3").addClass("is-invalid");
+					}
 
-			return false;
-		}
-	}
-		
-		
-		
+					return false;
+				}
+			}
 		</script>
 
 		<!-- sheets -->
@@ -115,7 +110,12 @@
 														</table>
 													</div>
 													<div class="panel-footer">
-														<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2 " role="button">Sign Up NOW!</a>
+														<a
+															href="http://www.jquery2dotnet.com"
+															class="btn badge-pill btn-primary ml-2 "
+															role="button"
+															>Sign Up NOW!</a
+														>
 													</div>
 												</div>
 											</div>
@@ -155,7 +155,9 @@
 														</table>
 													</div>
 													<div class="panel-footer">
-														<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2" role="button">Sign Up NOW</a>
+														<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2" role="button"
+															>Sign Up NOW</a
+														>
 													</div>
 												</div>
 											</div>
@@ -184,7 +186,11 @@
 			<span class="navbar-text">
 				<ul class="nav">
 					<li class="nav-item">
-						<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal" data-target="#loginModalCenter">
+						<button
+							class="btn badge-pill btn-outline-primary btn-sm"
+							data-toggle="modal"
+							data-target="#loginModalCenter"
+						>
 							Log-in
 						</button>
 					</li>
@@ -197,52 +203,49 @@
 			</span>
 		</nav>
 
-<div class="row mt-5" style="padding-top:60px;">
-	<div class= "col offset-2 col-md-8">
-		<div class = "justify-content-center"><h2 class="text-center">Security Questions</h2></div>
-		<form class="form" method="POST" action="Questions.html" onsubmit="return validateQuestions()" >
-			<div class="form-group">
-			<select class="form-control form-control-lg" id="question1" required>
-			    <option selected value="q1">What is your first pet's name?</option>
-				<option value="q2">What is your Mother's Maiden name?</option>
-				<option value="q3">What city were you born in?</option>
-				<option value="q4">Where was your first date?</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<input type="text" class="form-control" placeholder="Enter Answer" id="answer1" required autofocus>
-		</div>
+		<div class="row mt-5" style="padding-top:60px;">
+			<div class="col offset-2 col-md-8">
+				<div class="justify-content-center"><h2 class="text-center">Security Questions</h2></div>
+				<form class="form" method="POST" action="Questions.html" onsubmit="return validateQuestions()">
+					<div class="form-group">
+						<select class="form-control form-control-lg" id="question1" required>
+							<option selected value="q1">What is your first pet's name?</option>
+							<option value="q2">What is your Mother's Maiden name?</option>
+							<option value="q3">What city were you born in?</option>
+							<option value="q4">Where was your first date?</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Enter Answer" id="answer1" required autofocus />
+					</div>
 
-		<div class="form-group">
-			<select class="form-control form-control-lg" id="question2" required>
-			    <option value="q1">What is your first pet's name?</option>
-				<option selected value="q2">What is your Mother's Maiden name?</option>
-				<option value="q3">What city were you born in?</option>
-				<option value="q4">Where was your first date?</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<input type="text" class="form-control" placeholder="Enter Answer" id="answer2" required>
-		</div>
+					<div class="form-group">
+						<select class="form-control form-control-lg" id="question2" required>
+							<option value="q1">What is your first pet's name?</option>
+							<option selected value="q2">What is your Mother's Maiden name?</option>
+							<option value="q3">What city were you born in?</option>
+							<option value="q4">Where was your first date?</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Enter Answer" id="answer2" required />
+					</div>
 
-		<div class="form-group">
-			<select class="form-control form-control-lg" id="question3" required>
-			    <option value="q1">What is your first pet's name?</option>
-				<option value="q2">What is your Mother's Maiden name?</option>
-				<option selected value="q3">What city were you born in?</option>
-				<option value="q4">Where was your first date?</option>
-			</select>
+					<div class="form-group">
+						<select class="form-control form-control-lg" id="question3" required>
+							<option value="q1">What is your first pet's name?</option>
+							<option value="q2">What is your Mother's Maiden name?</option>
+							<option selected value="q3">What city were you born in?</option>
+							<option value="q4">Where was your first date?</option>
+						</select>
+					</div>
+					<div class="form-group" id="answer3">
+						<input type="text" class="form-control" placeholder="Enter Answer" required />
+					</div>
+
+					<button type="submit" class="btn btn-primary my-1 float-right">Submit</button>
+				</form>
+			</div>
 		</div>
-		<div class="form-group"id="answer3">
-			<input type="text" class="form-control" placeholder="Enter Answer" required>
-		</div>
-			
-		
-			<button type="submit" class="btn btn-primary my-1 float-right">Submit</button>
-		  </form>
-		</div>
-		</div>
-	
-	
 	</body>
 </html>

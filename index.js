@@ -112,7 +112,7 @@ app.get("/dashboard/overview");
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
-	req.auth.userDetails  = {};
+	req.auth.userDetails = {};
 	res.send("logged out <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 });
 
@@ -130,8 +130,6 @@ app.post("/signup", (req, res) => {
 			res.send("signup error " + err.errmsg);
 			console.error(err);
 		});
-
-		
 });
 
 app.post("/login", (req, res) => {
