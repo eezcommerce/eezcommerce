@@ -4,6 +4,7 @@ functions related to email verification & sending
 
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const userService = require("./userService.js");
 
 var dummyUsers = [
 	{
@@ -55,11 +56,11 @@ module.exports.sendVerificationEmail = email => {
 			// temp: just accessing array of fake users
 
 			try {
-				let user = dummyUsers.find(user => {
-					return user.email == email;
-				});
-
-				user.token = token;
+				// let user = dummyUsers.find(user => {
+				// 	return user.email == email;
+				// });
+				//userService.setToken(token);
+				userService.findMatchingEmail(email);
 			} catch (error) {
 				reject(error);
 			}
