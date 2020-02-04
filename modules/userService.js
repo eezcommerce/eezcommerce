@@ -109,5 +109,5 @@ module.exports.findMatchingEmail = inputEmail => {
 };
 
 module.exports.setToken = token => {
-	UserModel.update({ id: 100 }, { $set: { token: token } });
+	UserModel.update({ $set: { token: token } });
 };
