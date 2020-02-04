@@ -29,6 +29,15 @@ const UserModel = mongoose.model(
 			type: Boolean,
 			required: true,
 			default: false
+		},
+		token: {
+			type: String,
+			minlength: 1
+		},
+		isVerified: {
+			type: Boolean,
+			required: true,
+			default: false
 		}
 	})
 );
@@ -81,3 +90,27 @@ module.exports.authenticate = (email, password) => {
 		});
 	});
 };
+
+/**
+ * @param {String} inputEmail the user email to be checked against the database
+ * @returns {Promise} promise resolving with sanitized user or rejecting with error
+ */
+module.exports.findMatchingEmail = (inputEmail) =>{
+	return new Promise((resolve,reject) => {
+		UserModel.findOne({ email: inputEmail }, (err, user) => {
+			if (!err && user) {
+				console.log("user:" + user);
+					resolve(true);
+			} else {
+				reject(err || { error: "no match" });
+			}
+		});
+	})
+
+};
+
+module.exports.setToken = (token) => {
+	UserModel.update({id:100},
+		{ $set: { "token" : token}});
+};
+
