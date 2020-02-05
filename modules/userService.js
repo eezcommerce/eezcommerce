@@ -126,3 +126,35 @@ module.exports.setToken = (token, inputEmail) => {
 		}
 	});
 };
+
+module.exports.validateToken = (token, inputEmail) => {
+	return new Promise(function(resolve, reject) {
+		try {
+			UserModel.findOne({ email: inputEmail }, function(err, user) {
+				if (user.token == token) {
+					resolve(true);
+				} else {
+					console.log("Invalid Token\n" + err);
+				}
+			});
+		} catch (err) {
+			console.log(err);
+			reject(false);
+		}
+	});
+};
+
+module.exports.setVerified = inputEmail => {
+	return new Promise(function(resolve, reject) {
+		try {
+			UserModel.updateOne({ email: inputEmail }, { isVerified: true }, function(err, user) {
+				if (user.modifiedCount == 1) {
+					setToken("undefined", inputEmail); // Not working
+					resolve(user);
+				}
+			});
+		} catch (err) {
+			reject(err);
+		}
+	});
+};

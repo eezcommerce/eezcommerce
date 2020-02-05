@@ -92,15 +92,10 @@ module.exports.sendVerificationEmail = email => {
 
 module.exports.verifyEmailToken = function(token, email) {
 	return new Promise((resolve, reject) => {
-		// TODO: update user in actual database
-		let user = dummyUsers.find(user => {
-			return user.email == email && user.token == token;
-		});
-
-		if (user) {
+		if (userService.findMatchingEmail(email) && userService.validateToken(token, email)) {
 			try {
-				user.verified = true;
-				resolve(user.email);
+				userService.setVerified(email);
+				resolve(email);
 			} catch (error) {
 				reject({ error: "Couldn't activate user" });
 			}
