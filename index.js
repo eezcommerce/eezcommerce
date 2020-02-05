@@ -155,7 +155,7 @@ app.post("/login", (req, res) => {
 
 // fallback for unknown routes
 app.get("*", (req, res) => {
-	res.send("404 NOT FOUND");
+	res.sendFile("public/views/ErrorPage.html", { root: __dirname });
 });
 
 if (process.env.ENABLE_SSL) {

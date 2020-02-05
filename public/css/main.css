@@ -17,7 +17,7 @@
 	width: 100vw;
 	position: fixed;
 	overflow-y: scroll;
-	scroll-snap-type: y mandatory;
+	scroll-snap-type: y proximity;
 }
 
 :root {
@@ -29,9 +29,11 @@
 .homepageFullpage {
 	margin: 0px;
 	min-height: 100vh;
+}
+
+.container-fullwidth .row {
 	scroll-margin: 20px;
 	scroll-snap-align: start;
-	scroll-snap-stop: always;
 }
 
 .bigIcon {
