@@ -62,7 +62,7 @@ module.exports.sendVerificationEmail = email => {
 			// set up email data
 			transporter.sendMail(
 				{
-					from: '"eEz Commerce" <prj666_201a07@myseneca.ca>',
+					from: process.env.EMAIL_USER,
 					to: email,
 					subject: `eEz Commerce Email Verification`,
 					html: `
