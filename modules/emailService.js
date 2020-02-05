@@ -52,15 +52,9 @@ module.exports.sendVerificationEmail = email => {
 			// convert bytes to hex string for writing to a URL
 			let token = res.toString("hex");
 
-			// TODO store token in DB
-			// temp: just accessing array of fake users
-
 			try {
-				// let user = dummyUsers.find(user => {
-				// 	return user.email == email;
-				// });
-				//userService.setToken(token);
 				userService.findMatchingEmail(email);
+				//userService.setToken(token, email);
 			} catch (error) {
 				reject(error);
 			}
