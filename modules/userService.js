@@ -73,7 +73,7 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
  * @param {String} password a plaintext password to be checked
  * @returns {Promise} promise resolving with sanitized user or rejecting with error
  */
-(module.exports.authenticate = (email, password) => {
+module.exports.authenticate = (email, password) => {
 	return new Promise((resolve, reject) => {
 		UserModel.findOne({ email: email }, (err, user) => {
 			if (!err && user) {
@@ -90,23 +90,24 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
 			}
 		});
 	});
-}),
-	/**
-	 * @param {String} inputEmail the user email to be checked against the database
-	 * @returns {Promise} promise resolving with sanitized user or rejecting with error
-	 */
-	(module.exports.findMatchingEmail = inputEmail => {
-		return new Promise((resolve, reject) => {
-			UserModel.findOne({ email: inputEmail }, (err, user) => {
-				if (!err && user) {
-					console.log("user:" + user);
-					resolve(true);
-				} else {
-					reject(err || { error: "no match" });
-				}
-			});
+};
+
+/**
+ * @param {String} inputEmail the user email to be checked against the database
+ * @returns {Promise} promise resolving with sanitized user or rejecting with error
+ */
+module.exports.findMatchingEmail = inputEmail => {
+	return new Promise((resolve, reject) => {
+		UserModel.findOne({ email: inputEmail }, (err, user) => {
+			if (!err && user) {
+				console.log("user:" + user);
+				resolve(true);
+			} else {
+				reject(err || { error: "no match" });
+			}
 		});
 	});
+};
 
 /**
  * @param {String} token random value stored to be verified via email
