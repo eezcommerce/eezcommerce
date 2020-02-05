@@ -85,11 +85,9 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	mailService
 		.verifyEmailToken(token, email)
 		.then(() => {
-			res.redirect("../../views/EmailVerified.html").then(() =>{
+			res.redirect("../../views/EmailVerified.html").then(() => {
 				res.send("<script>setTimeout(()=>{window.location = '/'}, 2000)</script>"); //not working, redirect does nt work either
 			});
-			
-			
 		})
 		.catch(error => {
 			res.json(error);
