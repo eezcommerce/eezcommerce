@@ -57,7 +57,6 @@ try {
 // 		->	GET 	Place all GET routes here
 
 app.get("/home", (req, res) => {
-	console.log(__dirname);
 	res.sendFile("public/index.html", { root: __dirname });
 	//res.render("home"); //Change to this when HBS is implemented
 });
@@ -121,15 +120,22 @@ app.get("/logout", (req, res) => {
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
-	userService
-		.create({ email: req.body.email, password: req.body.inputPassword })
-		.then(() => {
-			res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
-		})
-		.catch(err => {
-			res.send("signup error " + err.errmsg);
-			console.error(err);
-		});
+	userService.create({ email: req.body.email, password: req.body.inputPassword }).then(() => {
+		mailService
+			.sendVerificationEmail(req.body.email, "id")
+			.then(() => {
+				res.sendFile("public/views/EmailVerificationSent.html", { root: __dirname });
+				//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+			})
+			.catch(e => {
+				console.log(e);
+				res.sendFile("public/views/ErrorPage.html", { root: __dirname });
+
+				if (e.toString().indexOf("Greeting") >= 0) {
+					console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
+				}
+			});
+	});
 });
 
 app.post("/login", (req, res) => {

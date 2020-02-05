@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
+var ObjectId = require("mongodb").ObjectId;
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -26,6 +27,15 @@ const UserModel = mongoose.model(
 			minlength: 8
 		},
 		isActive: {
+			type: Boolean,
+			required: true,
+			default: false
+		},
+		token: {
+			type: String,
+			default: ""
+		},
+		isVerified: {
 			type: Boolean,
 			required: true,
 			default: false
@@ -63,7 +73,7 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
  * @param {String} password a plaintext password to be checked
  * @returns {Promise} promise resolving with sanitized user or rejecting with error
  */
-module.exports.authenticate = (email, password) => {
+(module.exports.authenticate = (email, password) => {
 	return new Promise((resolve, reject) => {
 		UserModel.findOne({ email: email }, (err, user) => {
 			if (!err && user) {
@@ -79,5 +89,40 @@ module.exports.authenticate = (email, password) => {
 				reject(err || { error: "no match" });
 			}
 		});
+	});
+}),
+	/**
+	 * @param {String} inputEmail the user email to be checked against the database
+	 * @returns {Promise} promise resolving with sanitized user or rejecting with error
+	 */
+	(module.exports.findMatchingEmail = inputEmail => {
+		return new Promise((resolve, reject) => {
+			UserModel.findOne({ email: inputEmail }, (err, user) => {
+				if (!err && user) {
+					console.log("user:" + user);
+					resolve(true);
+				} else {
+					reject(err || { error: "no match" });
+				}
+			});
+		});
+	});
+
+/**
+ * @param {String} token random value stored to be verified via email
+ * @param {String} inputEmail email used as identifier to update token value.
+ * */
+
+module.exports.setToken = (token, inputEmail) => {
+	return new Promise(function(resolve, reject) {
+		try {
+			UserModel.updateOne({ email: inputEmail }, { token: token }, function(err, res) {
+				if (res.modifiedCount == 1) {
+					resolve(res);
+				}
+			});
+		} catch (err) {
+			reject(err);
+		}
 	});
 };
