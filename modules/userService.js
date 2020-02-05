@@ -108,22 +108,22 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
 		});
 	});
 
+/**
+ * @param {String} token random value stored to be verified via email
+ * @param {String} inputEmail email used as identifier to update token value.
+ * */
+
 module.exports.setToken = (token, inputEmail) => {
 	return new Promise(function(resolve, reject) {
-		//console.log("USERMODELFIND()FXN: " + UserModel.findOne({ email: inputEmail}).toString());
-
-		UserModel.findOne({ email: inputEmail }, (err, user) => {
-			if (!err && user) {
-				try {
-					UserModel.update({ _id: ObjectId(user._id) }, { $set: { token: token } });
-				} catch (e) {
-					console.log(e);
+		try {
+			UserModel.updateOne({ email: inputEmail }, { token: token }, function(err, res) {
+				if (res.modifiedCount == 1) {
+					console.log("here?");
+					resolve(res);
 				}
-
-				resolve();
-			} else {
-				reject(err || { error: "no match" });
-			}
-		});
+			});
+		} catch (err) {
+			reject(err);
+		}
 	});
 };
