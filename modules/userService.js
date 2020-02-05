@@ -10,7 +10,7 @@ async function doConnect() {
 	});
 }
 
-var db = doConnect();
+doConnect();
 
 const UserModel = mongoose.model(
 	"user",
