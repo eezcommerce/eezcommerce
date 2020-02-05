@@ -118,7 +118,6 @@ module.exports.setToken = (token, inputEmail) => {
 		try {
 			UserModel.updateOne({ email: inputEmail }, { token: token }, function(err, res) {
 				if (res.modifiedCount == 1) {
-					console.log("here?");
 					resolve(res);
 				}
 			});
