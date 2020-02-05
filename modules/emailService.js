@@ -54,7 +54,7 @@ module.exports.sendVerificationEmail = email => {
 
 			try {
 				userService.findMatchingEmail(email);
-				//userService.setToken(token, email);
+				userService.setToken(token, email);
 			} catch (error) {
 				reject(error);
 			}
