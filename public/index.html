@@ -26,46 +26,44 @@
 
 	<body>
 		<!-- Login Modal -->
-		<div class="container">
-			<div class="modal fade" id="loginModalCenter">
-				<div class="modal-dialog modal-dialog-centered">
-					<div class="modal-content">
-						<div class="modal-body">
-							<button type="button" class="close" data-dismiss="modal">
-								<span>&times;</span>
-							</button>
-							<div class="modal-header">
-								<h1>Login</h1>
+		<div class="modal fade" id="loginModalCenter">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<div class="modal-header">
+							<h1>Login</h1>
+						</div>
+
+						<form method="POST" id="authenticateLogin" action="/login">
+							<div class="form-group row">
+								<div class="col-sm-12">
+									<input type="email" name="email" class="form-control" id="loginEmail" placeholder="Email" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-sm-12">
+									<input
+										type="password"
+										name="password"
+										class="form-control"
+										id="loginPassword"
+										placeholder="Password"
+									/>
+								</div>
 							</div>
 
-							<form method="POST" id="authenticateLogin" action="/login">
-								<div class="form-group row">
-									<div class="col-sm-12">
-										<input type="email" name="email" class="form-control" id="loginEmail" placeholder="Email" />
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-sm-12">
-										<input
-											type="password"
-											name="password"
-											class="form-control"
-											id="loginPassword"
-											placeholder="Password"
-										/>
-									</div>
-								</div>
-
-								<div class="col-xs-12">
-									<span><a href="./views/ForgottenPassword.html">Forgot password?</a></span>
-									<span
-										><button type="submit" class="btn badge-pill btn-outline-primary btn-sm float-right">
-											Log In
-										</button></span
-									>
-								</div>
-							</form>
-						</div>
+							<div class="col-xs-12">
+								<span><a href="./views/ForgottenPassword.html">Forgot password?</a></span>
+								<span
+									><button type="submit" class="btn badge-pill btn-outline-primary btn-sm float-right">
+										Log In
+									</button></span
+								>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -74,7 +72,7 @@
 
 		<!-- Signup Modal -->
 		<div class="modal fade" id="signupModalCenter">
-			<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-body">
 						<button type="button" class="close" data-dismiss="modal">
@@ -170,12 +168,12 @@
 		</div>
 
 		<!-- Pricing Modal -->
-		<div class="modal fade" id="pricingModalCenter" tabindex="-1" role="dialog">
-			<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal fade" id="pricingModalCenter">
+			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-body">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
 						</button>
 						<div class="container-fluid" style="padding-left:75px;">
 							<div class="row">
@@ -214,9 +212,7 @@
 											</table>
 										</div>
 										<div class="panel-footer">
-											<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2 " role="button"
-												>Sign Up NOW!</a
-											>
+											<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2 ">Sign Up NOW!</a>
 										</div>
 									</div>
 								</div>
@@ -256,9 +252,7 @@
 											</table>
 										</div>
 										<div class="panel-footer">
-											<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2" role="button"
-												>Sign Up NOW</a
-											>
+											<a href="http://www.jquery2dotnet.com" class="btn badge-pill btn-primary ml-2">Sign Up NOW</a>
 										</div>
 									</div>
 								</div>
@@ -270,13 +264,13 @@
 		</div>
 
 		<!-- Terms & Conditions Modal -->
-		<div class="modal fade" id="TermsConditionsModal" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog" role="document">
+		<div class="modal fade" id="TermsConditionsModal" tabindex="-1">
+			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLongTitle">Terms and Conditions</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
@@ -476,6 +470,15 @@
 						class="fas fa-expand-arrows-alt bigIcon text-secondary text-neumorph-strong text-neumorph-strong-shift"
 					></i>
 				</div>
+			</div>
+			<div id="footer" class="row bg-light m-0 h-25 d-flex flex-column align-items-center justify-content-center">
+				<ul class="list-group list-group-horizontal">
+					<li class="list-group-item"><a href="/">Home</a></li>
+					<li class="list-group-item"><a href="/pricing">Pricing</a></li>
+					<li class="list-group-item"><a href="/contact">Contact</a></li>
+					<li class="list-group-item"><a href="/terms">Terms of Service</a></li>
+				</ul>
+				<p class="mt-3">&copy; 2020 eEz Commerce</p>
 			</div>
 		</div>
 	</body>
