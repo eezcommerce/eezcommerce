@@ -21,18 +21,24 @@
 	"homepage": "https://github.com/lucacataldo/eezcommerce#readme",
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
 		"bootstrap": "^4.4.1",
 		"client-sessions": "^0.8.0",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
-		"handlebars": "^4.7.2",
+		"express-handlebars": "^3.1.0",
+		"mongoose": "^5.8.10",
 		"nodemailer": "^6.4.2",
+		"pre-commit": "^1.2.2",
 		"prettier": "^1.19.1",
 		"sass": "^1.25.0"
 	},
 	"prettier": {
 		"tabWidth": 2,
 		"useTabs": true,
-		"printWidth": 140
-	}
+		"printWidth": 120
+	},
+	"pre-commit": [
+		"fix"
+	]
 }
