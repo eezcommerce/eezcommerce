@@ -26,16 +26,16 @@ const UserModel = mongoose.model(
 			type: String,
 			minlength: 8
 		},
-		isActive: {
-			type: Boolean,
-			required: true,
-			default: false
-		},
 		token: {
 			type: String,
 			default: ""
 		},
 		isVerified: {
+			type: Boolean,
+			required: true,
+			default: false
+		},
+		isActive: {
 			type: Boolean,
 			required: true,
 			default: false
@@ -100,7 +100,6 @@ module.exports.findMatchingEmail = inputEmail => {
 	return new Promise((resolve, reject) => {
 		UserModel.findOne({ email: inputEmail }, (err, user) => {
 			if (!err && user) {
-				console.log("user:" + user);
 				resolve(true);
 			} else {
 				reject(err || { error: "no match" });
@@ -128,34 +127,30 @@ module.exports.setToken = (token, inputEmail) => {
 	});
 };
 
+/**
+ * @returns {Object} a user object
+ * @param {String} token token to validate
+ * @param {String} inputEmail email to validate
+ */
+
 module.exports.validateToken = (token, inputEmail) => {
 	return new Promise(function(resolve, reject) {
-		try {
-			UserModel.findOne({ email: inputEmail }, function(err, user) {
+		UserModel.findOne({ email: inputEmail }, function(err, user) {
+			if (err) {
+				reject({ error: "Matching email not found." });
+			} else {
 				if (user.token == token) {
-					resolve(true);
+					UserModel.updateOne({ email: inputEmail }, { isVerified: true }, (err, user) => {
+						if (err) {
+							reject({ error: err });
+						} else {
+							resolve(user);
+						}
+					});
 				} else {
-					console.log("Invalid Token\n" + err);
+					reject({ error: "Token not valid." });
 				}
-			});
-		} catch (err) {
-			console.log(err);
-			reject(false);
-		}
-	});
-};
-
-module.exports.setVerified = inputEmail => {
-	return new Promise(function(resolve, reject) {
-		try {
-			UserModel.updateOne({ email: inputEmail }, { isVerified: true }, function(err, user) {
-				if (user.modifiedCount == 1) {
-					setToken("undefined", inputEmail); // Not working
-					resolve(user);
-				}
-			});
-		} catch (err) {
-			reject(err);
-		}
+			}
+		});
 	});
 };

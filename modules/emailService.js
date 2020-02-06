@@ -6,25 +6,6 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const userService = require("./userService.js");
 
-var dummyUsers = [
-	{
-		userId: 1,
-		userName: "User Name 1",
-		email: "email@email.com",
-		token: "",
-		password: "not_a_plaintext_password",
-		verified: false
-	},
-	{
-		userId: 2,
-		userName: "User Name 2",
-		email: "prj666_201a07@myseneca.ca",
-		token: "",
-		password: "not_a_plaintext_password",
-		verified: false
-	}
-];
-
 // creates a nodemailer transporter used to send email with transporter.sendMail() later
 // this shouldn't need any further configuration if we're using the seneca email provided to us
 var transporter = nodemailer.createTransport({
@@ -43,7 +24,6 @@ var transporter = nodemailer.createTransport({
 
 // sends a verification email to the provided email containing a secret, random token
 // TODO: store the token in the user in the database
-// used to verify in verifyEmailToken()
 // Returns a promise, resolving with an error or the email provided
 module.exports.sendVerificationEmail = email => {
 	return new Promise((resolve, reject) => {
@@ -87,20 +67,5 @@ module.exports.sendVerificationEmail = email => {
 				}
 			);
 		});
-	});
-};
-
-module.exports.verifyEmailToken = function(token, email) {
-	return new Promise((resolve, reject) => {
-		if (userService.findMatchingEmail(email) && userService.validateToken(token, email)) {
-			try {
-				userService.setVerified(email);
-				resolve(email);
-			} catch (error) {
-				reject({ error: "Couldn't activate user" });
-			}
-		} else {
-			reject({ error: "Invalid token" });
-		}
 	});
 };
