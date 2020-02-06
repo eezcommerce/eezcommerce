@@ -5,12 +5,19 @@
 	padding: 0px;
 }
 
+/*
+
+		Homepage
+
+
+*/
+
 .container-fullwidth {
 	height: 100vh;
 	width: 100vw;
 	position: fixed;
 	overflow-y: scroll;
-	scroll-snap-type: y mandatory;
+	scroll-snap-type: y proximity;
 }
 
 :root {
@@ -22,9 +29,11 @@
 .homepageFullpage {
 	margin: 0px;
 	min-height: 100vh;
+}
+
+.container-fullwidth .row {
 	scroll-margin: 20px;
 	scroll-snap-align: start;
-	scroll-snap-stop: always;
 }
 
 .bigIcon {
@@ -34,6 +43,17 @@
 h1 {
 	font-weight: 1000;
 }
+
+#errorTitle {
+	color: red;
+	font-family: Montserrat;
+	font-weight: bold;
+}
+#errorBlock {
+	padding-top: 15%;
+	height: 100%;
+}
+
 /* Required to make pricing/testimonial modal non-grey */
 .modal-backdrop {
 	z-index: 1020 !important;
@@ -47,67 +67,60 @@ h1 {
 }
 
 .text-neumorph-strong {
-	text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4), 15px 15px 30px rgba(0, 0, 0, 0.05), -5px -5px 10px rgba(255, 255, 255, 0.6),
-		5px 5px 10px rgba(0, 0, 0, 0.05);
+	text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4), 15px 15px 30px rgba(0, 0, 0, 0.05),
+		-5px -5px 10px rgba(255, 255, 255, 0.6), 5px 5px 10px rgba(0, 0, 0, 0.05);
+	transition: text-shadow 0.5s ease-in-out;
+}
+
+.text-neumorph-strong:hover {
+	text-shadow: 15px 15px 30px rgba(255, 255, 255, 0.4), -15px -15px 30px rgba(0, 0, 0, 0.05),
+		5px 5px 10px rgba(255, 255, 255, 0.6), -5px -5px 10px rgba(0, 0, 0, 0.05);
 }
 
 .text-neumorph {
-	text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05), 15px 15px 30px rgba(0, 0, 0, 0.05), -5px -5px 10px rgba(255, 255, 255, 0.05),
-		5px 5px 10px rgba(0, 0, 0, 0.05);
+	text-shadow: 10px 10px 25px rgba(255, 255, 255, 0.05), -15px -15px 30px rgba(0, 0, 0, 0.05),
+		5px 5px 10px rgba(255, 255, 255, 0.05), -5px -5px 10px rgba(0, 0, 0, 0.05);
+	transition: text-shadow 0.5s ease-in-out;
 }
 
-.text-neumorph-strong-shift {
-	animation: spinstrong 5s linear infinite;
+.text-neumorph:hover {
+	text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05), 15px 15px 30px rgba(0, 0, 0, 0.05),
+		-5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.05);
 }
 
-.text-neumorph-shift {
-	animation: spinnorm 5s linear infinite;
+/*
+
+	DASHBOARD
+
+*/
+
+.dashboardGrid {
+	display: grid;
+	grid-template-columns: 200px auto;
+	grid-template-rows: 100%;
+	height: 100vh;
+	position: fixed;
 }
 
-@keyframes spinnorm {
-	0%,
-	100% {
-		text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05), 15px 15px 30px rgba(0, 0, 0, 0.05), -5px -5px 10px rgba(255, 255, 255, 0.05),
-			5px 5px 10px rgba(0, 0, 0, 0.05);
-	}
-
-	25% {
-		text-shadow: -10px 10px 25px rgba(255, 255, 255, 0.05), 15px -15px 30px rgba(0, 0, 0, 0.05), -5px 5px 10px rgba(255, 255, 255, 0.05),
-			5px -5px 10px rgba(0, 0, 0, 0.05);
-	}
-
-	50% {
-		text-shadow: 10px 10px 25px rgba(255, 255, 255, 0.05), -15px -15px 30px rgba(0, 0, 0, 0.05), 5px 5px 10px rgba(255, 255, 255, 0.05),
-			-5px -5px 10px rgba(0, 0, 0, 0.05);
-	}
-
-	75% {
-		text-shadow: 10px -10px 25px rgba(255, 255, 255, 0.05), -15px 15px 30px rgba(0, 0, 0, 0.05), 5px -5px 10px rgba(255, 255, 255, 0.1),
-			-5px 5px 10px rgba(0, 0, 0, 0.05);
-	}
+.sidebar {
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 
-@keyframes spinstrong {
-	0%,
-	100% {
-		text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4), 15px 15px 30px rgba(0, 0, 0, 0.05), -5px -5px 10px rgba(255, 255, 255, 0.6),
-			5px 5px 10px rgba(0, 0, 0, 0.05);
-	}
+.sidebarMenu {
+	width: 100%;
+}
 
-	25% {
-		text-shadow: -15px 15px 30px rgba(255, 255, 255, 0.4), 15px -15px 30px rgba(0, 0, 0, 0.05), -5px 5px 10px rgba(255, 255, 255, 0.6),
-			5px -5px 10px rgba(0, 0, 0, 0.05);
-	}
+.sidebarImg {
+	width: 100px;
+	height: 100px;
+}
 
-	50% {
-		text-shadow: 15px 15px 30px rgba(255, 255, 255, 0.4), -15px -15px 30px rgba(0, 0, 0, 0.05), 5px 5px 10px rgba(255, 255, 255, 0.6),
-			-5px -5px 10px rgba(0, 0, 0, 0.05);
-	}
-
-	75% {
-		text-shadow: 15px -15px 30px rgba(255, 255, 255, 0.4), -15px 15px 30px rgba(0, 0, 0, 0.05), 5px -5px 10px rgba(255, 255, 255, 0.6),
-			-5px 5px 10px rgba(0, 0, 0, 0.05);
-	}
+.sidebarMenuItem.active {
+	background: rgba(0, 0, 0, 0.1);
 }
 
 @media only screen and (max-width: 768px) {

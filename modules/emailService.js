@@ -4,11 +4,12 @@ functions related to email verification & sending
 
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const userService = require("./userService.js");
 
 var dummyUsers = [
 	{
 		userId: 1,
-		userName: "User Name",
+		userName: "User Name 1",
 		email: "email@email.com",
 		token: "",
 		password: "not_a_plaintext_password",
@@ -51,31 +52,26 @@ module.exports.sendVerificationEmail = email => {
 			// convert bytes to hex string for writing to a URL
 			let token = res.toString("hex");
 
-			// TODO store token in DB
-			// temp: just accessing array of fake users
-
 			try {
-				let user = dummyUsers.find(user => {
-					return user.email == email;
-				});
-
-				user.token = token;
+				userService.findMatchingEmail(email);
+				userService.setToken(token, email);
 			} catch (error) {
 				reject(error);
 			}
-
 			// send email with secret link
 			// set up email data
 			transporter.sendMail(
 				{
 					from: process.env.EMAIL_USER,
 					to: email,
-					subject: `eEzCommerce email verification`,
+					subject: `eEz Commerce Email Verification`,
 					html: `
 				<div>
-					<h1>Verify your email.</h1>
+					<h1 style="color: #43ba9e">Thank you for registering with eEz Commerce!</h1>
+
+					<p>Once confirmed you will be on your way to creating your own website to sell your products!
 				
-					<p>Click the link below to verify your email:</p>
+					<p>Please click the link below to verify your email:</p>
 					<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Verify</a>
 				</div>
 				
