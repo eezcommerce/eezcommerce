@@ -61,29 +61,12 @@ app.get("/home", (req, res) => {
 	//res.render("home"); //Change to this when HBS is implemented
 });
 
-app.get("/send_verification_email_test/:email", (req, res) => {
-	let email = req.params.email;
-
-	mailService
-		.sendVerificationEmail(email, "id")
-		.then(e => {
-			res.send("Email sent to " + e);
-		})
-		.catch(e => {
-			res.send("Couldn't send email. Check the URL and try again.");
-
-			if (e.toString().indexOf("Greeting") >= 0) {
-				console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
-			}
-		});
-});
-
 app.get("/verify_email/:email/:token", (req, res) => {
 	let token = req.params.token;
 	let email = req.params.email;
 
-	mailService
-		.verifyEmailToken(token, email)
+	userService
+		.validateToken(token, email)
 		.then(() => {
 			res.redirect("../../views/EmailVerified.html").then(() => {
 				res.send("<script>setTimeout(()=>{window.location = '/'}, 2000)</script>"); //not working, redirect does nt work either
