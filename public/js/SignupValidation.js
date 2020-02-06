@@ -55,6 +55,11 @@ $(document).ready(function() {
 			.find("form")
 			.trigger("reset");
 	});
+	$("#loginModalCenter").on("hidden.bs.modal", function() {
+		$(this)
+			.find("form")
+			.trigger("reset");
+	});
 
 	let currForm1 = document.getElementById("createAccount");
 	// Validate on submit:
