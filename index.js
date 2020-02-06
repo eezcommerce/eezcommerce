@@ -1,29 +1,65 @@
 require("dotenv").config();
 
+// dependencies
 const express = require("express");
 var app = express();
 var sessions = require("client-sessions");
 var fs = require("fs");
-
-// dependencies
+var bodyParser = require("body-parser");
+var exphbs = require("express-handlebars");
 
 // custom modules
-const mailService = require(__dirname + "/modules/emailService.js");
+const mailService = require("./modules/emailService.js");
+const userService = require("./modules/userService.js");
 
 // express middlewares & setup
+
+// Sets the express view engine to use handlebars (file endings in .hbs)
+app.engine(".hbs", exphbs({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
+
+// creates a static server on the "public directory" (kinda like an apache server)
 app.use(express.static("public"));
 
+// sets up the session cookie for authorization
 app.use(
 	sessions({
 		cookieName: "auth",
 		secret: process.env.SESSION_SECRET,
 		duration: 1 * 1 * 60 * 1000, // HH * MM * SS * MS | fill with ones to the left
-		activeDuration: 1 * 1 * 60 * 1000
+		activeDuration: 1 * 60 * 60 * 1000
 	})
 );
 
+// these two statements allow us to take data from a POST and use it (its available via req.body)
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// protecting the /dashboard route (and subroutes) only be available if logged in
+app.use("/dashboard", (req, res, next) => {
+	if (req.auth.isLoggedIn) {
+		next();
+	} else {
+		res.status(403).send("403 Unauthorized <a href='/'>home</a>");
+	}
+});
+
+// allows us to reuse the header.html wherever we need it
+var standardHeader;
+try {
+	standardHeader = fs.readFileSync("./common/header.html", "utf8");
+} catch (error) {
+	console.error("\n\tMissing header file\n");
+}
+
 // ROUTES
 // 		->	GET 	Place all GET routes here
+
+app.get("/home", (req, res) => {
+	res.sendFile("public/index.html", { root: __dirname });
+	//res.render("home"); //Change to this when HBS is implemented
+});
 
 app.get("/send_verification_email_test/:email", (req, res) => {
 	let email = req.params.email;
@@ -56,26 +92,6 @@ app.get("/verify_email/:email/:token", (req, res) => {
 		});
 });
 
-// this will move to the post route when form data is needed
-app.get("/login", (req, res) => {
-	// We're going to simulate a user that would be returned from the database
-	const user = {
-		id: 1,
-		name: "John Smith",
-		company: "Paintings4You",
-		email: "email@email.com",
-		password: "asecretnonplaintextpassword"
-	};
-
-	// this might look a bit weird, but it's using ES6 destructuring to strip the password field just to make SURE we're not passing it back and forth
-	// it basically pulls out the password field from the user object if there is one, and collects all the remaining properties into the strippedUser object
-	const { password, ...strippedUser } = user;
-
-	req.auth.isLoggedIn = true;
-	req.auth.userDetails = strippedUser;
-	res.send("logged in");
-});
-
 app.get("/about_me", (req, res) => {
 	if (req.auth.isLoggedIn) {
 		res.json(req.auth);
@@ -84,20 +100,62 @@ app.get("/about_me", (req, res) => {
 	}
 });
 
+app.get("/dashboard", (req, res) => {
+	if (req.auth.isLoggedIn) {
+		res.render("overview", { layout: "dashboard", header: standardHeader });
+	} else {
+		res.redirect("/");
+	}
+});
+
+app.get("/dashboard/overview");
+
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
 	req.auth.userDetails = {};
-	res.send("logged out");
+	res.send("logged out <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 });
 
 // ROUTES
 // 		->	POST 	Place all POST routes here
 
+app.post("/signup", (req, res) => {
+	userService.create({ email: req.body.email, password: req.body.inputPassword }).then(() => {
+		mailService
+			.sendVerificationEmail(req.body.email, "id")
+			.then(() => {
+				res.sendFile("public/views/EmailVerificationSent.html", { root: __dirname });
+				//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+			})
+			.catch(e => {
+				console.log(e);
+				res.sendFile("public/views/ErrorPage.html", { root: __dirname });
+
+				if (e.toString().indexOf("Greeting") >= 0) {
+					console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
+				}
+			});
+	});
+});
+
+app.post("/login", (req, res) => {
+	userService
+		.authenticate(req.body.email, req.body.password)
+		.then(user => {
+			req.auth.isLoggedIn = true;
+			req.auth.userDetails = user;
+			res.redirect("/dashboard");
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
+
 // Express MiddleWares
 
 // fallback for unknown routes
 app.get("*", (req, res) => {
-	res.send("404 NOT FOUND");
+	res.sendFile("public/views/ErrorPage.html", { root: __dirname });
 });
 
 if (process.env.ENABLE_SSL) {

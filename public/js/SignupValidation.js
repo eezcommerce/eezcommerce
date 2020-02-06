@@ -27,7 +27,11 @@
 $(document).ready(function() {
 	// Check if passwords match
 	$("#inputPassword, #confirmPassword").on("keyup", function() {
-		if ($("#inputPassword").val() != "" && $("#confirmPassword").val() != "" && $("#inputPassword").val() == $("#confirmPassword").val()) {
+		if (
+			$("#inputPassword").val() != "" &&
+			$("#confirmPassword").val() != "" &&
+			$("#inputPassword").val() == $("#confirmPassword").val()
+		) {
 			$("#submitBtn").attr("disabled", false);
 			$("#cPwdValid").show();
 			$("#cPwdInvalid").hide();
