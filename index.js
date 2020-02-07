@@ -12,10 +12,21 @@ var exphbs = require("express-handlebars");
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 
+const hbHelpers = require("./modules/hbHelpers.js");
+
 // express middlewares & setup
 
-// Sets the express view engine to use handlebars (file endings in .hbs)
-app.engine(".hbs", exphbs({ extname: ".hbs" }));
+// Sets the express view engine to use handlebars (file endings in .hbs), registers helpers
+app.engine(
+	".hbs",
+	exphbs({
+		extname: ".hbs",
+		helpers: {
+			activeLink: hbHelpers.activeLink
+		}
+	})
+);
+
 app.set("view engine", ".hbs");
 
 // creates a static server on the "public directory" (kinda like an apache server)
@@ -85,15 +96,31 @@ app.get("/about_me", (req, res) => {
 	}
 });
 
+// Dashboard routes
+
 app.get("/dashboard", (req, res) => {
-	if (req.auth.isLoggedIn) {
-		res.render("overview", { layout: "dashboard", header: standardHeader });
-	} else {
-		res.redirect("/");
-	}
+	res.render("overview", { layout: "dashboard", header: standardHeader, pagename: "overview" });
 });
 
-app.get("/dashboard/overview");
+app.get("/dashboard/:route", (req, res) => {
+	const route = req.params.route;
+
+	res.render(
+		route,
+		{
+			layout: "dashboard",
+			header: standardHeader,
+			pagename: route
+		},
+		(error, html) => {
+			if (error) {
+				res.redirect("/404");
+			} else {
+				res.send(html);
+			}
+		}
+	);
+});
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;

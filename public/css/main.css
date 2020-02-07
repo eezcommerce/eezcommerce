@@ -99,6 +99,7 @@ h1 {
 	grid-template-columns: 200px auto;
 	grid-template-rows: 100%;
 	height: 100vh;
+	width: 100vw;
 	position: fixed;
 }
 
@@ -121,6 +122,17 @@ h1 {
 
 .sidebarMenuItem.active {
 	background: rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard stuff */
+
+.overview-circles {
+	width: 20vw;
+	height: 20vw;
+	border-width: 1vw !important;
+	font-weight: 1000 !important;
+	font-size: 2vw;
+	text-align: center;
 }
 
 @media only screen and (max-width: 768px) {
