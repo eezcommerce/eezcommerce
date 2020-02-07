@@ -25,7 +25,7 @@ var transporter = nodemailer.createTransport({
 // sends a verification email to the provided email containing a secret, random token
 // TODO: store the token in the user in the database
 // Returns a promise, resolving with an error or the email provided
-module.exports.sendVerificationEmail = (email,mailType) => {
+module.exports.sendVerificationEmail = (email, mailType) => {
 	return new Promise((resolve, reject) => {
 		// generate secure random bytes of data
 		crypto.randomBytes(16, (err, res) => {
@@ -42,8 +42,8 @@ module.exports.sendVerificationEmail = (email,mailType) => {
 			// set up email data
 
 			let mailOptions;
-			
-			switch(mailType){
+
+			switch (mailType) {
 				case "signup":
 					mailOptions = {
 						from: process.env.EMAIL_USER,
@@ -59,9 +59,9 @@ module.exports.sendVerificationEmail = (email,mailType) => {
 						<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Verify Email Address</a>
 					</div>
 					`
-					}
+					};
 
-					case "reset":
+				case "reset":
 					mailOptions = {
 						from: process.env.EMAIL_USER,
 						to: email,
@@ -74,9 +74,9 @@ module.exports.sendVerificationEmail = (email,mailType) => {
 						<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Reset Password</a>
 					</div>
 					`
-					}
+					};
 
-					default:
+				default:
 					mailOptions = {
 						from: process.env.EMAIL_USER,
 						to: email,
@@ -91,21 +91,17 @@ module.exports.sendVerificationEmail = (email,mailType) => {
 						<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Verify</a>
 					</div>
 					`
-					}
-
+					};
 			}
-			 	
-			transporter.sendMail(mailOptions
-			,
-				function(err, info) {
-					//callback function
-					if (err) {
-						reject(err);
-					} else {
-						resolve(email);
-					}
+
+			transporter.sendMail(mailOptions, function(err, info) {
+				//callback function
+				if (err) {
+					reject(err);
+				} else {
+					resolve(email);
 				}
-			);
+			});
 		});
 	});
 };
