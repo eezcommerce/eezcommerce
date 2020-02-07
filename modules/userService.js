@@ -99,10 +99,10 @@ module.exports.authenticate = (email, password) => {
 module.exports.findMatchingEmail = inputEmail => {
 	return new Promise((resolve, reject) => {
 		UserModel.findOne({ email: inputEmail }, (err, user) => {
-			if (!err && user) {
-				resolve(true);
+			if (!err) {
+				resolve(user);
 			} else {
-				reject(err || { error: "no match" });
+				reject(err || { error: "Email does not exist in database." });
 			}
 		});
 	});
