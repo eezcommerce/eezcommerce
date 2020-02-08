@@ -175,6 +175,7 @@ app.post("/login", (req, res) => {
 
 // fallback for unknown routes
 app.get("*", (req, res) => {
+	res.status(404);
 	res.sendFile("public/views/ErrorPage.html", { root: __dirname });
 });
 
