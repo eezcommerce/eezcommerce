@@ -92,6 +92,22 @@ module.exports.authenticate = (email, password) => {
 	});
 };
 
+module.exports.getAllEmails = () => {
+	return new Promise((resolve, reject) => {
+		UserModel.find({}, function(err, users) {
+			if (!err) {
+				var arrayEmails = new Array();
+				users.forEach(user => {
+					arrayEmails.push(user.email);
+				});
+				resolve(arrayEmails);
+			} else {
+				reject(err || { error: "Could not retrieve emails from database." });
+			}
+		});
+	});
+};
+
 /**
  * @param {String} inputEmail the user email to be checked against the database
  * @returns {Promise} promise resolving with sanitized user or rejecting with error
