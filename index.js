@@ -68,7 +68,6 @@ app.get("/home", (req, res) => {
 });
 
 app.get("/forgot", (req, res) => {
-
 	res.sendFile("public/views/ForgottenPassword.html", { root: __dirname });
 });
 app.get("/verify_email/:email/:token", (req, res) => {
@@ -139,7 +138,7 @@ app.post("/resetPassword", function(req, res) {
 	userService.findMatchingEmail(email).then(function(user) {
 		if (!user) {
 			//res.send("No User...<script>alert('user Email does not exist'); window.location = 'forgot'</script>");
-			res.redirect('forgot')
+			res.redirect("forgot");
 		} else {
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")
