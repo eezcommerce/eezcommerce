@@ -1,3 +1,8 @@
+function emailExists() {
+	$.get('"/testPath/"$("#emailReset").val()', function(status) {
+		return status.success;
+	});
+}
 (function() {
 	"use strict";
 	window.addEventListener(
@@ -10,10 +15,13 @@
 				form.addEventListener(
 					"submit",
 					function(event) {
-						if (form.checkValidity() === false) {
+						if (form.checkValidity() === false || emailExists()) {
+							//specific for 'forgot' form if email doesnt exist
+							$("#emailReset").addClass("is-invalid");
 							event.preventDefault();
 							event.stopPropagation();
 						}
+						console.log(emailExists());
 						form.classList.add("was-validated");
 					},
 					false
