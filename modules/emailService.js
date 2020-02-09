@@ -60,6 +60,7 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 					</div>
 					`
 					};
+					break;
 
 				case "reset":
 					mailOptions = {
@@ -76,6 +77,7 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 					</div>
 					`
 					};
+					break;
 			}
 
 			transporter.sendMail(mailOptions, function(err, info) {
