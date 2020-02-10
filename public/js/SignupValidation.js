@@ -69,6 +69,15 @@ $(document).ready(function() {
 			if (currForm1.checkValidity() === false) {
 				event.preventDefault();
 				event.stopPropagation();
+			} else {
+				event.preventDefault();
+				$.post("/signup", $(currForm1).serialize(), data => {
+					if (data.error) {
+						alert(data.error);
+					} else {
+						window.location = data.redirectUrl;
+					}
+				});
 			}
 			currForm1.classList.add("was-validated");
 		},
@@ -86,6 +95,19 @@ $(document).ready(function() {
 			}
 			var is_valid = $(".form-control").length === $(".form-control.is-valid").length;
 			$("#submitBtn").attr("disabled", !is_valid);
+		});
+	});
+
+	$("#authenticateLogin").submit(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$.post("/login", $("#authenticateLogin").serialize(), data => {
+			console.log(data);
+			if (data.error || data.error === null) {
+				alert(data.error);
+			} else {
+				window.location = data.redirectUrl;
+			}
 		});
 	});
 });
