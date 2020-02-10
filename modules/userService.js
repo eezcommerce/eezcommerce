@@ -82,11 +82,11 @@ module.exports.authenticate = (email, password) => {
 						user.password = undefined;
 						resolve(user);
 					} else {
-						reject(err || { error: "no match" });
+						reject(err || "Username or password incorrect.");
 					}
 				});
 			} else {
-				reject(err || { error: "no match" });
+				reject(err || "Username or password incorrect.");
 			}
 		});
 	});

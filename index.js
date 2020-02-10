@@ -12,10 +12,21 @@ var exphbs = require("express-handlebars");
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 
+const hbHelpers = require("./modules/hbHelpers.js");
+
 // express middlewares & setup
 
-// Sets the express view engine to use handlebars (file endings in .hbs)
-app.engine(".hbs", exphbs({ extname: ".hbs" }));
+// Sets the express view engine to use handlebars (file endings in .hbs), registers helpers
+app.engine(
+	".hbs",
+	exphbs({
+		extname: ".hbs",
+		helpers: {
+			activeLink: hbHelpers.activeLink
+		}
+	})
+);
+
 app.set("view engine", ".hbs");
 
 // creates a static server on the "public directory" (kinda like an apache server)
@@ -77,9 +88,8 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	userService
 		.validateToken(token, email)
 		.then(() => {
-			res.redirect("../../views/EmailVerified.html").then(() => {
-				//res.send("<script>setTimeout(()=>{window.location = '/'}, 2000)</script>"); //not working, redirect does nt work either
-			});
+			res.redirect("../../views/EmailVerified.html");
+
 		})
 		.catch(error => {
 			res.json(error);
@@ -94,15 +104,31 @@ app.get("/about_me", (req, res) => {
 	}
 });
 
+// Dashboard routes
+
 app.get("/dashboard", (req, res) => {
-	if (req.auth.isLoggedIn) {
-		res.render("overview", { layout: "dashboard", header: standardHeader });
-	} else {
-		res.redirect("/");
-	}
+	res.render("overview", { layout: "dashboard", header: standardHeader, pagename: "overview" });
 });
 
-app.get("/dashboard/overview");
+app.get("/dashboard/:route", (req, res) => {
+	const route = req.params.route;
+
+	res.render(
+		route,
+		{
+			layout: "dashboard",
+			header: standardHeader,
+			pagename: route
+		},
+		(error, html) => {
+			if (error) {
+				res.redirect("/404");
+			} else {
+				res.send(html);
+			}
+		}
+	);
+});
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
@@ -114,22 +140,34 @@ app.get("/logout", (req, res) => {
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
-	userService.create({ email: req.body.email, password: req.body.inputPassword }).then(() => {
-		mailService
-			.sendVerificationEmail(req.body.email, "signup")
-			.then(() => {
-				res.sendFile("public/views/EmailVerificationSent.html", { root: __dirname });
-				//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
-			})
-			.catch(e => {
-				console.log(e);
-				res.redirect("*");
 
-				if (e.toString().indexOf("Greeting") >= 0) {
-					console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
-				}
-			});
-	});
+	userService
+		.create({ email: req.body.email, password: req.body.inputPassword })
+		.then(() => {
+			mailService
+				.sendVerificationEmail(req.body.email, "id")
+				.then(() => {
+					res.json({ error: false, redirectUrl: "/views/EmailVerificationSent.html" });
+					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+				})
+				.catch(e => {
+					res.json({ error: "Error sending verification email. Please try again later." });
+					if (e.toString().indexOf("Greeting") >= 0) {
+						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
+					}
+				});
+		})
+		.catch(error => {
+			switch (error.code) {
+				case 11000:
+					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
+					break;
+
+				default:
+					res.json({ error: "Unspecified error occurred. Please try again later." });
+					break;
+			}
+		});
 });
 
 app.post("/resetPassword", function(req, res) {
@@ -164,7 +202,7 @@ app.post("/login", (req, res) => {
 		.then(user => {
 			req.auth.isLoggedIn = true;
 			req.auth.userDetails = user;
-			res.redirect("/dashboard");
+			res.json({ error: false, redirectUrl: "/dashboard" });
 		})
 		.catch(err => {
 			res.json({ error: err });
