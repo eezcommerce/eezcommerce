@@ -130,30 +130,33 @@ app.get("/logout", (req, res) => {
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
-	userService.create({ email: req.body.email, password: req.body.inputPassword }).then(() => {
-		mailService
-			.sendVerificationEmail(req.body.email, "id")
-			.then(() => {
-				res.json({error: false, redirectUrl: "/views/EmailVerificationSent.html"})
-				//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
-			})
-			.catch(e => {
-				res.json({error: "Error sending verification email. Please try again later."})
-				if (e.toString().indexOf("Greeting") >= 0) {
-					console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
-				}
-			});
-	}).catch((error)=>{
-		switch (error.code) {
-			case 11000:
-				res.json({error: "Email already exists. Please login or check your email address for accuracy."})
-				break;
-		
-			default:
-				res.json({error: "Unspecified error occurred. Please try again later."})
-				break;
-		}
-	});
+	userService
+		.create({ email: req.body.email, password: req.body.inputPassword })
+		.then(() => {
+			mailService
+				.sendVerificationEmail(req.body.email, "id")
+				.then(() => {
+					res.json({ error: false, redirectUrl: "/views/EmailVerificationSent.html" });
+					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+				})
+				.catch(e => {
+					res.json({ error: "Error sending verification email. Please try again later." });
+					if (e.toString().indexOf("Greeting") >= 0) {
+						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
+					}
+				});
+		})
+		.catch(error => {
+			switch (error.code) {
+				case 11000:
+					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
+					break;
+
+				default:
+					res.json({ error: "Unspecified error occurred. Please try again later." });
+					break;
+			}
+		});
 });
 
 app.post("/login", (req, res) => {
@@ -162,7 +165,7 @@ app.post("/login", (req, res) => {
 		.then(user => {
 			req.auth.isLoggedIn = true;
 			req.auth.userDetails = user;
-			res.json({error: false, redirectUrl: "/dashboard"});
+			res.json({ error: false, redirectUrl: "/dashboard" });
 		})
 		.catch(err => {
 			res.json({ error: err });
