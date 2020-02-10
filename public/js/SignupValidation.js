@@ -1,15 +1,15 @@
-(function() {
+(function () {
 	"use strict";
 	window.addEventListener(
 		"load",
-		function() {
+		function () {
 			// Fetch all the forms we want to apply custom Bootstrap validation styles to
 			var forms = document.getElementsByClassName("needs-validation");
 			// Loop over them and prevent submission
-			var validation = Array.prototype.filter.call(forms, function(form) {
+			var validation = Array.prototype.filter.call(forms, function (form) {
 				form.addEventListener(
 					"submit",
-					function(event) {
+					function (event) {
 						if (form.checkValidity() === false) {
 							event.preventDefault();
 							event.stopPropagation();
@@ -24,9 +24,9 @@
 	);
 })();
 
-$(document).ready(function() {
+$(document).ready(function () {
 	// Check if passwords match
-	$("#inputPassword, #confirmPassword").on("keyup", function() {
+	$("#inputPassword, #confirmPassword").on("keyup", function () {
 		if (
 			$("#inputPassword").val() != "" &&
 			$("#confirmPassword").val() != "" &&
@@ -50,12 +50,12 @@ $(document).ready(function() {
 	});
 
 	//Clear modal on hide
-	$("#signupModalCenter").on("hidden.bs.modal", function() {
+	$("#signupModalCenter").on("hidden.bs.modal", function () {
 		$(this)
 			.find("form")
 			.trigger("reset");
 	});
-	$("#loginModalCenter").on("hidden.bs.modal", function() {
+	$("#loginModalCenter").on("hidden.bs.modal", function () {
 		$(this)
 			.find("form")
 			.trigger("reset");
@@ -65,10 +65,19 @@ $(document).ready(function() {
 	// Validate on submit:
 	currForm1.addEventListener(
 		"submit",
-		function(event) {
+		function (event) {
 			if (currForm1.checkValidity() === false) {
 				event.preventDefault();
 				event.stopPropagation();
+			} else {
+				event.preventDefault();
+				$.post("/signup", $(currForm1).serialize(), (data) => {
+					if (data.error) {
+						alert(data.error);
+					} else {
+						window.location = data.redirectUrl;
+					}
+				})
 			}
 			currForm1.classList.add("was-validated");
 		},
@@ -88,4 +97,20 @@ $(document).ready(function() {
 			$("#submitBtn").attr("disabled", !is_valid);
 		});
 	});
+
+
+	$("#authenticateLogin").submit(function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$.post("/login", $("#authenticateLogin").serialize(), (data) => {
+			console.log(data);
+			if (data.error || data.error === null) {
+				alert(data.error);
+			} else {
+				window.location = data.redirectUrl;
+			}
+		})
+	})
 });
+
+
