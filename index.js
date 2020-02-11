@@ -173,7 +173,6 @@ app.post("/resetPassword", function(req, res) {
 
 	userService.findMatchingEmail(email).then(function(user) {
 		if (user) {
-
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")
 				.then(() => {
@@ -189,7 +188,6 @@ app.post("/resetPassword", function(req, res) {
 					}
 				});
 			//res.send("No User...<script>alert('user Email does not exist'); window.location = 'forgot'</script>");
-			
 		} else {
 			res.json({ error: true, redirectUrl: "forgot" });
 		}
