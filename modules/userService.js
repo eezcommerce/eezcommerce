@@ -69,6 +69,21 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
 };
 
 /**
+ * @param {String} email the email to delete
+ */
+module.exports.delete = email => {
+	return new Promise((resolve, reject) => {
+		UserModel.deleteOne({ email: email }, (err, deleteResult) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(deleteResult);
+			}
+		});
+	});
+};
+
+/**
  * @param {String} email the user email (unique)
  * @param {String} password a plaintext password to be checked
  * @returns {Promise} promise resolving with sanitized user or rejecting with error
