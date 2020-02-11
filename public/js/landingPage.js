@@ -28,7 +28,7 @@ $(() => {
 				// if theres an error, put it in the element with the class "server-response" and show that element
 				if (data.error) {
 					form.removeClass("was-validated");
-					$('#emailReset').addClass("is-invalid");
+					$("#emailReset").addClass("is-invalid");
 					form
 						.find(".server-response")
 						.html(data.error)
