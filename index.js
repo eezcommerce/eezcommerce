@@ -143,7 +143,7 @@ app.post("/signup", (req, res) => {
 		.create({ email: req.body.email, password: req.body.inputPassword })
 		.then(() => {
 			mailService
-				.sendVerificationEmail(req.body.email, "id")
+				.sendVerificationEmail(req.body.email, "signup")
 				.then(() => {
 					res.json({ error: false, redirectUrl: "/views/EmailVerificationSent.html" });
 					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
