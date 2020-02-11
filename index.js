@@ -89,7 +89,6 @@ app.get("/verify_email/:email/:token", (req, res) => {
 		.validateToken(token, email)
 		.then(() => {
 			res.redirect("../../views/EmailVerified.html");
-
 		})
 		.catch(error => {
 			res.json(error);
@@ -140,7 +139,6 @@ app.get("/logout", (req, res) => {
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
-
 	userService
 		.create({ email: req.body.email, password: req.body.inputPassword })
 		.then(() => {
