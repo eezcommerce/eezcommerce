@@ -150,6 +150,10 @@ app.post("/signup", (req, res) => {
 				})
 				.catch(e => {
 					res.json({ error: "Error sending verification email. Please try again later." });
+
+					userService.delete(req.body.email).catch(err => {
+						console.log(err);
+					});
 					if (e.toString().indexOf("Greeting") >= 0) {
 						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
 					}
