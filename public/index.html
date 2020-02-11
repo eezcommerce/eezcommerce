@@ -14,8 +14,6 @@
 		></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-		<script src="/js/SignupValidation.js"></script>
-		<script src="js/ModalLayering.js"></script>
 
 		<!-- sheets -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
@@ -35,10 +33,19 @@
 						</button>
 						<h1>Login</h1>
 
-						<form method="POST" id="authenticateLogin" action="/login">
+						<form method="POST" id="authenticateLogin" class="needs-validation" novalidate action="/login">
 							<div class="form-group row">
 								<div class="col-sm-12">
-									<input type="email" name="email" class="form-control" id="loginEmail" placeholder="Email" />
+									<input
+										name="email"
+										pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+										class="form-control checkPatternWhenTyping"
+										placeholder="Email"
+										required
+									/>
+									<div class="invalid-feedback">
+										Please enter a valid email address.
+									</div>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -46,11 +53,19 @@
 									<input
 										type="password"
 										name="password"
-										class="form-control"
+										class="form-control checkPatternWhenTyping"
 										id="loginPassword"
 										placeholder="Password"
+										pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
 									/>
+									<div class="invalid-feedback">
+										Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more
+										characters
+									</div>
 								</div>
+							</div>
+							<div class="form-group text-center text-danger d-none server-response">
+								Feedback
 							</div>
 
 							<div class="col-xs-12">
@@ -85,14 +100,14 @@
 									<input
 										type="email"
 										name="email"
-										class="form-control text-left"
-										id="inputEmail"
+										pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+										class="form-control checkPatternWhenTyping"
 										placeholder="Enter email"
 										required
 										autofocus
 									/>
-									<div class="valid-feedback">
-										Looks good!
+									<div class="invalid-feedback">
+										Enter a valid email
 									</div>
 								</div>
 							</div>
@@ -101,16 +116,12 @@
 								<div class="col-sm-12">
 									<input
 										type="password"
-										class="form-control text-left"
+										class="form-control checkPatternWhenTyping confirmablePassword"
 										name="inputPassword"
-										id="inputPassword"
 										pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
 										placeholder="Enter password"
 										required
 									/>
-									<div class="valid-feedback">
-										Looks good!
-									</div>
 									<div class="invalid-feedback">
 										Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more
 										characters
@@ -122,41 +133,34 @@
 								<div class="col-sm-12">
 									<input
 										type="password"
-										class="form-control text-left"
+										class="form-control checkPatternWhenTyping confirmablePasswordDestination"
 										name="confirmPassword"
-										id="confirmPassword"
-										pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+										pattern=""
 										placeholder="Confirm password"
 										required
 									/>
-
-									<div id="cPwdValid" class="valid-feedback">
-										Looks good!
-									</div>
-									<div id="cPwdInvalid" class="invalid-feedback">
-										Passwords must match.
-									</div>
+									<div class="invalid-feedback">Passwords must match.</div>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="" id="agreeTerms" required />
-									<label class="form-check-label" for="agreeTerms">
-										Agree to
-										<a id="terms" data-toggle="modal" href="#TermsConditionsModal"><b>terms and conditions</b></a>
+									<input class="form-check-input" type="checkbox" checked="false" id="agreeTerms" required hidden />
+									<label class="form-check-label text-center">
+										Please read and agree to the
+										<a id="terms" href="#" data-toggle="modal" data-target="#TermsConditionsModal"
+											><b>terms and conditions</b></a
+										>
 									</label>
 									<div class="invalid-feedback">
 										You must agree before submitting.
 									</div>
 								</div>
 							</div>
-							<button
-								id="submitBtn"
-								class="btn badge-pill btn-outline-primary btn-sm float-right"
-								type="submit"
-								disabled
-							>
+							<div class="form-group text-center text-danger d-none server-response">
+								Feedback
+							</div>
+							<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit">
 								Continue
 							</button>
 						</form>
@@ -366,7 +370,8 @@
 						</p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button class="btn btn-primary" id="agreeTermsButton" data-dismiss="modal">I Agree</button>
 					</div>
 				</div>
 			</div>
@@ -405,6 +410,7 @@
 			</span>
 		</nav>
 
+		<!-- Body -->
 		<div class="container-fullwidth">
 			<div class="row homepageFullpage">
 				<div class="col land-splash pr-0 pl-0 text-center d-flex justify-content-center align-items-center">
@@ -483,5 +489,7 @@
 				<p class="mt-3">&copy; 2020 eEz Commerce</p>
 			</div>
 		</div>
+
+		<script src="/js/landingPage.js"></script>
 	</body>
 </html>
