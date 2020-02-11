@@ -47,6 +47,12 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//console.logs any unhandled rejections (mainly for unhandled promises)
+process.on("unhandledRejection", error => {
+	// Will print "unhandledRejection err is not defined"
+	console.log("unhandledRejection", error);
+});
+
 // protecting the /dashboard route (and subroutes) only be available if logged in
 app.use("/dashboard", (req, res, next) => {
 	if (req.auth.isLoggedIn) {
@@ -72,6 +78,9 @@ app.get("/home", (req, res) => {
 	//res.render("home"); //Change to this when HBS is implemented
 });
 
+app.get("/forgot", (req, res) => {
+	res.sendFile("public/views/ForgottenPassword.html", { root: __dirname });
+});
 app.get("/verify_email/:email/:token", (req, res) => {
 	let token = req.params.token;
 	let email = req.params.email;
@@ -80,6 +89,7 @@ app.get("/verify_email/:email/:token", (req, res) => {
 		.validateToken(token, email)
 		.then(() => {
 			res.redirect("../../views/EmailVerified.html");
+
 		})
 		.catch(error => {
 			res.json(error);
@@ -130,6 +140,7 @@ app.get("/logout", (req, res) => {
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
+
 	userService
 		.create({ email: req.body.email, password: req.body.inputPassword })
 		.then(() => {
@@ -159,6 +170,32 @@ app.post("/signup", (req, res) => {
 		});
 });
 
+app.post("/resetPassword", function(req, res) {
+	const email = req.body.email;
+
+	userService.findMatchingEmail(email).then(function(user) {
+		if (!user) {
+			//res.send("No User...<script>alert('user Email does not exist'); window.location = 'forgot'</script>");
+			res.redirect("forgot");
+		} else {
+			mailService
+				.sendVerificationEmail(req.body.email, "reset")
+				.then(() => {
+					res.redirect("/home");
+					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+				})
+				.catch(e => {
+					console.log(e);
+					res.redirect("*");
+
+					if (e.toString().indexOf("Greeting") >= 0) {
+						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
+					}
+				});
+		}
+	});
+});
+
 app.post("/login", (req, res) => {
 	userService
 		.authenticate(req.body.email, req.body.password)
@@ -176,6 +213,7 @@ app.post("/login", (req, res) => {
 
 // fallback for unknown routes
 app.get("*", (req, res) => {
+	res.status(404);
 	res.sendFile("public/views/ErrorPage.html", { root: __dirname });
 });
 

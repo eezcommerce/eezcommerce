@@ -25,7 +25,7 @@ var transporter = nodemailer.createTransport({
 // sends a verification email to the provided email containing a secret, random token
 // TODO: store the token in the user in the database
 // Returns a promise, resolving with an error or the email provided
-module.exports.sendVerificationEmail = email => {
+module.exports.sendVerificationEmail = (email, mailType) => {
 	return new Promise((resolve, reject) => {
 		// generate secure random bytes of data
 		crypto.randomBytes(16, (err, res) => {
@@ -40,32 +40,54 @@ module.exports.sendVerificationEmail = email => {
 			}
 			// send email with secret link
 			// set up email data
-			transporter.sendMail(
-				{
-					from: process.env.EMAIL_USER,
-					to: email,
-					subject: `eEz Commerce Email Verification`,
-					html: `
-				<div>
-					<h1 style="color: #43ba9e">Thank you for registering with eEz Commerce!</h1>
 
-					<p>Once confirmed you will be on your way to creating your own website to sell your products!
-				
-					<p>Please click the link below to verify your email:</p>
-					<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Verify</a>
-				</div>
-				
-				`
-				},
-				function(err, info) {
-					//callback function
-					if (err) {
-						reject(err);
-					} else {
-						resolve(email);
-					}
+			var mailOptions;
+
+			switch (mailType) {
+				case "signup":
+					mailOptions = {
+						from: process.env.EMAIL_USER,
+						to: email,
+						subject: `eEz Commerce Email Verification`,
+						html: `
+					<div>
+						<h1 style="color: #43ba9e">Thank you for registering with eEz Commerce!</h1>
+	
+						<p>Once confirmed you will be on your way to creating your own website to sell your products!</p>
+					
+						<p>Please click the link below to verify your email:</p>
+						<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Verify Email Address</a>
+					</div>
+					`
+					};
+					break;
+
+				case "reset":
+					mailOptions = {
+						from: process.env.EMAIL_USER,
+						to: email,
+						subject: `eEz Commerce Reset Account Password`,
+						html: `
+					<div>
+						<h1 style="color: #43ba9e">Password Reset</h1>
+						<p> You recently requested to reset your password for ${email} account.</p>
+						<p>Please click the link below to reset your password. 
+						<strong>This password reset is only valid for the next 24 hours.</strong></p>
+						<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Reset Password</a>
+					</div>
+					`
+					};
+					break;
+			}
+
+			transporter.sendMail(mailOptions, function(err, info) {
+				//callback function
+				if (err) {
+					reject(err);
+				} else {
+					resolve(email);
 				}
-			);
+			});
 		});
 	});
 };
