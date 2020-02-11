@@ -172,10 +172,8 @@ app.post("/resetPassword", function(req, res) {
 	const email = req.body.email;
 
 	userService.findMatchingEmail(email).then(function(user) {
-		if (!user) {
-			//res.send("No User...<script>alert('user Email does not exist'); window.location = 'forgot'</script>");
-			res.redirect("forgot");
-		} else {
+		if (user) {
+
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")
 				.then(() => {
@@ -190,6 +188,10 @@ app.post("/resetPassword", function(req, res) {
 						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
 					}
 				});
+			//res.send("No User...<script>alert('user Email does not exist'); window.location = 'forgot'</script>");
+			
+		} else {
+			res.json({ error: true, redirectUrl: "forgot" });
 		}
 	});
 });
