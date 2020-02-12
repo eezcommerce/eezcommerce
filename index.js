@@ -130,7 +130,6 @@ app.get("/dashboard/:route", (req, res) => {
 	);
 });
 
-
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
 	req.auth.userDetails = {};
@@ -214,11 +213,14 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/addProduct", (req, res) => {
-	productService.addProduct().then(()=>{
-		res.json({error:false, redirectUrl: "/dashboard/products"});
-	}).catch(err => {
-		res.json({ error: err });
-	});
+	productService
+		.addProduct()
+		.then(() => {
+			res.json({ error: false, redirectUrl: "/dashboard/products" });
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
 });
 
 // Express MiddleWares

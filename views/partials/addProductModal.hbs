@@ -1,0 +1,56 @@
+	{{!-- This modal is only used to manually input data(it is not recommended!) --}}
+	<div class="modal fade" id="addProductModal" >
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h1>Add Product</h1>
+
+						<form method="POST" id="addProduct" class="needs-validation" novalidate action="/addProduct">
+						
+								<div class="form-group row">
+									<div class="col-sm-12">	
+									
+										<label for="productName">Product Name</label>
+									<input
+										name="productName"
+										class="form-control"
+										placeholder="Masks"
+										required
+									/>
+									</div>
+									<div class="form-group row pl-3 pt-2">
+										<div class="col-sm-3">
+										<label for="productInventory">Qty</label>
+										<input
+										type="number"
+										min="0"
+										name="productInventory"
+										class="form-control"
+										placeholder= "0"
+										required
+									/>
+									</div>
+									<div class="col-sm-6">
+										<label for="productPrice">Price</label>
+										<input
+										min= "0"
+										name="productPrice"
+										class="form-control"
+										placeholder= "0.00"
+										required
+									/>
+									</div>
+									</div>
+							</div>
+								<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit">
+								Add
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
