@@ -20,19 +20,25 @@
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "orders" pagename}}">
 					<a href="/dashboard/orders">Orders</a>
 				</div>
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "categories" pagename}}">
+					<a href="/dashboard/categories">
+					Categories
+					</a>
+				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "products" pagename}}">
 					<a href="/dashboard/products">
 						Products
 					</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "categories" pagename}}">
-					Categories
-				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "customize" pagename}}">
+					<a href="/dashboard/customize">
 					Customize
+					</a>
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "report" pagename}}">
+					<a href="/dashboard/report">
 					Report
+					</a>
 				</div>
 				<div></div>
 			</div>
@@ -45,11 +51,9 @@
 
 		<div class="dynamic">
 			{{{body}}}
+			
 		</div>
 	</div>
-
-
-
 </body>
-
+{{> addCategoryModal}}
 </html>
