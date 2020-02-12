@@ -62,24 +62,16 @@ app.use("/dashboard", (req, res, next) => {
 	}
 });
 
-// allows us to reuse the header.html wherever we need it
-var standardHeader;
-try {
-	standardHeader = fs.readFileSync("./common/header.html", "utf8");
-} catch (error) {
-	console.error("\n\tMissing header file\n");
-}
-
 // ROUTES
 // 		->	GET 	Place all GET routes here
 
-app.get("/home", (req, res) => {
-	res.render("home", { layout: "NavBar", header: standardHeader, pagename: "home" });
+app.get("/", (req, res) => {
+	res.render("home", { layout: "NavBar", pagename: "home" });
 	//res.render("home"); //Change to this when HBS is implemented
 });
 
 app.get("/forgot", (req, res) => {
-	res.sendFile("public/views/ForgottenPassword.html", { root: __dirname });
+	res.render("ForgottenPassword", { layout: "NavBar" });
 });
 app.get("/verify_email/:email/:token", (req, res) => {
 	let token = req.params.token;
@@ -88,7 +80,7 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	userService
 		.validateToken(token, email)
 		.then(() => {
-			res.redirect("../../views/EmailVerified.html");
+			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
 			res.json(error);
@@ -103,10 +95,22 @@ app.get("/about_me", (req, res) => {
 	}
 });
 
+app.get("/testimonials", (req, res) => {
+	res.render("testimonials", { layout: "Navbar" });
+});
+
+app.get("/email-reset-sent", (req, res) => {
+	res.render("EmailResetSent", { layout: "NavBar" });
+});
+
+app.get("/email-verification-sent", (req, res) => {
+	res.render("EmailVerificationSent", { layout: "NavBar" });
+});
+
 // Dashboard routes
 
 app.get("/dashboard", (req, res) => {
-	res.render("overview", { layout: "dashboard", header: standardHeader, pagename: "overview" });
+	res.render("overview", { layout: "dashboard", pagename: "overview" });
 });
 
 app.get("/dashboard/:route", (req, res) => {
@@ -116,7 +120,6 @@ app.get("/dashboard/:route", (req, res) => {
 		route,
 		{
 			layout: "dashboard",
-			header: standardHeader,
 			pagename: route
 		},
 		(error, html) => {
@@ -132,7 +135,7 @@ app.get("/dashboard/:route", (req, res) => {
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
 	req.auth.userDetails = {};
-	res.send("logged out <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+	res.render("loggedOut", { layout: "NavBar" });
 });
 
 // ROUTES
@@ -145,7 +148,7 @@ app.post("/signup", (req, res) => {
 			mailService
 				.sendVerificationEmail(req.body.email, "signup")
 				.then(() => {
-					res.json({ error: false, redirectUrl: "/views/EmailVerificationSent.html" });
+					res.json({ error: false, redirectUrl: "/email-verification-sent" });
 					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 				})
 				.catch(e => {
@@ -180,7 +183,7 @@ app.post("/resetPassword", function(req, res) {
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")
 				.then(() => {
-					res.json({ error: false, redirectUrl: "/views/EmailResetSent.html" });
+					res.json({ error: false, redirectUrl: "/email-reset-sent" });
 					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 				})
 				.catch(e => {
@@ -216,7 +219,7 @@ app.post("/login", (req, res) => {
 // fallback for unknown routes
 app.get("*", (req, res) => {
 	res.status(404);
-	res.sendFile("public/views/ErrorPage.html", { root: __dirname });
+	res.render("ErrorPage", { layout: "NavBar" });
 });
 
 if (process.env.ENABLE_SSL) {
