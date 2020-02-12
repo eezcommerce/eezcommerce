@@ -1,0 +1,57 @@
+<div class="modal fade" id="loginModalCenter">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+						<h1>Login</h1>
+
+						<form method="POST" id="authenticateLogin" class="needs-validation" novalidate action="/login">
+							<div class="form-group row">
+								<div class="col-sm-12">
+									<input
+										name="email"
+										pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+										class="form-control checkPatternWhenTyping"
+										placeholder="Email"
+										required
+									/>
+									<div class="invalid-feedback">
+										Please enter a valid email address.
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-sm-12">
+									<input
+										type="password"
+										name="password"
+										class="form-control checkPatternWhenTyping"
+										id="loginPassword"
+										placeholder="Password"
+										pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+									/>
+									<div class="invalid-feedback">
+										Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more
+										characters
+									</div>
+								</div>
+							</div>
+							<div class="form-group text-center text-danger d-none server-response">
+								Feedback
+							</div>
+
+							<div class="col-xs-12">
+								<span><a href="forgot">Forgot password?</a></span>
+								<span
+									><button type="submit" class="btn badge-pill btn-outline-primary btn-sm float-right">
+										Log In
+									</button></span
+								>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>

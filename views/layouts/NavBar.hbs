@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	{{{header}}}
+</head>
+{{!-- modals --}}
+{{> loginModal}}
+{{> pricingModal}}
+{{> signupModal}}
+{{> termsModal}}
+<body>
+
+			<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
+			<a class="navbar-brand" href="#"><img width="50px" src="/img/logo.svg"/></a>
+			<span class="navbar-nav mr-auto">
+				<ul class="nav">
+					<li class="nav-item px-2">
+						<a class="nav-link" href="#" data-toggle="modal" data-target="#pricingModalCenter">Pricing</a>
+					</li>
+
+					<li class="nav-item px-2">
+						<a class="nav-link" href="/views/testimonial.html">Testimonials</a>
+					</li>
+				</ul>
+			</span>
+			<span class="navbar-text">
+				<ul class="nav">
+					<li class="nav-item">
+						<button
+							class="btn badge-pill btn-outline-primary btn-sm"
+							data-toggle="modal"
+							data-target="#loginModalCenter"
+						>
+							Login
+						</button>
+					</li>
+					<li class="nav-item">
+						<button class="btn badge-pill btn-primary ml-2 btn-sm" data-toggle="modal" data-target="#signupModalCenter">
+							Signup
+						</button>
+					</li>
+				</ul>
+			</span>
+		</nav>
+		<div class="dynamic">
+			{{{body}}}
+		</div>
+	</div>
+
+
+<script src="/js/landingPage.js"></script>
+</body>
+
+</html>
