@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	{{{header}}}
+	{{>header}}
 </head>
 
 <body>
@@ -10,9 +10,11 @@
 	<div class="dashboardGrid">
 		<div class="sidebar bg-light">
 			<div class="sidebarImg mt-5 rounded-circle bg-primary">
-				<i id="placeholderIcon" class="fas fa-user fa-5x pt-2 pl-3"></i>
+				<i id="placeholderIcon" class="fas fa-user fa-5x pt-2 pl-3 text-white text-center"></i>
 			</div>
-			<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center"><h2>eEz Commerce</h2></div>
+			<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center">
+				<h2>eEz Commerce</h2>
+			</div>
 			<div class="sidebarMenu">
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "overview" pagename}}">
 					<a href="/dashboard/overview">Overview</a>
@@ -22,7 +24,7 @@
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "categories" pagename}}">
 					<a href="/dashboard/categories">
-					Categories
+						Categories
 					</a>
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "products" pagename}}">
@@ -32,12 +34,12 @@
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "customize" pagename}}">
 					<a href="/dashboard/customize">
-					Customize
+						Customize
 					</a>
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "report" pagename}}">
 					<a href="/dashboard/report">
-					Report
+						Report
 					</a>
 				</div>
 				<div></div>
@@ -51,9 +53,10 @@
 
 		<div class="dynamic">
 			{{{body}}}
-			
+
 		</div>
 	</div>
 </body>
 {{> addCategoryModal}}
+
 </html>
