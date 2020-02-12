@@ -11,6 +11,7 @@ var exphbs = require("express-handlebars");
 // custom modules
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
+const productService = require("./modules/productService.js");
 
 const hbHelpers = require("./modules/hbHelpers.js");
 
@@ -129,6 +130,7 @@ app.get("/dashboard/:route", (req, res) => {
 	);
 });
 
+
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
 	req.auth.userDetails = {};
@@ -209,6 +211,14 @@ app.post("/login", (req, res) => {
 		.catch(err => {
 			res.json({ error: err });
 		});
+});
+
+app.post("/addProduct", (req, res) => {
+	productService.addProduct().then(()=>{
+		res.json({error:false, redirectUrl: "/dashboard/products"});
+	}).catch(err => {
+		res.json({ error: err });
+	});
 });
 
 // Express MiddleWares
