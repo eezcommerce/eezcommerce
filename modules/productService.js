@@ -64,7 +64,7 @@ module.exports.getAllProducts = () => {
 
 module.exports.getProductById = id => {
 	return new Promise((resolve, reject) => {
-		Products.findOne({ _id : id }, (err, prod) => {
+		Products.findOne({ _id: id }, (err, prod) => {
 			var parsedProd = parseResponse(prod);
 			if (!err) {
 				resolve(parsedProd);
