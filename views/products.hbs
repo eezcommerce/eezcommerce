@@ -36,7 +36,16 @@
 									</tr>
 								</thead>
 								<tbody>
+									{{#each products}}
 									<tr data-toggle="modal" data-id="1" data-target="#orderModal">
+										<th scope="row">{{SKU}}</th>
+										<td>{{name}}</td>
+										<td>{{quantity}}</td>
+										<td>{{price}}</td>
+										<td>{{purchased}}</td>
+									</tr>
+									{{/each}}
+									{{!-- <tr data-toggle="modal" data-id="1" data-target="#orderModal">
 										<th scope="row">0000</th>
 										<td>Painting</td>
 										<td>3</td>
@@ -49,7 +58,7 @@
 										<td>1</td>
 										<td>$20.00</td>
 										<td>4</td>
-									</tr>
+									</tr> --}}
 								</tbody>
 							</div>
 						</table>
