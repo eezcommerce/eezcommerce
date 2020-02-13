@@ -3,7 +3,7 @@
 			<div class="row m-0">
 				<div class="pb-2 mt-4 mb-2 col-md-4">
 					<!--header-->
-					<h1><strong>Products</strong></h1>
+					<h1><strong id="title"></strong></h1>
 				</div>
 			</div>
 			<div class="row">
@@ -37,7 +37,7 @@
 								</thead>
 								<tbody>
 									{{#each products}}
-									<tr class="productRow" data-toggle="modal" data-id={{_id}} data-target="#productDetail">
+									<tr class="productRow" data-toggle="modal" data-pineapple='{{_id}}' data-target="#productDetail">
 										<th scope="row">{{SKU}}</th>
 										<td>{{name}}</td>
 										<td>{{quantity}}</td>
@@ -59,18 +59,19 @@
 </div>
 
 
-<script src="">
+<script>
 
 $(".productRow").click((e)=>{
 	row = $(e.target)
 
-	id = row.data("id")
+	id = $(e.target).data("pineapple");
+	console.log(id);
 
-	$.get("/getProductDetail/"+id, (data)=>{
+	$.get("/getProductDetail/"+ id, (data)=>{
 		console.log(data);
 		let modelData = `the html, use backticks`
 		let toCall = "${data.name}"
-		$('#productDetail').find('#title').html("strong pineapples");
+		$('#productDetail').find('#title').html(data.name);
 	})
 })
 
