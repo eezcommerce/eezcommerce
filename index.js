@@ -7,10 +7,12 @@ var sessions = require("client-sessions");
 var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
+var Handlebars = require("handlebars");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
+const productService = require("./modules/productService.js");
 
 const hbHelpers = require("./modules/hbHelpers.js");
 
@@ -113,6 +115,17 @@ app.get("/dashboard", (req, res) => {
 	res.render("overview", { layout: "dashboard", pagename: "overview" });
 });
 
+app.get("/dashboard/products", (req, res) => {
+	var allProds = productService
+		.getAllProducts()
+		.then(prods => {
+			res.render("products", { layout: "dashboard", pagename: "products", products: prods });
+		})
+		.catch(e => {
+			res.json({ error: "unable to get all products" });
+		});
+});
+
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
 
@@ -208,6 +221,21 @@ app.post("/login", (req, res) => {
 			req.auth.isLoggedIn = true;
 			req.auth.userDetails = user;
 			res.json({ error: false, redirectUrl: "/dashboard" });
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
+
+app.post("/addProduct", (req, res) => {
+	let prodName = req.body.productName;
+	let prodQty = req.body.productInventory;
+	let prodPrice = req.body.productPrice;
+	let prodSKU = req.body.productSKU;
+	productService
+		.addProduct(prodSKU, prodName, prodQty, prodPrice)
+		.then(() => {
+			res.json({ error: false, redirectUrl: "/products" });
 		})
 		.catch(err => {
 			res.json({ error: err });
