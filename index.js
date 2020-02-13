@@ -126,6 +126,18 @@ app.get("/dashboard/products", (req, res) => {
 		});
 });
 
+app.get("/getProductDetail/:id", (req, res) => {
+	console.log("HELLO");
+	var id = req.params.id;
+	var allProds = productService
+		.getProductById(id)
+		.then(prod => {
+			res.json({product: prod });
+		})
+		.catch(e => {
+			res.json({ error: "Unable to get product" });
+		});
+});
 app.get("/dashboard/settings", (req, res) => {
 	res.render("settings", {layout: "dashboard", pagename: "settings"})
 });

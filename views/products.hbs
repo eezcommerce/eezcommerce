@@ -37,7 +37,7 @@
 								</thead>
 								<tbody>
 									{{#each products}}
-									<tr class="productRow" data-toggle="modal" data-id="1" data-target="#orderModal">
+									<tr class="productRow" data-toggle="modal" data-id={{_id}} data-target="#productDetail">
 										<th scope="row">{{SKU}}</th>
 										<td>{{name}}</td>
 										<td>{{quantity}}</td>
@@ -45,20 +45,7 @@
 										<td>{{purchased}}</td>
 									</tr>
 									{{/each}}
-									{{!-- <tr data-toggle="modal" data-id="1" data-target="#orderModal">
-										<th scope="row">0000</th>
-										<td>Painting</td>
-										<td>3</td>
-										<td>$30.00</td>
-										<td>11</td>
-									</tr>
-									<tr data-toggle="modal" data-id="2" data-target="#orderModal">
-										<th scope="row">0001</th>
-										<td>Shovel</td>
-										<td>1</td>
-										<td>$20.00</td>
-										<td>4</td>
-									</tr> --}}
+
 								</tbody>
 							</div>
 						</table>
@@ -79,9 +66,11 @@ $(".productRow").click((e)=>{
 
 	id = row.data("id")
 
-
-	$.get("/getproductdetail/"+id, (data)=>{
-		
+	$.get("/getProductDetail/"+id, (data)=>{
+		console.log(data);
+		let modelData = `the html, use backticks`
+		let toCall = "${data.name}"
+		$('#productDetail').find('#title').html("strong pineapples");
 	})
 })
 
