@@ -43,7 +43,7 @@ const Products = mongoose.model(
 	})
 );
 
-module.exports.addProduct = (prodName,qty,prodPrice) => {
+module.exports.addProduct = (prodName, qty, prodPrice) => {
 	return new Promise((resolve, reject) => {
 		var prod1 = new Products({ SKU: "0001", name: prodName, quantity: qty, price: prodPrice, purchased: 0 });
 
