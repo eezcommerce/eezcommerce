@@ -1,0 +1,137 @@
+<div class="container-fluid">
+	<div class="row mt-4 ml-1">
+		<h1>Hello, {{userDetails.businessName}}</h1>
+	</div>
+	<div class="row mt-5 ml-4">
+		<h2>General</h2>
+	</div>
+	<div class="row">
+
+		<form action="/edit-user" novalidate class="needs-validation col-md-6 mt-3 ml-lg-5">
+			<div class="form-group">
+				<label for="businessName">Business Name:</label>
+
+				<input autocomplete="off" minlength="2" maxlength="64" required class="form-control" type="text"
+					name="businessName" value="{{userDetails.businessName}}">
+			</div>
+
+			<div class="form-group">
+				<label for="email">
+					Email:
+				</label>
+				<input name="email" type="email" minlength="3" maxlength="256" required class="form-control"
+					value="{{userDetails.email}}">
+			</div>
+
+			<div class="form-group">
+				<label for="questionOne">Question 1:</label>
+				<select class="form-control mb-4" name="questionOne">
+					<option value="1">
+						What street did you grow up on?
+					</option>
+					<option value="2">
+						What is your mother's maiden name?
+					</option>
+					<option value="3">
+						What elementary school did you got to?
+					</option>
+
+					<input 
+						class="form-control mt-2 mb-4" 
+						placeholder="Answer" 
+						name="answerOne" 
+						type="text" 
+						required
+						minlength="4" 
+						autocomplete="off"
+					>
+				</select>
+
+				<label for="questionTwo">Question 2:</label>
+				<select autocomplete="off" class="form-control" name="questionTwo">
+					<option value="2">
+						What is your mother's maiden name?
+					</option>
+					<option value="1">
+						What street did you grow up on?
+					</option>
+					<option value="3">
+						What elementary school did you got to?
+					</option>
+
+					<input 
+						class="form-control mt-2" 
+						placeholder="Answer" 
+						name="answerTwo" 
+						type="text" 
+						required
+						minlength="4" 
+						autocomplete="off"
+					>
+				</select>
+
+
+				<button class="btn btn-primary rounded-pill float-right mt-5" type="submit">
+					Save General Settings
+				</button>
+
+
+			</div>
+
+			<div class="server-response text-danger"></div>
+
+		</form>
+	</div>
+
+	<div class="row mt-5 ml-4">
+		<h2>Change Password</h2>
+	</div>
+
+	<div class="row">
+		<form action="/change-password" novalidate class="needs-validation col-md-6 mt-3 ml-lg-5">
+			<label for="originalPassword">Current Password:</label>
+			<input 
+				name="originalPassword" 
+				class="form-control mb-4" 
+				type="password" 
+				required
+				autocomplete="new-password"
+			>
+
+			<label for="newPassword">New Password:</label>
+			<input 
+				name="newPassword" 
+				class="confirmablePassword form-control mb-4" 
+				type="password" 
+				autocomplete="new-password"
+				required
+			>
+
+			<label for="newConfirmPassword">Confirm New Password:</label>
+			<input 
+				name="newConfirmPassword"
+				class="form-control confirmablePasswordDestination checkPatternWhenTyping mb-4" 
+				type="password"
+				autocomplete="new-password"
+				required
+			>
+
+			<button class="btn btn-primary rounded-pill float-right mt-5 mb-2" type="submit">
+				Save Security Settings
+			</button>
+		</form>
+	</div>
+</div>
+
+
+{{!-- 
+        
+{ isVerified: false,
+  isActive: false,
+  businessName: 'Business User',
+  _id: '5e44ce03f42f5d4f90ce60b3',
+  email: 'luca9716@gmail.com',
+  __v: 0 }
+
+  name logo password email sec.questions        
+         --}}

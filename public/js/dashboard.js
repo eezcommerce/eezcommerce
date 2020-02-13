@@ -5,11 +5,13 @@ $(() => {
 
 	// prevent submission of forms with this class until validated
 	$(".needs-validation").submit(e => {
-		// get the form we're working with $() just wraps it in a jquery query so that we can use jquery functions
-		let form = $(e.target);
+		console.log("hi");
+
 		// stop form from submitting by default
 		e.preventDefault();
-		e.stopPropagation();
+
+		// get the form we're working with $() just wraps it in a jquery query so that we can use jquery functions
+		let form = $(e.target);
 
 		// tell the form that we've validated it manually so that bootstrap can do our styling
 		form.addClass("was-validated");
