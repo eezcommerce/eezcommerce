@@ -213,8 +213,11 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/addProduct", (req, res) => {
+	let prodName = req.body.productName;
+	let prodQty = req.body.productInventory;
+	let prodPrice = req.body.productPrice
 	productService
-		.addProduct()
+		.addProduct(prodName,prodQty,prodPrice)
 		.then(() => {
 			res.json({ error: false, redirectUrl: "/dashboard/products" });
 		})

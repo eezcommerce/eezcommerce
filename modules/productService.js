@@ -16,7 +16,7 @@ const Products = mongoose.model(
 	"Products",
 	new mongoose.Schema({
 		SKU: {
-			type: Number,
+			type: String,
 			maxlength: 4,
 			minlength: 4,
 			required: true,
@@ -43,11 +43,10 @@ const Products = mongoose.model(
 	})
 );
 
-module.exports.addProduct = () => {
+module.exports.addProduct = (prodName,qty,prodPrice) => {
 	return new Promise((resolve, reject) => {
-		console.log("declaring product");
-		var prod1 = new Products({ SKU: 0001, name: "Cookies", quantity: 3, price: 5, purchased: 10 });
-		console.log("hello?");
+		var prod1 = new Products({ SKU: "0001", name: prodName, quantity: qty, price: prodPrice, purchased: 0 });
+
 		prod1.save(function(err, product) {
 			if (err) {
 				reject(err);
