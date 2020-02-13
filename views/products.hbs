@@ -37,7 +37,7 @@
 								</thead>
 								<tbody>
 									{{#each products}}
-									<tr class="productRow" data-toggle="modal" data-id="1" data-target="#orderModal">
+									<tr data-toggle="modal" data-id="1" data-target="#orderModal">
 										<th scope="row">{{SKU}}</th>
 										<td>{{name}}</td>
 										<td>{{quantity}}</td>
@@ -70,20 +70,3 @@
 	</div>
 	<!--row-->
 </div>
-
-
-<script src="">
-
-$(".productRow").click((e)=>{
-	row = $(e.target)
-
-	id = row.data("id")
-
-
-	$.get("/getproductdetail/"+id, (data)=>{
-		
-	})
-})
-
-
-</script>
