@@ -7,9 +7,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
+				<div class="offset-8 col-md-4">
 					<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
 							data-target="#addProductModal">
 						Add Product
@@ -62,16 +60,16 @@
 <script>
 
 $(".productRow").click((e)=>{
-	row = $(e.target)
-
-	id = $(e.target).data("pineapple");
-	console.log(id);
+	id = $(e.currentTarget).data("pineapple");
 
 	$.get("/getProductDetail/"+ id, (data)=>{
 		console.log(data);
-		let modelData = `the html, use backticks`
-		let toCall = "${data.name}"
-		$('#productDetail').find('#title').html(data.name);
+
+		$('#productDetail').find('#title').html(data.product.name);
+		$('#productDetail').find('#skuDetail').html(data.product.SKU);
+		$('#productDetail').find('#qtyDetail').html(data.product.quantity);
+		$('#productDetail').find('#priceDetail').html(data.product.price);
+		$('#productDetail').find('#soldDetail').html(data.product.purchased);
 	})
 })
 
