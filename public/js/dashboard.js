@@ -9,7 +9,6 @@ $(() => {
 		let form = $(e.target);
 		// stop form from submitting by default
 		e.preventDefault();
-		e.stopPropagation();
 
 		// tell the form that we've validated it manually so that bootstrap can do our styling
 		form.addClass("was-validated");

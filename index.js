@@ -112,21 +112,28 @@ app.get("/email-verification-sent", (req, res) => {
 // Dashboard routes
 
 app.get("/dashboard", (req, res) => {
-	res.render("overview", { layout: "dashboard", pagename: "overview" });
+	res.render("overview", { layout: "dashboard", pagename: "overview", userDetails: req.auth.userDetails });
 });
 
 app.get("/dashboard/products", (req, res) => {
 	var allProds = productService
 		.getAllProducts()
 		.then(prods => {
-			res.render("products", { layout: "dashboard", pagename: "products", products: prods });
+			res.render("products", {
+				layout: "dashboard",
+				pagename: "products",
+				products: prods,
+				userDetails: req.auth.userDetails
+			});
 		})
 		.catch(e => {
 			res.json({ error: "unable to get all products" });
 		});
 });
 
-app.get("/dashboard/settings", (req, res) => {});
+app.get("/dashboard/settings", (req, res) => {
+	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
+});
 
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
@@ -135,7 +142,8 @@ app.get("/dashboard/:route", (req, res) => {
 		route,
 		{
 			layout: "dashboard",
-			pagename: route
+			pagename: route,
+			userDetails: req.auth.userDetails
 		},
 		(error, html) => {
 			if (error) {
@@ -242,6 +250,25 @@ app.post("/addProduct", (req, res) => {
 		.catch(err => {
 			res.json({ error: err });
 		});
+});
+
+app.post("/edit-user", (req, res) => {
+	if (req.auth.isLoggedIn) {
+		let passed = req.body;
+		passed._id = req.auth.userDetails._id;
+		userService
+			.edit(passed)
+			.then(result => {
+				req.auth.userDetails.businessName = passed.businessName;
+				req.auth.userDetails.email = passed.email;
+				res.json({ redirectUrl: "/dashboard/settings" });
+			})
+			.catch(err => {
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
 });
 
 // Express MiddleWares
