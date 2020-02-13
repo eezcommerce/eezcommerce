@@ -116,12 +116,14 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.get("/dashboard/products", (req, res) => {
-	var allProds = productService.getAllProducts().then((prods)=>{
-		res.render("products", { layout: "dashboard", pagename: "products", products: prods});
-	}).catch(e => {
-		res.json({error:"unable to get all products"});
-	})
-	
+	var allProds = productService
+		.getAllProducts()
+		.then(prods => {
+			res.render("products", { layout: "dashboard", pagename: "products", products: prods });
+		})
+		.catch(e => {
+			res.json({ error: "unable to get all products" });
+		});
 });
 
 app.get("/dashboard/:route", (req, res) => {
@@ -142,7 +144,6 @@ app.get("/dashboard/:route", (req, res) => {
 		}
 	);
 });
-
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
@@ -230,7 +231,7 @@ app.post("/addProduct", (req, res) => {
 	let prodName = req.body.productName;
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
-	let prodSKU = req.body.productSKU
+	let prodSKU = req.body.productSKU;
 	productService
 		.addProduct(prodSKU, prodName, prodQty, prodPrice)
 		.then(() => {

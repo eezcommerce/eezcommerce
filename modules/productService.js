@@ -42,27 +42,27 @@ const Products = mongoose.model(
 		}
 	})
 );
-function parseResponse(response){
-	var json = JSON.stringify(response)
+function parseResponse(response) {
+	var json = JSON.stringify(response);
 	var parsed = JSON.parse(json);
 	return parsed;
 }
 
 module.exports.getAllProducts = () => {
 	return new Promise((resolve, reject) => {
-	Products.find({}, (err,prods)=>{
-		var parsedProds = parseResponse(prods);
-		if(!err){
-			resolve(parsedProds);
-		}else{
-			console.log("error:" + err);
-			reject(err);
-		}
-	})
+		Products.find({}, (err, prods) => {
+			var parsedProds = parseResponse(prods);
+			if (!err) {
+				resolve(parsedProds);
+			} else {
+				console.log("error:" + err);
+				reject(err);
+			}
+		});
 	});
 };
 
-module.exports.addProduct = (prodSku,prodName, prodQty, prodPrice) => {
+module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice) => {
 	return new Promise((resolve, reject) => {
 		var prod1 = new Products({ SKU: prodSku, name: prodName, quantity: prodQty, price: prodPrice, purchased: 0 });
 
