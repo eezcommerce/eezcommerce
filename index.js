@@ -126,7 +126,9 @@ app.get("/dashboard/products", (req, res) => {
 		});
 });
 
-app.get("/dashboard/settings", (req, res) => {});
+app.get("/dashboard/settings", (req, res) => {
+	res.render("settings", {layout: "dashboard", pagename: "settings"})
+});
 
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
