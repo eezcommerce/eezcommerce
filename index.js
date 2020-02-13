@@ -126,6 +126,8 @@ app.get("/dashboard/products", (req, res) => {
 		});
 });
 
+app.get("/dashboard/settings", (req, res) => {});
+
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
 
@@ -235,7 +237,7 @@ app.post("/addProduct", (req, res) => {
 	productService
 		.addProduct(prodSKU, prodName, prodQty, prodPrice)
 		.then(() => {
-			res.json({ error: false, redirectUrl: "/products" });
+			res.json({ error: false, redirectUrl: "/dashboard/products" });
 		})
 		.catch(err => {
 			res.json({ error: err });

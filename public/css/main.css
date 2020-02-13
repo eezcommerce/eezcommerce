@@ -103,6 +103,10 @@ h1 {
 	position: fixed;
 }
 
+.dynamic {
+	overflow-y: scroll;
+}
+
 .sidebar {
 	display: flex;
 	height: 100%;
