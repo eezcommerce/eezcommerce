@@ -107,6 +107,10 @@ h1 {
 	overflow-y: scroll;
 }
 
+.dynamic h1{
+	text-decoration: underline var(--primary) 5px;
+}
+
 .sidebar {
 	display: flex;
 	height: 100%;
@@ -133,8 +137,6 @@ h1 {
 	background: rgba(0, 0, 0, 0.1);
 }
 
-/* Dashboard stuff */
-
 .overview-circles {
 	width: 20vw;
 	height: 20vw;
@@ -159,6 +161,19 @@ h1 {
 
 #dashboard-logout:hover {
 	transform: translateX(5px);
+}
+
+.notification-badge::before{
+	content: "";
+	z-index: 10;
+	margin-top: -8px;
+	margin-left: -5px;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	position: absolute;
+	font-size: 12px;
+	text-align: center;
+	color: var(--danger);
 }
 
 @media only screen and (max-width: 768px) {
