@@ -9,15 +9,15 @@
 <body>
 
 	<div class="dashboardGrid">
-		<div class="sidebar bg-light shadow">
+		<div class="sidebar bg-secondary">
 
 
 
 			<div class="d-flex flex-column align-items-center justify-content-center">
-				<div class="sidebarImg mt-5 mb-2 bg-white">
+				<div class="sidebarImg mt-5 bg-white">
 					<img src="/img/default_profile.jpg" alt="">
 				</div>
-				<p class="text-muted">{{userDetails.businessName}}</p>
+				<p class="text-muted text-center text-break p-2">{{userDetails.businessName}}</p>
 			</div>
 
 
@@ -51,7 +51,7 @@
 				<div></div>
 			</div>
 			<div class="sidebarFooter mb-5">
-				<a class="pr-3" href="/dashboard/settings">
+				<a class="pr-3 {{#unless userDetails.isVerified}}notification-badge{{/unless}}" href="/dashboard/settings">
 					<i id="dashboard-settings" class="fas fa-cog fa-2x text-muted"></i>
 				</a>
 				<a href="/logout">
