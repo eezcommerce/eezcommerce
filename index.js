@@ -170,6 +170,18 @@ app.get("/dashboard/:route", (req, res) => {
 		}
 	);
 });
+app.get("/deleteProduct/:id", (req, res) => {
+	let id = req.params.id;
+	productService
+		.deleteProduct(id)
+		.then(()=>{
+			res.json({error:false, redirectUrl: "/dashboard/products"});
+		})	
+		.catch(err => {
+			res.json({ error: err });
+		});
+	
+});
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
@@ -268,6 +280,8 @@ app.post("/addProduct", (req, res) => {
 			res.json({ error: err });
 		});
 });
+
+
 
 app.post("/edit-user", (req, res) => {
 	if (req.auth.isLoggedIn) {
