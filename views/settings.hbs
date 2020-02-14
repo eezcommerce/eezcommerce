@@ -1,13 +1,13 @@
-<div class="container-fluid">
-	<div class="row mt-4 ml-1">
+<div class="container">
+	<div class="row mt-4">
 		<h1>Hello, {{userDetails.businessName}}</h1>
 	</div>
-	<div class="row mt-5 ml-4">
-		<h2>General</h2>
+	<div class="row mt-3">
+		<h2>General Settings</h2>
 	</div>
 	<div class="row">
 
-		<form action="/edit-user" novalidate class="needs-validation col-md-6 mt-3 ml-lg-5">
+		<form action="/edit-user" novalidate class="needs-validation col-md-12 mt-3">
 			<div class="form-group">
 				<label for="businessName">Business Name:</label>
 
@@ -83,12 +83,12 @@
 		</form>
 	</div>
 
-	<div class="row mt-5 ml-4">
+	<div class="row mt-5">
 		<h2>Change Password</h2>
 	</div>
 
 	<div class="row">
-		<form action="/change-password" novalidate class="needs-validation col-md-6 mt-3 ml-lg-5">
+		<form action="/change-password" novalidate class="needs-validation col-md-12 mt-3">
 			<label for="originalPassword">Current Password:</label>
 			<input 
 				name="originalPassword" 
