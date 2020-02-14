@@ -82,6 +82,7 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	userService
 		.validateToken(token, email)
 		.then(() => {
+			req.auth.userDetails.isVerified = true;
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
@@ -145,6 +146,8 @@ app.get("/getProductDetail/:id", (req, res) => {
 });
 
 app.get("/dashboard/settings", (req, res) => {
+	console.log(req.auth.userDetails);
+
 	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
 });
 

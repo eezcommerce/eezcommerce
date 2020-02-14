@@ -9,46 +9,54 @@
 <body>
 
 	<div class="dashboardGrid">
-		<div class="sidebar bg-light">
+		<div class="sidebar bg-secondary">
 
-			<div class="sidebarImg mt-5 rounded-circle bg-primary">
-				<i id="placeholderIcon" class="fas fa-user fa-5x pt-2 pl-3 text-white text-center"></i>
+
+
+			<div class="d-flex flex-column align-items-center justify-content-center">
+				<div class="sidebarImg mt-5 bg-white">
+					<img src="/img/default_profile.jpg" alt="">
+				</div>
+				<p class="text-muted text-center text-break p-2">{{userDetails.businessName}}</p>
 			</div>
-			<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center">
-				<h4>{{userDetails.businessName}}</h4>
-			</div>
+
+
 			<div class="sidebarMenu">
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "overview" pagename}}">
-					<a href="/dashboard/overview">Overview</a>
+					<a class="text-muted" href="/dashboard/overview">Overview</a>
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "orders" pagename}}">
-					<a href="/dashboard/orders">Orders</a>
+					<a class="text-muted" href="/dashboard/orders">Orders</a>
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "categories" pagename}}">
-					<a href="/dashboard/categories">
+					<a class="text-muted" href="/dashboard/categories">
 						Categories
 					</a>
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "products" pagename}}">
-					<a href="/dashboard/products">
+					<a class="text-muted" href="/dashboard/products">
 						Products
 					</a>
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "customize" pagename}}">
-					<a href="/dashboard/customize">
+					<a class="text-muted" href="/dashboard/customize">
 						Customize
 					</a>
 				</div>
 				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "report" pagename}}">
-					<a href="/dashboard/report">
+					<a class="text-muted" href="/dashboard/report">
 						Report
 					</a>
 				</div>
 				<div></div>
 			</div>
 			<div class="sidebarFooter mb-5">
-				<a href="/dashboard/settings"><span><i class="fas fa-cog fa-2x pr-3"></i></span></a>
-				<a href="/logout"><span><i class="fas fa-sign-out-alt fa-2x"></i></span></a>
+				<a class="pr-3 {{#unless userDetails.isVerified}}notification-badge{{/unless}}" href="/dashboard/settings">
+					<i id="dashboard-settings" class="fas fa-cog fa-2x text-muted"></i>
+				</a>
+				<a href="/logout">
+					<i id="dashboard-logout" class="fas fa-sign-out-alt fa-2x text-muted"></i>
+				</a>
 			</div>
 
 		</div>

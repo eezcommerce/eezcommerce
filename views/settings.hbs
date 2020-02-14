@@ -1,13 +1,13 @@
-<div class="container-fluid">
-	<div class="row mt-4 ml-1">
+<div class="container">
+	<div class="row mt-4">
 		<h1>Hello, {{userDetails.businessName}}</h1>
 	</div>
-	<div class="row mt-5 ml-4">
-		<h2>General</h2>
+	<div class="row mt-3">
+		<h2>General Settings</h2>
 	</div>
 	<div class="row">
 
-		<form action="/edit-user" novalidate class="needs-validation col-md-6 mt-3 ml-lg-5">
+		<form action="/edit-user" novalidate class="needs-validation col-md-12 mt-3">
 			<div class="form-group">
 				<label for="businessName">Business Name:</label>
 
@@ -21,6 +21,16 @@
 				</label>
 				<input name="email" type="email" minlength="3" maxlength="256" required class="form-control"
 					value="{{userDetails.email}}">
+
+				{{#if userDetails.isVerified}}
+				{{else}}
+				<span class="text-danger">
+					Your email has not been verified.
+					<a class="text-danger" href="#">
+						<u>Request</u>
+					</a> a new verification?
+				</span>
+				{{/if}}
 			</div>
 
 			<div class="form-group">
@@ -36,15 +46,8 @@
 						What elementary school did you got to?
 					</option>
 
-					<input 
-						class="form-control mt-2 mb-4" 
-						placeholder="Answer" 
-						name="answerOne" 
-						type="text" 
-						required
-						minlength="4" 
-						autocomplete="off"
-					>
+					<input class="form-control mt-2 mb-4" placeholder="Answer" name="answerOne" type="text" required
+						minlength="4" autocomplete="off">
 				</select>
 
 				<label for="questionTwo">Question 2:</label>
@@ -59,15 +62,8 @@
 						What elementary school did you got to?
 					</option>
 
-					<input 
-						class="form-control mt-2" 
-						placeholder="Answer" 
-						name="answerTwo" 
-						type="text" 
-						required
-						minlength="4" 
-						autocomplete="off"
-					>
+					<input class="form-control mt-2" placeholder="Answer" name="answerTwo" type="text" required
+						minlength="4" autocomplete="off">
 				</select>
 
 
@@ -83,41 +79,27 @@
 		</form>
 	</div>
 
-	<div class="row mt-5 ml-4">
+	<div class="row mt-5">
 		<h2>Change Password</h2>
 	</div>
 
 	<div class="row">
-		<form action="/change-password" novalidate class="needs-validation col-md-6 mt-3 ml-lg-5">
+		<form action="/change-password" novalidate class="needs-validation col-md-12 mt-3">
 			<label for="originalPassword">Current Password:</label>
-			<input 
-				name="originalPassword" 
-				class="form-control mb-4" 
-				type="password" 
-				required
-				autocomplete="new-password"
-			>
+			<input name="originalPassword" class="form-control mb-4" type="password" required
+				autocomplete="new-password">
 
 			<label for="newPassword">New Password:</label>
-			<input 
-				name="newPassword" 
-				class="confirmablePassword form-control mb-4" 
-				type="password" 
-				autocomplete="new-password"
-				required
-			>
+			<input name="newPassword" class="confirmablePassword form-control mb-4" type="password"
+				autocomplete="new-password" required>
 
 			<label for="newConfirmPassword">Confirm New Password:</label>
-			<input 
-				name="newConfirmPassword"
-				class="form-control confirmablePasswordDestination checkPatternWhenTyping mb-4" 
-				type="password"
-				autocomplete="new-password"
-				required
-			>
+			<input name="newConfirmPassword"
+				class="form-control confirmablePasswordDestination checkPatternWhenTyping mb-4" type="password"
+				autocomplete="new-password" required>
 
 			<button class="btn btn-primary rounded-pill float-right mt-5 mb-2" type="submit">
-				Save Security Settings
+				Change Password
 			</button>
 		</form>
 	</div>
