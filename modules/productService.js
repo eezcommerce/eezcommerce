@@ -80,9 +80,16 @@ module.exports.getProductById = id => {
 		});
 	});
 };
-module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice,prodDesc) => {
+module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice, prodDesc) => {
 	return new Promise((resolve, reject) => {
-		var prod1 = new Products({ SKU: prodSku, name: prodName, quantity: prodQty, price: prodPrice, purchased: 0,description: prodDesc });
+		var prod1 = new Products({
+			SKU: prodSku,
+			name: prodName,
+			quantity: prodQty,
+			price: prodPrice,
+			purchased: 0,
+			description: prodDesc
+		});
 
 		prod1.save(function(err, product) {
 			if (err) {
@@ -101,16 +108,12 @@ module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice,prodDesc) => 
  */
 module.exports.editProduct = passed => {
 	return new Promise((resolve, reject) => {
-		Products.updateOne(
-			{ _id: passed._id },
-			{ name: passed.name, price: passed.price },
-			(err, result) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(result);
-				}
+		Products.updateOne({ _id: passed._id }, { name: passed.name, price: passed.price }, (err, result) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(result);
 			}
-		);
+		});
 	});
 };

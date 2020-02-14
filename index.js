@@ -257,7 +257,7 @@ app.post("/addProduct", (req, res) => {
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
 	productService
-		.addProduct(prodSKU, prodName, prodQty, prodPrice,prodDesc)
+		.addProduct(prodSKU, prodName, prodQty, prodPrice, prodDesc)
 		.then(() => {
 			res.json({ error: false, redirectUrl: "/dashboard/products" });
 		})
