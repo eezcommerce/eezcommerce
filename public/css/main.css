@@ -107,7 +107,7 @@ h1 {
 	overflow-y: scroll;
 }
 
-.dynamic h1{
+.dynamic h1 {
 	text-decoration: underline var(--primary) 5px;
 }
 
@@ -163,7 +163,7 @@ h1 {
 	transform: translateX(5px);
 }
 
-.notification-badge::before{
+.notification-badge::before {
 	content: "";
 	z-index: 10;
 	margin-top: -8px;
