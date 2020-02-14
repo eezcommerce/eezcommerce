@@ -139,6 +139,22 @@ h1 {
 	text-align: center;
 }
 
+.sidebarFooter a:hover{
+	text-decoration: none !important;
+}
+
+#dashboard-settings, #dashboard-logout{
+	transition: all 0.3s ease;
+}
+
+#dashboard-settings:hover{
+	transform: rotate(180deg);
+}
+
+#dashboard-logout:hover{
+	transform: translateX(5px);
+}
+
 @media only screen and (max-width: 768px) {
 	.bigIcon {
 		font-size: 50vw;
