@@ -3,13 +3,11 @@
 			<div class="row m-0">
 				<div class="pb-2 mt-4 mb-2 col-md-4">
 					<!--header-->
-					<h1><strong>Products</strong></h1>
+					<h1><strong id="title"></strong></h1>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
+				<div class="offset-8 col-md-4">
 					<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
 							data-target="#addProductModal">
 						Add Product
@@ -37,7 +35,7 @@
 								</thead>
 								<tbody>
 									{{#each products}}
-									<tr data-toggle="modal" data-id="1" data-target="#orderModal">
+									<tr class="productRow" data-toggle="modal" data-pineapple='{{_id}}' data-target="#productDetail">
 										<th scope="row">{{SKU}}</th>
 										<td>{{name}}</td>
 										<td>{{quantity}}</td>
@@ -45,20 +43,7 @@
 										<td>{{purchased}}</td>
 									</tr>
 									{{/each}}
-									{{!-- <tr data-toggle="modal" data-id="1" data-target="#orderModal">
-										<th scope="row">0000</th>
-										<td>Painting</td>
-										<td>3</td>
-										<td>$30.00</td>
-										<td>11</td>
-									</tr>
-									<tr data-toggle="modal" data-id="2" data-target="#orderModal">
-										<th scope="row">0001</th>
-										<td>Shovel</td>
-										<td>1</td>
-										<td>$20.00</td>
-										<td>4</td>
-									</tr> --}}
+
 								</tbody>
 							</div>
 						</table>
@@ -70,3 +55,22 @@
 	</div>
 	<!--row-->
 </div>
+
+<script>
+
+$(".productRow").click((e)=>{
+	id = $(e.currentTarget).data("pineapple");
+
+	$.get("/getProductDetail/"+ id, (data)=>{
+		console.log(data);
+
+		$('#productDetail').find('#title').html(data.product.name);
+		$('#productDetail').find('#skuDetail').html(data.product.SKU);
+		$('#productDetail').find('#qtyDetail').html(data.product.quantity);
+		$('#productDetail').find('#priceDetail').html(data.product.price);
+		$('#productDetail').find('#soldDetail').html(data.product.purchased);
+	})
+})
+
+
+</script>

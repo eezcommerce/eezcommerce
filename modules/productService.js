@@ -62,6 +62,19 @@ module.exports.getAllProducts = () => {
 	});
 };
 
+module.exports.getProductById = id => {
+	return new Promise((resolve, reject) => {
+		Products.findOne({ _id: id }, (err, prod) => {
+			var parsedProd = parseResponse(prod);
+			if (!err) {
+				resolve(parsedProd);
+			} else {
+				console.log("error:" + err);
+				reject(err);
+			}
+		});
+	});
+};
 module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice) => {
 	return new Promise((resolve, reject) => {
 		var prod1 = new Products({ SKU: prodSku, name: prodName, quantity: prodQty, price: prodPrice, purchased: 0 });
