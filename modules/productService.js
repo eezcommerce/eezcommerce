@@ -101,6 +101,20 @@ module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice, prodDesc) =>
 		});
 	});
 };
+/**
+ * @param {String} id the id to delete
+ */
+module.exports.deleteProduct = id => {
+	return new Promise((resolve, reject) => {
+		Products.deleteOne({ _id: id }, (err, deleteResult) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(deleteResult);
+			}
+		});
+	});
+};
 
 /**
  * @returns {Object} updated product
