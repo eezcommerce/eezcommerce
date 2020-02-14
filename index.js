@@ -252,11 +252,12 @@ app.post("/login", (req, res) => {
 
 app.post("/addProduct", (req, res) => {
 	let prodName = req.body.productName;
+	let prodDesc = req.body.productDesc;
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
 	productService
-		.addProduct(prodSKU, prodName, prodQty, prodPrice)
+		.addProduct(prodSKU, prodName, prodQty, prodPrice,prodDesc)
 		.then(() => {
 			res.json({ error: false, redirectUrl: "/dashboard/products" });
 		})

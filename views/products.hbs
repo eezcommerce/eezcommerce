@@ -66,6 +66,7 @@ $(".productRow").click((e)=>{
 
 		$('#productDetail').find('#title').html(data.product.name);
 		$('#productDetail').find('#skuDetail').html(data.product.SKU);
+		$('#productDetail').find('#descDetail').html(data.product.description);
 		$('#productDetail').find('#qtyDetail').html(data.product.quantity);
 		$('#productDetail').find('#priceDetail').html(data.product.price);
 		$('#productDetail').find('#soldDetail').html(data.product.purchased);
