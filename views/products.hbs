@@ -31,16 +31,27 @@
 										<th>Inventory</th>
 										<th>Price</th>
 										<th># of Purchases</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
 									{{#each products}}
-									<tr class="productRow" data-toggle="modal" data-pineapple='{{_id}}' data-target="#productDetail">
+									<tr class="productRow" data-toggle="modal" data-id='{{_id}}' data-target="#productDetail" aria-hidden="true">
 										<th scope="row">{{SKU}}</th>
 										<td>{{name}}</td>
 										<td>{{quantity}}</td>
 										<td>{{price}}</td>
 										<td>{{purchased}}</td>
+										<td> <button 
+										type="button"  
+										id="deleteButton" 
+										class="btn btn-danger" 
+										data-toggle="modal" 
+										onclick="deleteRow('{{_id}}')">
+										<i class="fas fa-trash"></i>
+										</button>
+											</td>
+										
 									</tr>
 									{{/each}}
 
@@ -58,9 +69,22 @@
 </div>
 
 <script>
+	function deleteRow(rowId){
+		$('.productRow').attr('data-target','#cancelOrderModal');
 
+		$(this).on("hide.bs.modal", function() {
+		$('.productRow').attr('data-target','#productDetail');
+		});
+
+		$.get("/deleteProduct/" + rowId, (data)=>{
+			console.log("request complete" + data.success);
+		});
+
+	//$('#cancelOrderModal').modal('show');
+	}
 $(".productRow").click((e)=>{
-	id = $(e.currentTarget).data("pineapple");
+
+	id = $(e.currentTarget).data("id");
 
 	$.get("/getProductDetail/"+ id, (data)=>{
 		console.log(data);
@@ -68,9 +92,9 @@ $(".productRow").click((e)=>{
 		$('#productDetail').find('#title').html(data.product.name);
 		$('#productDetail').find('#skuDetail').html(data.product.SKU);
 		$('#productDetail').find('#descDetail').html(data.product.description);
-		$('#productDetail').find('#qtyDetail').html(data.product.quantity);
-		$('#productDetail').find('#priceDetail').html(data.product.price);
-		$('#productDetail').find('#soldDetail').html(data.product.purchased);
+		$('#productDetail').find('#qtyDetail').val(data.product.quantity);
+		$('#productDetail').find('#priceDetail').val(data.product.price);
+		$('#productDetail').find('#soldDetail').val(data.product.purchased);
 	})
 })
 

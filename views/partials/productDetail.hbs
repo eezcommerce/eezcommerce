@@ -20,25 +20,31 @@
 											</div>
 										</div>
 										</div>
+
+										<form>
+  <div class="form-group">
+    <label for="descDetail">Description</label>
+    <textarea class="form-control" id="descDetail" style="resize:none" rows="3"></textarea>
+  </div>
+
+		<div class="row">
+    <div class="col">
+		<label for="qtyDetail">Quantity</label>
+      <input type="number" id="qtyDetail" class="form-control" placeholder="Quantity">
+    </div>
+    <div class="col">
+		<label for="priceDetail">Price</label>
+      <input type="number" id="priceDetail" class="form-control" placeholder="Price">
+    </div>
+	 <div class="col">
+		 <label for="soldDetail">Items Sold</label>
+      <input type="number" id="soldDetail" class="form-control" placeholder="Items Sold">
+    </div>
+  </div>
+
+</form>
 										
-	
-									<div class="row">
-										<div class="col-md-12">
-											<strong>Description</strong><br/>
-											<p id="descDetail"></p>
-											</div>
-											</div>
-										<div class="row">
-
-										<ul class="list-group col-md-12 pl-2">
-  <li class="list-group-item">Quantity in Stock: <span id="qtyDetail"></span></li>
-  <li class="list-group-item">Price per Unit: <span id="priceDetail"></span></li>
-  <li class="list-group-item">Total Sold: <span id="soldDetail"></span></li>
- 
-</ul>
-									</div>
-
-										<div class="text-right panel-body mt-5">
+										<div class="text-right panel-body mt-3">
 											<button type="button" class="btn btn-danger badge-pill btn-circle-xl m-1"
 												data-toggle="modal" data-target="#cancelOrderModal">
 												<i class="fa fa-trash"></i>
@@ -47,14 +53,11 @@
 												<i class="fa fa-check"></i>
 											</button>
 										</div>
-									</div>
 		
-							</div>
 							<!--container-->
 						</div>
 						<div class="panel-body mb-2 mr-2">
 					
 						</div>
-				
-				</div>
+		
 			</div>
