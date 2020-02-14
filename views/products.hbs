@@ -1,51 +1,49 @@
+<div class="container">
+	<div class="row m-0">
+		<div class="pb-2 mt-4 mb-2 col-md-4">
+			<!--header-->
+			<h1><strong>Products</strong></h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
+				data-target="#addProductModal">
+				Add Product
+			</button>
+			<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal" data-target="#addSaleModal">
+				Sales
+			</button>
+		</div>
+	</div>
 
-		<div class="container-fluid">
-			<div class="row m-0">
-				<div class="pb-2 mt-4 mb-2 col-md-4">
-					<!--header-->
-					<h1><strong>Products</strong></h1>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-4"></div>
-				<div class="col-md-4">
-					<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
-							data-target="#addProductModal">
-						Add Product
-					</button>
-					<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal"
-							data-target="#addSaleModal">
-						Sales
-					</button>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<div class="table" id="order-data">
-						<table class="table table-striped table-hover">
-							<div class="table responsive">
-								<thead>
-									<tr>
-										<th>SKU</th>
-										<th>Product Name</th>
-										<th>Inventory</th>
-										<th>Price</th>
-										<th># of Purchases</th>
-									</tr>
-								</thead>
-								<tbody>
-									{{#each products}}
-									<tr data-toggle="modal" data-id="1" data-target="#orderModal">
-										<th scope="row">{{SKU}}</th>
-										<td>{{name}}</td>
-										<td>{{quantity}}</td>
-										<td>{{price}}</td>
-										<td>{{purchased}}</td>
-									</tr>
-									{{/each}}
-									{{!-- <tr data-toggle="modal" data-id="1" data-target="#orderModal">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="table" id="order-data">
+				<table class="table table-striped table-hover">
+					<div class="table responsive">
+						<thead>
+							<tr>
+								<th>SKU</th>
+								<th>Product Name</th>
+								<th>Inventory</th>
+								<th>Price</th>
+								<th># of Purchases</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{#each products}}
+							<tr data-toggle="modal" data-id="1" data-target="#orderModal">
+								<th scope="row">{{SKU}}</th>
+								<td>{{name}}</td>
+								<td>{{quantity}}</td>
+								<td>{{price}}</td>
+								<td>{{purchased}}</td>
+							</tr>
+							{{/each}}
+							{{!-- <tr data-toggle="modal" data-id="1" data-target="#orderModal">
 										<th scope="row">0000</th>
 										<td>Painting</td>
 										<td>3</td>
@@ -59,14 +57,14 @@
 										<td>$20.00</td>
 										<td>4</td>
 									</tr> --}}
-								</tbody>
-							</div>
-						</table>
+						</tbody>
 					</div>
 				</table>
 			</div>
-			<!--table-->
+			</table>
 		</div>
+		<!--table-->
 	</div>
-	<!--row-->
+</div>
+<!--row-->
 </div>
