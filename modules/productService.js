@@ -54,6 +54,7 @@ module.exports.getAllProducts = () => {
 			var parsedProds = parseResponse(prods);
 			if (!err) {
 				resolve(parsedProds);
+				console.log(parsedProds);
 			} else {
 				console.log("error:" + err);
 				reject(err);

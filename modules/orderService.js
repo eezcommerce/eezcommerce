@@ -12,33 +12,49 @@ async function doConnect() {
 
 doConnect();
 
+function parseResponse(response) {
+	var json = JSON.stringify(response);
+	var parsed = JSON.parse(json);
+	return parsed;
+}
+
 const Orders = mongoose.model(
 	"Orders",
 	new mongoose.Schema({
-		customerName: {
-			type: String,
-			maxlength: 256,
-			minlength: 4,
-			required: true,
-			unique: true
-		},
-		password: {
-			type: String,
-			minlength: 8
-		},
-		token: {
-			type: String,
-			default: ""
-		},
-		isVerified: {
-			type: Boolean,
-			required: true,
-			default: false
-		},
-		isActive: {
-			type: Boolean,
-			required: true,
-			default: false
-		}
+			SellerID: { type: String },
+			destAddress: { type: String },
+			CC: { type: Number},
+			status: {type: String},
+			total: { type: String },
 	})
 );
+
+module.exports.getAllOrders = () => {
+	return new Promise((resolve, reject) => {
+		Orders.find({}, (err, ords) => {
+			if (!err) {
+				resolve(ords);
+				console.log(ords);
+			} else {
+				console.log("error:" + err);
+				reject(err);
+			}
+		});
+	});
+};
+
+
+module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
+	return new Promise((resolve, reject) => {
+		var Order1 = new Orders({ SellerID: newSID, destAddress: newAdd, CC: newCC, status: newStatus, total: newTotal });
+		console.log("Added " + Order1);
+		Order1.save(function(err, Order) {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(Order);
+				console.log(Order.destAddress + " saved to orders collection.");
+			}
+		});
+	});
+};

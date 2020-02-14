@@ -13,7 +13,7 @@ var Handlebars = require("handlebars");
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 const productService = require("./modules/productService.js");
-
+const orderService = require("./modules/orderService.js");
 const hbHelpers = require("./modules/hbHelpers.js");
 
 // express middlewares & setup
@@ -82,7 +82,6 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	userService
 		.validateToken(token, email)
 		.then(() => {
-			req.auth.userDetails.isVerified = true;
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
@@ -113,30 +112,33 @@ app.get("/email-verification-sent", (req, res) => {
 // Dashboard routes
 
 app.get("/dashboard", (req, res) => {
-	res.render("overview", { layout: "dashboard", pagename: "overview", userDetails: req.auth.userDetails });
+	res.render("overview", { layout: "dashboard", pagename: "overview" });
 });
 
 app.get("/dashboard/products", (req, res) => {
 	var allProds = productService
 		.getAllProducts()
 		.then(prods => {
-			res.render("products", {
-				layout: "dashboard",
-				pagename: "products",
-				products: prods,
-				userDetails: req.auth.userDetails
-			});
+			res.render("products", { layout: "dashboard", pagename: "products", products: prods });
 		})
 		.catch(e => {
 			res.json({ error: "unable to get all products" });
 		});
 });
 
-app.get("/dashboard/settings", (req, res) => {
-	console.log(req.auth.userDetails);
-
-	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
+app.get("/dashboard/orders", (req, res) => {
+	console.log("Order Page");
+	var allorders = orderService
+		.getAllOrders()
+		.then(prods => {
+			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods });
+		})
+		.catch(e => {
+			res.json({ error: "unable to get all orders" });
+		});
 });
+
+app.get("/dashboard/settings", (req, res) => {});
 
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
@@ -145,8 +147,7 @@ app.get("/dashboard/:route", (req, res) => {
 		route,
 		{
 			layout: "dashboard",
-			pagename: route,
-			userDetails: req.auth.userDetails
+			pagename: route
 		},
 		(error, html) => {
 			if (error) {
@@ -255,23 +256,21 @@ app.post("/addProduct", (req, res) => {
 		});
 });
 
-app.post("/edit-user", (req, res) => {
-	if (req.auth.isLoggedIn) {
-		let passed = req.body;
-		passed._id = req.auth.userDetails._id;
-		userService
-			.edit(passed)
-			.then(result => {
-				req.auth.userDetails.businessName = passed.businessName;
-				req.auth.userDetails.email = passed.email;
-				res.json({ redirectUrl: "/dashboard/settings" });
-			})
-			.catch(err => {
-				res.json({ error: err });
-			});
-	} else {
-		res.json({ error: "Unauthorized. Please log in." });
-	}
+//Add token ID at LATER DATE
+app.post("/addOrder", (req, res) => {
+	//let newSID = ;
+	let newAdd = req.body.Address;
+	let newCC = req.body.CreditC;
+	let newStatus = req.body.oStatus;
+	let newTotal = req.body.oTotal;
+	orderService
+		.addOrder("0001", newAdd, newCC, newStatus, newTotal)
+		.then(() => {
+			res.json({ error: false, redirectUrl: "/dashboard/orders" });
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
 });
 
 // Express MiddleWares

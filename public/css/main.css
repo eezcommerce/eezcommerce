@@ -107,10 +107,6 @@ h1 {
 	overflow-y: scroll;
 }
 
-.dynamic h1 {
-	text-decoration: underline var(--primary) 5px;
-}
-
 .sidebar {
 	display: flex;
 	height: 100%;
@@ -126,16 +122,13 @@ h1 {
 .sidebarImg {
 	width: 100px;
 	height: 100px;
-	clip-path: circle(50px at center) !important;
-}
-.sidebarImg img {
-	width: 100px;
-	height: 100px;
 }
 
 .sidebarMenuItem.active {
 	background: rgba(0, 0, 0, 0.1);
 }
+
+/* Dashboard stuff */
 
 .overview-circles {
 	width: 20vw;
@@ -144,36 +137,6 @@ h1 {
 	font-weight: 1000 !important;
 	font-size: 2vw;
 	text-align: center;
-}
-
-.sidebarFooter a:hover {
-	text-decoration: none !important;
-}
-
-#dashboard-settings,
-#dashboard-logout {
-	transition: all 0.3s ease;
-}
-
-#dashboard-settings:hover {
-	transform: rotate(180deg);
-}
-
-#dashboard-logout:hover {
-	transform: translateX(5px);
-}
-
-.notification-badge::before {
-	content: "";
-	z-index: 10;
-	margin-top: -8px;
-	margin-left: -5px;
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	position: absolute;
-	font-size: 12px;
-	text-align: center;
-	color: var(--danger);
 }
 
 @media only screen and (max-width: 768px) {

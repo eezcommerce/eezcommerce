@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
+var ObjectId = require("mongodb").ObjectId;
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -38,13 +39,6 @@ const UserModel = mongoose.model(
 			type: Boolean,
 			required: true,
 			default: false
-		},
-		businessName: {
-			type: String,
-			minlength: 2,
-			maxlength: 64,
-			required: true,
-			default: "eEz Commerce Business"
 		}
 	})
 );
@@ -101,7 +95,6 @@ module.exports.authenticate = (email, password) => {
 				bcrypt.compare(password, user.password, (err, result) => {
 					if (!err && result) {
 						user.password = undefined;
-						user.token = undefined;
 						resolve(user);
 					} else {
 						reject(err || "Username or password incorrect.");
@@ -162,26 +155,6 @@ module.exports.setToken = (token, inputEmail) => {
 		} catch (err) {
 			reject(err);
 		}
-	});
-};
-
-/**
- * @returns {Object} updated user
- * @param {Object} updated user object
- */
-module.exports.edit = passed => {
-	return new Promise((resolve, reject) => {
-		UserModel.updateOne(
-			{ _id: passed._id },
-			{ businessName: passed.businessName, email: passed.email },
-			(err, result) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(result);
-				}
-			}
-		);
 	});
 };
 
