@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
+var fs = require("fs");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -45,14 +46,6 @@ const UserModel = mongoose.model(
 			maxlength: 64,
 			required: true,
 			default: "eEz Commerce Business"
-		},
-		primaryColor: {
-			type: String,
-			default: "#000000"
-		},
-		secondaryColor: {
-			type: String,
-			default: "#000000"
 		}
 	})
 );
@@ -72,6 +65,12 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
 				userObj
 					.save()
 					.then(result => {
+						try {
+							fs.mkdirSync("public/siteData/" + result._id + "/img", { recursive: true });
+						} catch (err) {
+							reject("Error creating user directory. Please retry.");
+						}
+
 						resolve(result);
 					})
 					.catch(err => {
@@ -194,26 +193,6 @@ module.exports.edit = passed => {
 };
 
 /**
- * @returns {Object} updated user
- * @param {Object} updated user object
- */
-module.exports.customize = passed => {
-	return new Promise((resolve, reject) => {
-		UserModel.updateOne(
-			{ _id: passed._id },
-			{ primaryColor: passed.primaryColor, secondaryColor: passed.secondaryColor },
-			(err, result) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(result);
-				}
-			}
-		);
-	});
-};
-
-/**
  * @returns {Object} a user object
  * @param {String} token token to validate
  * @param {String} inputEmail email to validate
@@ -247,7 +226,7 @@ module.exports.validateToken = (token, inputEmail) => {
  */
 module.exports.getWebsiteDataById = id => {
 	return new Promise((resolve, reject) => {
-		UserModel.findById(id, "businessName primaryColor secondaryColor", { lean: true }, (err, site) => {
+		UserModel.findById(id, "businessName", { lean: true }, (err, site) => {
 			if (err) {
 				reject(err);
 			} else {

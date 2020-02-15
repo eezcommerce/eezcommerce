@@ -7,6 +7,7 @@ var sessions = require("client-sessions");
 var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
+var sass = require("sass");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
@@ -132,8 +133,6 @@ app.get("/dashboard/products", (req, res) => {
 });
 
 app.get("/dashboard/settings", (req, res) => {
-	console.log(req.auth.userDetails);
-
 	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
 });
 
@@ -165,20 +164,6 @@ app.get("/logout", (req, res) => {
 
 // Website routes keyword: k.web k.site
 
-app.get("/sites/:id/store", (req, res) => {
-	let id = req.params.id;
-	userService
-		.getWebsiteDataById(id)
-		.then(site => {
-			site.customMessage = "hello";
-			site.baseUrl = "/sites/" + site._id;
-			res.render("siteViews/store", { layout: false, siteData: site, name: site.businessName });
-		})
-		.catch(err => {
-			res.redirect("/404");
-		});
-});
-
 app.get("/sites/:id", (req, res) => {
 	let id = req.params.id;
 	userService
@@ -186,7 +171,7 @@ app.get("/sites/:id", (req, res) => {
 		.then(site => {
 			site.customMessage = "hello";
 			site.baseUrl = "/sites/" + site._id;
-			res.render("siteViews/home", { layout: false, siteData: site, name: site.businessName });
+			res.render("siteViews/home", { layout: false, siteData: site });
 		})
 		.catch(err => {
 			res.redirect("/404");
@@ -218,6 +203,9 @@ app.post("/signup", (req, res) => {
 				});
 		})
 		.catch(error => {
+			userService.delete(req.body.email).catch(err => {
+				console.log(err);
+			});
 			switch (error.code) {
 				case 11000:
 					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
@@ -307,14 +295,26 @@ app.post("/customize", (req, res) => {
 	if (req.auth.isLoggedIn) {
 		let passed = req.body;
 		passed._id = req.auth.userDetails._id;
-		userService
-			.customize(passed)
-			.then(result => {
-				res.json({ redirectUrl: "/dashboard/customize" });
-			})
-			.catch(err => {
-				res.json({ error: err });
-			});
+		let customSass = sass.renderSync({
+			data: `
+				$theme-colors: (
+					"primary": ${req.body.primaryColor}
+				);
+
+				body{
+					background: red;
+				}
+
+				@import "node_modules/bootstrap/scss/bootstrap";
+			`
+		});
+
+		try {
+			fs.writeFileSync(__dirname + "/public/siteData/" + req.auth.userDetails._id + "/theme.css", customSass.css);
+			res.json({ redirectUrl: "/dashboard/customize" });
+		} catch (err) {
+			res.json({ error: err });
+		}
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}
