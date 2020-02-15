@@ -132,7 +132,6 @@ app.get("/dashboard/products", (req, res) => {
 		});
 });
 
-
 app.get("/getProductDetail/:id", (req, res) => {
 	var id = req.params.id;
 	var allProds = productService
@@ -142,18 +141,22 @@ app.get("/getProductDetail/:id", (req, res) => {
 		})
 		.catch(e => {
 			res.json({ error: "Unable to get product" });
-    });
-  });
+		});
+});
 
 app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
 		.getAllOrders(req.auth.userDetails._id)
 		.then(prods => {
-			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods, userDetails: req.auth.userDetails});
+			res.render("orders", {
+				layout: "dashboard",
+				pagename: "orders",
+				orders: prods,
+				userDetails: req.auth.userDetails
+			});
 		})
 		.catch(e => {
 			res.json({ error: "unable to get all orders" });
-
 		});
 });
 
