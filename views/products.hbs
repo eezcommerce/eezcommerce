@@ -70,15 +70,20 @@
 
 <script>
 	function deleteRow(rowId){
+		var deleteIt = confirm("Are you sure you want to delete this product?");
+		if(deleteIt){
+	$.get("/deleteProduct/" + rowId, (data)=>{
+
 		$('.productRow').attr('data-target','#cancelOrderModal');
-
-		$(this).on("hide.bs.modal", function() {
-		$('.productRow').attr('data-target','#productDetail');
-		});
-
-		$.get("/deleteProduct/" + rowId, (data)=>{
 			console.log("request complete" + data.success);
 		});
+		}else{
+		}	
+		$(this).on("hide.bs.modal", function() {
+		$('.productRow').attr('data-target','#productDetail');
+		});	
+
+		
 
 	//$('#cancelOrderModal').modal('show');
 	}
