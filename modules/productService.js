@@ -1,6 +1,5 @@
 var mongoose = require("mongoose");
-var bcrypt = require("bcryptjs");
-var ObjectId = require("mongodb").ObjectId;
+const Products = require("./Models/ProductModel");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -12,36 +11,6 @@ async function doConnect() {
 
 doConnect();
 
-const Products = mongoose.model(
-	"Products",
-	new mongoose.Schema({
-		SKU: {
-			type: String,
-			maxlength: 4,
-			minlength: 1,
-			required: true,
-			unique: true
-		},
-		name: {
-			type: String,
-			minlength: 2
-		},
-		quantity: {
-			type: Number,
-			default: 0
-		},
-		price: {
-			type: Number,
-			required: true,
-			default: false
-		},
-		purchased: {
-			type: Number,
-			required: true,
-			default: 0
-		}
-	})
-);
 function parseResponse(response) {
 	var json = JSON.stringify(response);
 	var parsed = JSON.parse(json);

@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
 var fs = require("fs");
+const UserModel = require("./Models/UserModel");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -11,44 +12,6 @@ async function doConnect() {
 }
 
 doConnect();
-
-const UserModel = mongoose.model(
-	"user",
-	new mongoose.Schema({
-		email: {
-			type: String,
-			maxlength: 256,
-			minlength: 4,
-			required: true,
-			unique: true
-		},
-		password: {
-			type: String,
-			minlength: 8
-		},
-		token: {
-			type: String,
-			default: ""
-		},
-		isVerified: {
-			type: Boolean,
-			required: true,
-			default: false
-		},
-		isActive: {
-			type: Boolean,
-			required: true,
-			default: false
-		},
-		businessName: {
-			type: String,
-			minlength: 2,
-			maxlength: 64,
-			required: true,
-			default: "eEz Commerce Business"
-		}
-	})
-);
 
 /**
  * @param {object} passed email & password
