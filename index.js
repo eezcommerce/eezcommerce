@@ -163,31 +163,35 @@ app.get("/logout", (req, res) => {
 	res.render("loggedOut", { layout: "NavBar" });
 });
 
-
 // Website routes keyword: k.web k.site
 
 app.get("/sites/:id/store", (req, res) => {
-	let id = req.params.id
-	userService.getWebsiteDataById(id).then((site) => {
-		site.customMessage = "hello"
-		site.baseUrl = "/sites/" + site._id;
-		res.render("siteViews/store", { layout: false, siteData: site, name: site.businessName })
-	}).catch((err) => {
-		res.redirect("/404")
-	})
-})
+	let id = req.params.id;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			site.customMessage = "hello";
+			site.baseUrl = "/sites/" + site._id;
+			res.render("siteViews/store", { layout: false, siteData: site, name: site.businessName });
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
 
 app.get("/sites/:id", (req, res) => {
-	let id = req.params.id
-	userService.getWebsiteDataById(id).then((site) => {
-		site.customMessage = "hello"
-		site.baseUrl = "/sites/" + site._id;
-		res.render("siteViews/home", { layout: false, siteData: site, name: site.businessName })
-	}).catch((err) => {
-		res.redirect("/404")
-	})
-})
-
+	let id = req.params.id;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			site.customMessage = "hello";
+			site.baseUrl = "/sites/" + site._id;
+			res.render("siteViews/home", { layout: false, siteData: site, name: site.businessName });
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
 
 // ROUTES k.post
 // 		->	POST 	Place all POST routes here
@@ -226,10 +230,10 @@ app.post("/signup", (req, res) => {
 		});
 });
 
-app.post("/resetPassword", function (req, res) {
+app.post("/resetPassword", function(req, res) {
 	const email = req.body.email;
 
-	userService.findMatchingEmail(email).then(function (user) {
+	userService.findMatchingEmail(email).then(function(user) {
 		if (user) {
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")
@@ -298,7 +302,6 @@ app.post("/edit-user", (req, res) => {
 		res.json({ error: "Unauthorized. Please log in." });
 	}
 });
-
 
 app.post("/customize", (req, res) => {
 	if (req.auth.isLoggedIn) {

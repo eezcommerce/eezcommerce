@@ -243,16 +243,16 @@ module.exports.validateToken = (token, inputEmail) => {
 
 /**
  * @returns {Object} data pertaining to the rendering of a site
- * @param {String} id 
+ * @param {String} id
  */
-module.exports.getWebsiteDataById = (id)=>{
-	return new Promise((resolve, reject)=>{
-		UserModel.findById(id, "businessName primaryColor secondaryColor", {lean: true}, (err, site)=>{
-			if (err){
+module.exports.getWebsiteDataById = id => {
+	return new Promise((resolve, reject) => {
+		UserModel.findById(id, "businessName primaryColor secondaryColor", { lean: true }, (err, site) => {
+			if (err) {
 				reject(err);
-			} else{
+			} else {
 				resolve(site);
 			}
-		})
-	})
-}
+		});
+	});
+};
