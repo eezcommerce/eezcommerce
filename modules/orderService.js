@@ -28,13 +28,18 @@ const Orders = mongoose.model(
 			total: { type: String },
 	})
 );
+function parseResponse(response) {
+	var json = JSON.stringify(response);
+	var parsed = JSON.parse(json);
+	return parsed;
+}
 
 module.exports.getAllOrders = () => {
 	return new Promise((resolve, reject) => {
-		Orders.find({}, (err, ords) => {
+		Orders.find({SellerID: sID}, (err, ords) => {
+			var parsedProds = parseResponse(ords);
 			if (!err) {
-				resolve(ords);
-				console.log(ords);
+				resolve(parsedProds);
 			} else {
 				console.log("error:" + err);
 				reject(err);
@@ -47,7 +52,6 @@ module.exports.getAllOrders = () => {
 module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({ SellerID: newSID, destAddress: newAdd, CC: newCC, status: newStatus, total: newTotal });
-		console.log("Added " + Order1);
 		Order1.save(function(err, Order) {
 			if (err) {
 				reject(err);

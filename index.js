@@ -127,9 +127,8 @@ app.get("/dashboard/products", (req, res) => {
 });
 
 app.get("/dashboard/orders", (req, res) => {
-	console.log("Order Page");
 	var allorders = orderService
-		.getAllOrders()
+		.getAllOrders(req.auth.userDetails._id)
 		.then(prods => {
 			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods });
 		})
@@ -258,13 +257,13 @@ app.post("/addProduct", (req, res) => {
 
 //Add token ID at LATER DATE
 app.post("/addOrder", (req, res) => {
-	//let newSID = ;
+	let newSID = req.auth.userDetails._id;
 	let newAdd = req.body.Address;
 	let newCC = req.body.CreditC;
 	let newStatus = req.body.oStatus;
 	let newTotal = req.body.oTotal;
 	orderService
-		.addOrder("0001", newAdd, newCC, newStatus, newTotal)
+		.addOrder(newSID, newAdd, newCC, newStatus, newTotal)
 		.then(() => {
 			res.json({ error: false, redirectUrl: "/dashboard/orders" });
 		})
