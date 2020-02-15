@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
+var fs = require("fs");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -64,6 +65,12 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
 				userObj
 					.save()
 					.then(result => {
+						try {
+							fs.mkdirSync("public/siteData/" + result._id + "/img", { recursive: true });
+						} catch (err) {
+							reject("Error creating user directory. Please retry.");
+						}
+
 						resolve(result);
 					})
 					.catch(err => {
@@ -208,6 +215,22 @@ module.exports.validateToken = (token, inputEmail) => {
 				} else {
 					reject({ error: "Token not valid." });
 				}
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} data pertaining to the rendering of a site
+ * @param {String} id
+ */
+module.exports.getWebsiteDataById = id => {
+	return new Promise((resolve, reject) => {
+		UserModel.findById(id, "businessName", { lean: true }, (err, site) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(site);
 			}
 		});
 	});

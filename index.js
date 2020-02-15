@@ -7,7 +7,7 @@ var sessions = require("client-sessions");
 var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
-var Handlebars = require("handlebars");
+var sass = require("sass");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
@@ -64,7 +64,7 @@ app.use("/dashboard", (req, res, next) => {
 	}
 });
 
-// ROUTES
+// ROUTES keyword: k.get
 // 		->	GET 	Place all GET routes here
 
 app.get("/", (req, res) => {
@@ -110,7 +110,7 @@ app.get("/email-verification-sent", (req, res) => {
 	res.render("EmailVerificationSent", { layout: "NavBar" });
 });
 
-// Dashboard routes
+// Dashboard routes keywords k.dash
 
 app.get("/dashboard", (req, res) => {
 	res.render("overview", { layout: "dashboard", pagename: "overview", userDetails: req.auth.userDetails });
@@ -144,8 +144,6 @@ app.get("/dashboard/orders", (req, res) => {
 });
 
 app.get("/dashboard/settings", (req, res) => {
-	console.log(req.auth.userDetails);
-
 	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
 });
 
@@ -175,7 +173,25 @@ app.get("/logout", (req, res) => {
 	res.render("loggedOut", { layout: "NavBar" });
 });
 
-// ROUTES
+// Website routes keyword: k.web k.site
+
+app.get("/sites/:id", (req, res) => {
+	let id = req.params.id;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			productService.getAllProducts().then(prods => {
+				site.customMessage = "hello";
+				site.baseUrl = "/sites/" + site._id;
+				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
+			});
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+
+// ROUTES k.post
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
@@ -200,6 +216,9 @@ app.post("/signup", (req, res) => {
 				});
 		})
 		.catch(error => {
+			userService.delete(req.body.email).catch(err => {
+				console.log(err);
+			});
 			switch (error.code) {
 				case 11000:
 					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
@@ -207,6 +226,7 @@ app.post("/signup", (req, res) => {
 
 				default:
 					res.json({ error: "Unspecified error occurred. Please try again later." });
+					console.log(error);
 					break;
 			}
 		});
@@ -296,6 +316,30 @@ app.post("/edit-user", (req, res) => {
 			.catch(err => {
 				res.json({ error: err });
 			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
+
+app.post("/customize", (req, res) => {
+	if (req.auth.isLoggedIn) {
+		let customSass = sass.renderSync({
+			data: `
+				$theme-colors: (
+					"primary": #${req.body.primaryColor},
+					"secondary": #${req.body.secondaryColor}
+				);
+
+				@import "node_modules/bootstrap/scss/bootstrap";
+			`
+		});
+
+		try {
+			fs.writeFileSync(__dirname + "/public/siteData/" + req.auth.userDetails._id + "/theme.css", customSass.css);
+			res.json({ redirectUrl: "/dashboard/customize" });
+		} catch (err) {
+			res.json({ error: err });
+		}
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}
