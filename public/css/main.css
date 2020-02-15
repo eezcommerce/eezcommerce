@@ -138,11 +138,11 @@ h1 {
 }
 
 .overview-circles {
-	width: 20vw;
-	height: 20vw;
+	width: 15vw;
+	height: 15vw;
 	border-width: 1vw !important;
 	font-weight: 1000 !important;
-	font-size: 2vw;
+	font-size: 1.5vw;
 	text-align: center;
 }
 

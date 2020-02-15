@@ -215,6 +215,7 @@ app.post("/signup", (req, res) => {
 
 				default:
 					res.json({ error: "Unspecified error occurred. Please try again later." });
+					console.log(error);
 					break;
 			}
 		});
