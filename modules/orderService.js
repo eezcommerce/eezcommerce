@@ -21,11 +21,11 @@ function parseResponse(response) {
 const Orders = mongoose.model(
 	"Orders",
 	new mongoose.Schema({
-			SellerID: { type: String },
-			destAddress: { type: String },
-			CC: { type: Number},
-			status: {type: String},
-			total: { type: String },
+		SellerID: { type: String },
+		destAddress: { type: String },
+		CC: { type: Number },
+		status: { type: String },
+		total: { type: String }
 	})
 );
 function parseResponse(response) {
@@ -34,9 +34,9 @@ function parseResponse(response) {
 	return parsed;
 }
 
-module.exports.getAllOrders = (sID) => {
+module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {
-		Orders.find({SellerID: sID}, (err, ords) => {
+		Orders.find({ SellerID: sID }, (err, ords) => {
 			var parsedProds = parseResponse(ords);
 			if (!err) {
 				resolve(parsedProds);
@@ -47,7 +47,6 @@ module.exports.getAllOrders = (sID) => {
 		});
 	});
 };
-
 
 module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 	return new Promise((resolve, reject) => {
