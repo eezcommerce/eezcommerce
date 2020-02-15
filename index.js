@@ -13,7 +13,7 @@ var Handlebars = require("handlebars");
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 const productService = require("./modules/productService.js");
-
+const orderService = require("./modules/orderService");
 const hbHelpers = require("./modules/hbHelpers.js");
 
 // express middlewares & setup
