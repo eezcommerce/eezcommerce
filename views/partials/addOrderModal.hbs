@@ -12,37 +12,37 @@
 						
 								<div class="col-sm-12">	
 									<div class="form-group row">
+									<!--Adjust Later-->
 									<input
-										name="fname"
+										name="Address"
 										class="form-control"
-										placeholder="First Name"
+										placeholder="Address"
 										required
 									/>
 									</div>
 									<div class="form-group row">
 										<input
-										name="lname"
+										name="CreditC"
 										class="form-control"
-										placeholder="Last Name"
+										placeholder="Credit Card Digit"
 										required
 									/></div>
 									<div class="form-group row">
+  										<select class="form-control" id="oStatus">
+    									<option value="Placed">Placed</option>
+    									<option value="Processed">Processed</option>
+    									<option value="Shipped">Shipped</option>
+    									<optio value="Complete">Complete</option>
+  										</select>
+									</div>
+									<div class="form-group row">
 										<input
-										name="items"
+										name="oTotal"
 										class="form-control"
-										placeholder="Products Ordered"
+										placeholder="Total"
 										required
 									/>
 									</div>
-									<div class="form-group row">
-
-  										<select class="form-control" id="oStatus">
-    									<option>Placed</option>
-    									<option>Processed</option>
-    									<option>Shipped</option>
-    									<option>Complete</option>
-  										</select>
-									</div>	
 							</div>
 								<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit">
 								Add

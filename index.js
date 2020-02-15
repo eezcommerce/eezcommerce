@@ -132,6 +132,17 @@ app.get("/dashboard/products", (req, res) => {
 		});
 });
 
+app.get("/dashboard/orders", (req, res) => {
+	var allorders = orderService
+		.getAllOrders(req.auth.userDetails._id)
+		.then(prods => {
+			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods });
+		})
+		.catch(e => {
+			res.json({ error: "unable to get all orders" });
+		});
+});
+
 app.get("/dashboard/settings", (req, res) => {
 	console.log(req.auth.userDetails);
 
@@ -249,6 +260,22 @@ app.post("/addProduct", (req, res) => {
 		.addProduct(prodSKU, prodName, prodQty, prodPrice)
 		.then(() => {
 			res.json({ error: false, redirectUrl: "/dashboard/products" });
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
+
+app.post("/addOrder", (req, res) => {
+	let newSID = req.auth.userDetails._id;
+	let newAdd = req.body.Address;
+	let newCC = req.body.CreditC;
+	let newStatus = req.body.oStatus;
+	let newTotal = req.body.oTotal;
+	orderService
+		.addOrder(newSID, newAdd, newCC, newStatus, newTotal)
+		.then(() => {
+			res.json({ error: false, redirectUrl: "/dashboard/orders" });
 		})
 		.catch(err => {
 			res.json({ error: err });
