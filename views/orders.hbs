@@ -16,10 +16,8 @@
 					<div class="table responsive">
 						<thead>
 							<tr>
-								<th>ID</th>
-								<th>Customer ID</th>
-								<th>Desintation</th>
-								<th>Credit Card</th>
+								<th>Order ID</th>
+								<th>Destination</th>
 								<th>Status</th>
 								<th>Total</th>
 							</tr>
@@ -28,9 +26,7 @@
 							{{#each orders}}
 								<tr data-toggle="modal" data-id={{_id}} data-target="#orderModal">
 									<th scope="row">{{_id}}</th>
-									<td>{{SellerID}}</td>
 									<td>{{destAddress}}</td>
-									<td>{{CC}}</td>
 									<td>{{status}}</td>
 									<td>{{total}}</td>
 								</tr>
