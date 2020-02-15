@@ -306,14 +306,22 @@ app.post("/addProduct", (req, res) => {
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
 	let ownerId = req.auth.userDetails._id;
-	productService
-		.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
-		.then(() => {
-			res.json({ error: false, redirectUrl: "/dashboard/products" });
-		})
-		.catch(err => {
-			res.json({ error: err });
-		});
+
+	productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
+		if (duplicate == "true") {
+			res.json({ error: "SKU already exists!" });
+		} else {
+			productService
+				.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
+				.then(() => {
+					res.json({ error: false, redirectUrl: "/dashboard/products" });
+				})
+				.catch(err => {
+					console.log(err);
+					res.json({ error: err });
+				});
+		}
+	});
 });
 
 app.post("/addOrder", (req, res) => {

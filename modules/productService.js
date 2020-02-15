@@ -97,3 +97,20 @@ module.exports.editProduct = passed => {
 		});
 	});
 };
+
+module.exports.isDuplicate = (ownerId, testValue) => {
+	return new Promise((resolve, reject) => {
+		this.getAllProducts(ownerId)
+			.then(prods => {
+				prods.forEach(prod => {
+					if (prod.SKU == testValue) {
+						resolve("true");
+					}
+				});
+				resolve("false");
+			})
+			.catch(err => {
+				resolve(err);
+			});
+	});
+};
