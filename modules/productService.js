@@ -1,6 +1,5 @@
 var mongoose = require("mongoose");
-var bcrypt = require("bcryptjs");
-var ObjectId = require("mongodb").ObjectId;
+const Products = require("./Models/ProductModel");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -12,50 +11,15 @@ async function doConnect() {
 
 doConnect();
 
-const Products = mongoose.model(
-	"Products",
-	new mongoose.Schema({
-		SKU: {
-			type: String,
-			maxlength: 4,
-			minlength: 1,
-			required: true,
-			unique: true
-		},
-		name: {
-			type: String,
-			minlength: 2
-		},
-		description: {
-			type: String,
-			minlength: 2,
-			maxlength: 256
-		},
-		quantity: {
-			type: Number,
-			default: 0
-		},
-		price: {
-			type: Number,
-			required: true,
-			default: false
-		},
-		purchased: {
-			type: Number,
-			required: true,
-			default: 0
-		}
-	})
-);
 function parseResponse(response) {
 	var json = JSON.stringify(response);
 	var parsed = JSON.parse(json);
 	return parsed;
 }
 
-module.exports.getAllProducts = () => {
+module.exports.getAllProducts = ownerId => {
 	return new Promise((resolve, reject) => {
-		Products.find({}, (err, prods) => {
+		Products.find({ owner: ownerId }, (err, prods) => {
 			var parsedProds = parseResponse(prods);
 			if (!err) {
 				resolve(parsedProds);
@@ -80,9 +44,10 @@ module.exports.getProductById = id => {
 		});
 	});
 };
-module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice, prodDesc) => {
+module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, prodDesc) => {
 	return new Promise((resolve, reject) => {
 		var prod1 = new Products({
+			owner: ownerId,
 			SKU: prodSku,
 			name: prodName,
 			quantity: prodQty,
@@ -93,6 +58,7 @@ module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice, prodDesc) =>
 
 		prod1.save(function(err, product) {
 			if (err) {
+				console.log(err);
 				reject(err);
 			} else {
 				resolve(product);
@@ -129,5 +95,22 @@ module.exports.editProduct = passed => {
 				resolve(result);
 			}
 		});
+	});
+};
+
+module.exports.isDuplicate = (ownerId, testValue) => {
+	return new Promise((resolve, reject) => {
+		this.getAllProducts(ownerId)
+			.then(prods => {
+				prods.forEach(prod => {
+					if (prod.SKU == testValue) {
+						resolve("true");
+					}
+				});
+				resolve("false");
+			})
+			.catch(err => {
+				resolve(err);
+			});
 	});
 };

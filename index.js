@@ -118,7 +118,7 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/dashboard/products", (req, res) => {
 	var allProds = productService
-		.getAllProducts()
+		.getAllProducts(req.auth.userDetails)
 		.then(prods => {
 			res.render("products", {
 				layout: "dashboard",
@@ -132,7 +132,6 @@ app.get("/dashboard/products", (req, res) => {
 		});
 });
 
-
 app.get("/getProductDetail/:id", (req, res) => {
 	var id = req.params.id;
 	var allProds = productService
@@ -142,18 +141,22 @@ app.get("/getProductDetail/:id", (req, res) => {
 		})
 		.catch(e => {
 			res.json({ error: "Unable to get product" });
-    });
-  });
+		});
+});
 
 app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
 		.getAllOrders(req.auth.userDetails._id)
 		.then(prods => {
-			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods, userDetails: req.auth.userDetails});
+			res.render("orders", {
+				layout: "dashboard",
+				pagename: "orders",
+				orders: prods,
+				userDetails: req.auth.userDetails
+			});
 		})
 		.catch(e => {
 			res.json({ error: "unable to get all orders" });
-
 		});
 });
 
@@ -302,14 +305,23 @@ app.post("/addProduct", (req, res) => {
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
-	productService
-		.addProduct(prodSKU, prodName, prodQty, prodPrice, prodDesc)
-		.then(() => {
-			res.json({ error: false, redirectUrl: "/dashboard/products" });
-		})
-		.catch(err => {
-			res.json({ error: err });
-		});
+	let ownerId = req.auth.userDetails._id;
+
+	productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
+		if (duplicate == "true") {
+			res.json({ error: "SKU already exists!" });
+		} else {
+			productService
+				.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
+				.then(() => {
+					res.json({ error: false, redirectUrl: "/dashboard/products" });
+				})
+				.catch(err => {
+					console.log(err);
+					res.json({ error: err });
+				});
+		}
+	});
 });
 
 app.post("/addOrder", (req, res) => {
