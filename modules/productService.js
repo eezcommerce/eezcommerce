@@ -17,9 +17,9 @@ function parseResponse(response) {
 	return parsed;
 }
 
-module.exports.getAllProducts = () => {
+module.exports.getAllProducts = (ownerId) => {
 	return new Promise((resolve, reject) => {
-		Products.find({}, (err, prods) => {
+		Products.find({owner: ownerId}, (err, prods) => {
 			var parsedProds = parseResponse(prods);
 			if (!err) {
 				resolve(parsedProds);
@@ -44,9 +44,10 @@ module.exports.getProductById = id => {
 		});
 	});
 };
-module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice, prodDesc) => {
+module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, prodDesc) => {
 	return new Promise((resolve, reject) => {
 		var prod1 = new Products({
+			owner: ownerId,
 			SKU: prodSku,
 			name: prodName,
 			quantity: prodQty,
@@ -57,6 +58,7 @@ module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice, prodDesc) =>
 
 		prod1.save(function(err, product) {
 			if (err) {
+				console.log(err);
 				reject(err);
 			} else {
 				resolve(product);

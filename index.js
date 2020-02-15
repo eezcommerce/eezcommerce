@@ -118,7 +118,7 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/dashboard/products", (req, res) => {
 	var allProds = productService
-		.getAllProducts()
+		.getAllProducts(req.auth.userDetails)
 		.then(prods => {
 			res.render("products", {
 				layout: "dashboard",
@@ -305,8 +305,9 @@ app.post("/addProduct", (req, res) => {
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
+	let ownerId = req.auth.userDetails._id
 	productService
-		.addProduct(prodSKU, prodName, prodQty, prodPrice, prodDesc)
+		.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
 		.then(() => {
 			res.json({ error: false, redirectUrl: "/dashboard/products" });
 		})

@@ -5,9 +5,9 @@ const ProductsModel = mongoose.model(
 	"Products",
 	new mongoose.Schema({
 		owner: {
-			type: Schema.ObjectId,
-			ref: "UserModel",
-			required: true
+			type: String,
+			required: true,
+			unique:false
 		},
 
 		SKU: {
@@ -33,6 +33,10 @@ const ProductsModel = mongoose.model(
 			type: Number,
 			required: true,
 			default: 0
+		},
+		description: {
+			type: String,
+			default: "This is a very strong fruit"
 		}
 	})
 );
