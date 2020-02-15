@@ -28,11 +28,6 @@ const Orders = mongoose.model(
 			total: { type: String },
 	})
 );
-function parseResponse(response) {
-	var json = JSON.stringify(response);
-	var parsed = JSON.parse(json);
-	return parsed;
-}
 
 module.exports.getAllOrders = (sID) => {
 	return new Promise((resolve, reject) => {
