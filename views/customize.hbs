@@ -1,8 +1,28 @@
 <div class="container">
+	<div class="row mt-4">
+		<h1>Customize</h1>
+	</div>
 	<div class="row">
-		<div class="pb-2 mt-4 mb-2 col-md-4">
-			<h1>Customize</h1>
-			<h3>Coming Soon</h3>
-		</div>
+
+		<form action="/customize" novalidate class="needs-validation col-md-12 mt-3">
+			<div class="row">
+				<div class="form-group col-md-4">
+					<label for="primaryColor">Primary Color:</label>
+
+					<input required class="form-control" type="color" name="primaryColor">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="secondaryColor">Secondary Color:</label>
+
+					<input required class="form-control" type="color" name="secondaryColor">
+				</div>
+			</div>
+
+
+			<button class="btn btn-primary rounded-pill float-right mt-5" type="submit">
+				Save Customization
+			</button>
+
+		</form>
 	</div>
 </div>

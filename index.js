@@ -7,7 +7,6 @@ var sessions = require("client-sessions");
 var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
-var Handlebars = require("handlebars");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
@@ -64,7 +63,7 @@ app.use("/dashboard", (req, res, next) => {
 	}
 });
 
-// ROUTES
+// ROUTES keyword: k.get
 // 		->	GET 	Place all GET routes here
 
 app.get("/", (req, res) => {
@@ -110,7 +109,7 @@ app.get("/email-verification-sent", (req, res) => {
 	res.render("EmailVerificationSent", { layout: "NavBar" });
 });
 
-// Dashboard routes
+// Dashboard routes keywords k.dash
 
 app.get("/dashboard", (req, res) => {
 	res.render("overview", { layout: "dashboard", pagename: "overview", userDetails: req.auth.userDetails });
@@ -164,7 +163,33 @@ app.get("/logout", (req, res) => {
 	res.render("loggedOut", { layout: "NavBar" });
 });
 
-// ROUTES
+
+// Website routes keyword: k.web k.site
+
+app.get("/sites/:id/store", (req, res) => {
+	let id = req.params.id
+	userService.getWebsiteDataById(id).then((site) => {
+		site.customMessage = "hello"
+		site.baseUrl = "/sites/" + site._id;
+		res.render("siteViews/store", { layout: false, siteData: site, name: site.businessName })
+	}).catch((err) => {
+		res.redirect("/404")
+	})
+})
+
+app.get("/sites/:id", (req, res) => {
+	let id = req.params.id
+	userService.getWebsiteDataById(id).then((site) => {
+		site.customMessage = "hello"
+		site.baseUrl = "/sites/" + site._id;
+		res.render("siteViews/home", { layout: false, siteData: site, name: site.businessName })
+	}).catch((err) => {
+		res.redirect("/404")
+	})
+})
+
+
+// ROUTES k.post
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
@@ -201,10 +226,10 @@ app.post("/signup", (req, res) => {
 		});
 });
 
-app.post("/resetPassword", function(req, res) {
+app.post("/resetPassword", function (req, res) {
 	const email = req.body.email;
 
-	userService.findMatchingEmail(email).then(function(user) {
+	userService.findMatchingEmail(email).then(function (user) {
 		if (user) {
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")
@@ -265,6 +290,24 @@ app.post("/edit-user", (req, res) => {
 				req.auth.userDetails.businessName = passed.businessName;
 				req.auth.userDetails.email = passed.email;
 				res.json({ redirectUrl: "/dashboard/settings" });
+			})
+			.catch(err => {
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
+
+
+app.post("/customize", (req, res) => {
+	if (req.auth.isLoggedIn) {
+		let passed = req.body;
+		passed._id = req.auth.userDetails._id;
+		userService
+			.customize(passed)
+			.then(result => {
+				res.json({ redirectUrl: "/dashboard/customize" });
 			})
 			.catch(err => {
 				res.json({ error: err });
