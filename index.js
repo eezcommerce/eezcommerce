@@ -305,7 +305,7 @@ app.post("/addProduct", (req, res) => {
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
-	let ownerId = req.auth.userDetails._id
+	let ownerId = req.auth.userDetails._id;
 	productService
 		.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
 		.then(() => {

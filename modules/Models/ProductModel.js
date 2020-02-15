@@ -7,7 +7,7 @@ const ProductsModel = mongoose.model(
 		owner: {
 			type: String,
 			required: true,
-			unique:false
+			unique: false
 		},
 
 		SKU: {

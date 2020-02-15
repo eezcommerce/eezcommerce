@@ -17,9 +17,9 @@ function parseResponse(response) {
 	return parsed;
 }
 
-module.exports.getAllProducts = (ownerId) => {
+module.exports.getAllProducts = ownerId => {
 	return new Promise((resolve, reject) => {
-		Products.find({owner: ownerId}, (err, prods) => {
+		Products.find({ owner: ownerId }, (err, prods) => {
 			var parsedProds = parseResponse(prods);
 			if (!err) {
 				resolve(parsedProds);
