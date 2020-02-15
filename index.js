@@ -296,19 +296,12 @@ app.post("/edit-user", (req, res) => {
 
 app.post("/customize", (req, res) => {
 	if (req.auth.isLoggedIn) {
-		let passed = req.body;
-
-		passed._id = req.auth.userDetails._id;
 		let customSass = sass.renderSync({
 			data: `
 				$theme-colors: (
 					"primary": #${req.body.primaryColor},
 					"secondary": #${req.body.secondaryColor}
 				);
-
-				body{
-					background: red;
-				}
 
 				@import "node_modules/bootstrap/scss/bootstrap";
 			`
