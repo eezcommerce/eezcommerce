@@ -2,16 +2,16 @@
 	<div class="row mt-4">
 		<h1>Customize</h1>
 	</div>
+	<a href="/sites/{{userDetails._id}}" target="_blank">View</a>
 	<div class="row">
-		<a href="/sites/{{userDetails._id}}" target="_blank">View</a>
-		<form action="/customize" novalidate class="needs-validation col-md-12 mt-3">
+		<form action="/customize" novalidate class="needs-validation col-md-4 mt-3">
 			<div class="row">
-				<div class="form-group col-md-4">
+				<div class="form-group col-md-6">
 					<label for="primaryColor">Primary Color:</label>
 
 					<input required value="#0000ff" class="form-control jscolor" name="primaryColor">
 				</div>
-				<div class="form-group col-md-4">
+				<div class="form-group col-md-6">
 					<label for="secondaryColor">Secondary Color:</label>
 
 					<input required value="#dedede" class="form-control jscolor" name="secondaryColor">
@@ -25,5 +25,6 @@
 			</button>
 
 		</form>
+		<iframe class="livePreview" src="/sites/{{userDetails._id}}"></iframe>
 	</div>
 </div>
