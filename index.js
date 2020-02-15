@@ -169,9 +169,12 @@ app.get("/sites/:id", (req, res) => {
 	userService
 		.getWebsiteDataById(id)
 		.then(site => {
-			site.customMessage = "hello";
-			site.baseUrl = "/sites/" + site._id;
-			res.render("siteViews/home", { layout: false, siteData: site });
+			productService.getAllProducts().then((prods) => {
+				site.customMessage = "hello";
+				site.baseUrl = "/sites/" + site._id;
+				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
+			})
+
 		})
 		.catch(err => {
 			res.redirect("/404");
@@ -218,10 +221,10 @@ app.post("/signup", (req, res) => {
 		});
 });
 
-app.post("/resetPassword", function(req, res) {
+app.post("/resetPassword", function (req, res) {
 	const email = req.body.email;
 
-	userService.findMatchingEmail(email).then(function(user) {
+	userService.findMatchingEmail(email).then(function (user) {
 		if (user) {
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")
