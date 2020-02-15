@@ -5,10 +5,11 @@ const ProductsModel = mongoose.model(
 	"Products",
 	new mongoose.Schema({
 		owner: {
-			type: Schema.ObjectId, ref: 'UserModel',
+			type: Schema.ObjectId,
+			ref: "UserModel",
 			required: true
 		},
-		
+
 		SKU: {
 			type: String,
 			maxlength: 4,

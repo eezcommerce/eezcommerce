@@ -17,7 +17,6 @@ function parseResponse(response) {
 	return parsed;
 }
 
-
 module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {
 		Orders.find({ SellerID: sID }, (err, ords) => {
