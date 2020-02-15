@@ -26,6 +26,11 @@ const Products = mongoose.model(
 			type: String,
 			minlength: 2
 		},
+		description: {
+			type: String,
+			minlength: 2,
+			maxlength: 256
+		},
 		quantity: {
 			type: Number,
 			default: 0
@@ -62,9 +67,29 @@ module.exports.getAllProducts = () => {
 	});
 };
 
-module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice) => {
+module.exports.getProductById = id => {
 	return new Promise((resolve, reject) => {
-		var prod1 = new Products({ SKU: prodSku, name: prodName, quantity: prodQty, price: prodPrice, purchased: 0 });
+		Products.findOne({ _id: id }, (err, prod) => {
+			var parsedProd = parseResponse(prod);
+			if (!err) {
+				resolve(parsedProd);
+			} else {
+				console.log("error:" + err);
+				reject(err);
+			}
+		});
+	});
+};
+module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice, prodDesc) => {
+	return new Promise((resolve, reject) => {
+		var prod1 = new Products({
+			SKU: prodSku,
+			name: prodName,
+			quantity: prodQty,
+			price: prodPrice,
+			purchased: 0,
+			description: prodDesc
+		});
 
 		prod1.save(function(err, product) {
 			if (err) {
@@ -72,6 +97,36 @@ module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice) => {
 			} else {
 				resolve(product);
 				console.log(product.name + " saved to products collection.");
+			}
+		});
+	});
+};
+/**
+ * @param {String} id the id to delete
+ */
+module.exports.deleteProduct = id => {
+	return new Promise((resolve, reject) => {
+		Products.deleteOne({ _id: id }, (err, deleteResult) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(deleteResult);
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} updated product
+ * @param {Object} updated product object
+ */
+module.exports.editProduct = passed => {
+	return new Promise((resolve, reject) => {
+		Products.updateOne({ _id: passed._id }, { name: passed.name, price: passed.price }, (err, result) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(result);
 			}
 		});
 	});
