@@ -132,14 +132,28 @@ app.get("/dashboard/products", (req, res) => {
 		});
 });
 
+
+app.get("/getProductDetail/:id", (req, res) => {
+	var id = req.params.id;
+	var allProds = productService
+		.getProductById(id)
+		.then(prod => {
+			res.json({ product: prod });
+		})
+		.catch(e => {
+			res.json({ error: "Unable to get product" });
+    });
+  });
+
 app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
 		.getAllOrders(req.auth.userDetails._id)
 		.then(prods => {
-			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods });
+			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods, userDetails: req.auth.userDetails});
 		})
 		.catch(e => {
 			res.json({ error: "unable to get all orders" });
+
 		});
 });
 
@@ -165,6 +179,17 @@ app.get("/dashboard/:route", (req, res) => {
 			}
 		}
 	);
+});
+app.get("/deleteProduct/:id", (req, res) => {
+	let id = req.params.id;
+	productService
+		.deleteProduct(id)
+		.then(() => {
+			res.json({ error: false, redirectUrl: "/dashboard/products" });
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
 });
 
 app.get("/logout", (req, res) => {
@@ -273,11 +298,12 @@ app.post("/login", (req, res) => {
 
 app.post("/addProduct", (req, res) => {
 	let prodName = req.body.productName;
+	let prodDesc = req.body.productDesc;
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
 	productService
-		.addProduct(prodSKU, prodName, prodQty, prodPrice)
+		.addProduct(prodSKU, prodName, prodQty, prodPrice, prodDesc)
 		.then(() => {
 			res.json({ error: false, redirectUrl: "/dashboard/products" });
 		})
