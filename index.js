@@ -13,7 +13,7 @@ var Handlebars = require("handlebars");
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 const productService = require("./modules/productService.js");
-
+const orderService = require("./modules/orderService");
 const hbHelpers = require("./modules/hbHelpers.js");
 
 // express middlewares & setup
@@ -129,6 +129,17 @@ app.get("/dashboard/products", (req, res) => {
 		})
 		.catch(e => {
 			res.json({ error: "unable to get all products" });
+		});
+});
+
+app.get("/dashboard/orders", (req, res) => {
+	var allorders = orderService
+		.getAllOrders(req.auth.userDetails._id)
+		.then(prods => {
+			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods });
+		})
+		.catch(e => {
+			res.json({ error: "unable to get all orders" });
 		});
 });
 
@@ -249,6 +260,22 @@ app.post("/addProduct", (req, res) => {
 		.addProduct(prodSKU, prodName, prodQty, prodPrice)
 		.then(() => {
 			res.json({ error: false, redirectUrl: "/dashboard/products" });
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
+
+app.post("/addOrder", (req, res) => {
+	let newSID = req.auth.userDetails._id;
+	let newAdd = req.body.Address;
+	let newCC = req.body.CreditC;
+	let newStatus = req.body.oStatus;
+	let newTotal = req.body.oTotal;
+	orderService
+		.addOrder(newSID, newAdd, newCC, newStatus, newTotal)
+		.then(() => {
+			res.json({ error: false, redirectUrl: "/dashboard/orders" });
 		})
 		.catch(err => {
 			res.json({ error: err });

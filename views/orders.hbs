@@ -17,27 +17,24 @@
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th>Customer Name</th>
-								<th>Items</th>
+								<th>Customer ID</th>
+								<th>Desintation</th>
+								<th>Credit Card</th>
 								<th>Status</th>
-								<th>Date</th>
+								<th>Total</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-toggle="modal" data-id="1" data-target="#orderModal">
-								<th scope="row">1</th>
-								<td>ales</td>
-								<td>king</td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr data-toggle="modal" data-id="2" data-target="#orderModal">
-								<th scope="row">2</th>
-								<td>love</td>
-								<td>2</td>
-								<td>code</td>
-								<td></td>
-							</tr>
+							{{#each orders}}
+								<tr data-toggle="modal" data-id={{_id}} data-target="#orderModal">
+									<th scope="row">{{_id}}</th>
+									<td>{{SellerID}}</td>
+									<td>{{destAddress}}</td>
+									<td>{{CC}}</td>
+									<td>{{status}}</td>
+									<td>{{total}}</td>
+								</tr>
+							{{/each}}
 						</tbody>
 					</div>
 				</table>
