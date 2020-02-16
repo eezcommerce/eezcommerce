@@ -7,7 +7,7 @@ var sessions = require("client-sessions");
 var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
-var Handlebars = require("handlebars");
+var sass = require("sass");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
@@ -64,7 +64,7 @@ app.use("/dashboard", (req, res, next) => {
 	}
 });
 
-// ROUTES
+// ROUTES keyword: k.get
 // 		->	GET 	Place all GET routes here
 
 app.get("/", (req, res) => {
@@ -110,7 +110,7 @@ app.get("/email-verification-sent", (req, res) => {
 	res.render("EmailVerificationSent", { layout: "NavBar" });
 });
 
-// Dashboard routes
+// Dashboard routes keywords k.dash
 
 app.get("/dashboard", (req, res) => {
 	res.render("overview", { layout: "dashboard", pagename: "overview", userDetails: req.auth.userDetails });
@@ -118,7 +118,7 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/dashboard/products", (req, res) => {
 	var allProds = productService
-		.getAllProducts()
+		.getAllProducts(req.auth.userDetails)
 		.then(prods => {
 			res.render("products", {
 				layout: "dashboard",
@@ -131,6 +131,20 @@ app.get("/dashboard/products", (req, res) => {
 			res.json({ error: "unable to get all products" });
 		});
 });
+
+app.get("/getProductDetail/:id", (req, res) => {
+	var id = req.params.id;
+	var allProds = productService
+		.getProductById(id)
+		.then(prod => {
+			res.json({ product: prod });
+		})
+		.catch(e => {
+			res.json({ error: "Unable to get product" });
+		});
+});
+
+
 
 app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
@@ -148,9 +162,19 @@ app.get("/dashboard/orders", (req, res) => {
 		});
 });
 
-app.get("/dashboard/settings", (req, res) => {
-	console.log(req.auth.userDetails);
+app.get("/getOrderDetail/:id", (req, res) => {
+	var id = req.params.id;
+	var oneOrder = OrderService
+		.getOrderById(id)
+		.then(prod => {
+			res.json({ order: prod });
+		})
+		.catch(e => {
+			res.json({ error: "Unable to get product" });
+		});
+});
 
+app.get("/dashboard/settings", (req, res) => {
 	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
 });
 
@@ -173,6 +197,17 @@ app.get("/dashboard/:route", (req, res) => {
 		}
 	);
 });
+app.get("/deleteProduct/:id", (req, res) => {
+	let id = req.params.id;
+	productService
+		.deleteProduct(id)
+		.then(() => {
+			res.json({ error: false, redirectUrl: "/dashboard/products" });
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
 
 app.get("/logout", (req, res) => {
 	req.auth.isLoggedIn = false;
@@ -180,7 +215,25 @@ app.get("/logout", (req, res) => {
 	res.render("loggedOut", { layout: "NavBar" });
 });
 
-// ROUTES
+// Website routes keyword: k.web k.site
+
+app.get("/sites/:id", (req, res) => {
+	let id = req.params.id;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			productService.getAllProducts().then(prods => {
+				site.customMessage = "hello";
+				site.baseUrl = "/sites/" + site._id;
+				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
+			});
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+
+// ROUTES k.post
 // 		->	POST 	Place all POST routes here
 
 app.post("/signup", (req, res) => {
@@ -205,6 +258,9 @@ app.post("/signup", (req, res) => {
 				});
 		})
 		.catch(error => {
+			userService.delete(req.body.email).catch(err => {
+				console.log(err);
+			});
 			switch (error.code) {
 				case 11000:
 					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
@@ -212,6 +268,7 @@ app.post("/signup", (req, res) => {
 
 				default:
 					res.json({ error: "Unspecified error occurred. Please try again later." });
+					console.log(error);
 					break;
 			}
 		});
@@ -258,17 +315,27 @@ app.post("/login", (req, res) => {
 
 app.post("/addProduct", (req, res) => {
 	let prodName = req.body.productName;
+	let prodDesc = req.body.productDesc;
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
-	productService
-		.addProduct(prodSKU, prodName, prodQty, prodPrice)
-		.then(() => {
-			res.json({ error: false, redirectUrl: "/dashboard/products" });
-		})
-		.catch(err => {
-			res.json({ error: err });
-		});
+	let ownerId = req.auth.userDetails._id;
+
+	productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
+		if (duplicate == "true") {
+			res.json({ error: "SKU already exists!" });
+		} else {
+			productService
+				.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
+				.then(() => {
+					res.json({ error: false, redirectUrl: "/dashboard/products" });
+				})
+				.catch(err => {
+					console.log(err);
+					res.json({ error: err });
+				});
+		}
+	});
 });
 
 app.post("/addOrder", (req, res) => {
@@ -301,6 +368,30 @@ app.post("/edit-user", (req, res) => {
 			.catch(err => {
 				res.json({ error: err });
 			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
+
+app.post("/customize", (req, res) => {
+	if (req.auth.isLoggedIn) {
+		let customSass = sass.renderSync({
+			data: `
+				$theme-colors: (
+					"primary": #${req.body.primaryColor},
+					"secondary": #${req.body.secondaryColor}
+				);
+
+				@import "node_modules/bootstrap/scss/bootstrap";
+			`
+		});
+
+		try {
+			fs.writeFileSync(__dirname + "/public/siteData/" + req.auth.userDetails._id + "/theme.css", customSass.css);
+			res.json({ redirectUrl: "/dashboard/customize" });
+		} catch (err) {
+			res.json({ error: err });
+		}
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}

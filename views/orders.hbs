@@ -24,7 +24,7 @@
 						</thead>
 						<tbody>
 							{{#each orders}}
-								<tr data-toggle="modal" data-id={{_id}} data-target="#orderModal">
+								<tr class="OrderRow" data-toggle="modal" data-id={{_id}} data-target="#orderModal">
 									<th scope="row">{{_id}}</th>
 									<td>{{destAddress}}</td>
 									<td>{{status}}</td>
@@ -41,3 +41,26 @@
 	</div>
 	<!--row-->
 </div>
+
+<script>
+
+	$(".OrderRow").click((e)=>{
+
+	id = $(e.currentTarget).data("id");
+
+	$.get("/getOrderDetail/"+ id, (data)=>{
+		console.log(data);
+
+		$('#productDetail').find('#title').html(data.product.name);
+		$('#productDetail').find('#skuDetail').html(data.product.SKU);
+		$('#productDetail').find('#descDetail').html(data.product.description);
+		$('#productDetail').find('#qtyDetail').val(data.product.quantity);
+		$('#productDetail').find('#priceDetail').val(data.product.price);
+		$('#productDetail').find('#soldDetail').val(data.product.purchased);
+	})
+})
+
+
+</script>
+
+</script>

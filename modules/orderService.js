@@ -44,6 +44,20 @@ module.exports.getAllOrders = sID => {
 	});
 };
 
+module.exports.getOrderById = oneId => {
+	return new Promise((resolve, reject) => {
+		Orders.find({ _id: oneId }, (err, ords) => {
+			var parsedProds = parseResponse(ords);
+			if (!err) {
+				resolve(parsedProds);
+			} else {
+				console.log("error:" + err);
+				reject(err);
+			}
+		});
+	});
+};
+
 module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
