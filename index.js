@@ -145,7 +145,8 @@ app.get("/getProductDetail/:id", (req, res) => {
 });
 
 app.get("/dashboard/orders", (req, res) => {
-	var allorders = orderService.getAllOrders(req.auth.userDetails._id)
+	var allorders = orderService
+		.getAllOrders(req.auth.userDetails._id)
 		.then(prods => {
 			res.render("orders", {
 				layout: "dashboard",
@@ -159,10 +160,10 @@ app.get("/dashboard/orders", (req, res) => {
 		});
 });
 
-
 app.get("/getOrderDetail/:id", (req, res) => {
 	var id = req.params.id;
-	var oneOrder = orderService.getOrderById(id)
+	var oneOrder = orderService
+		.getOrderById(id)
 		.then(prod => {
 			res.json({ order: prod });
 		})
