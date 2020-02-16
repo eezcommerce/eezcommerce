@@ -25,7 +25,8 @@ const Orders = mongoose.model(
 		destAddress: { type: String },
 		CC: { type: Number },
 		status: { type: String },
-		total: { type: String }
+		total: { type: String },
+		ProductList: [{ProductID: String, Qty: Number}]
 	})
 );
 
@@ -43,6 +44,19 @@ module.exports.getAllOrders = sID => {
 	});
 };
 
+module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList) => {
+	return new Promise((resolve, reject) => {
+		var Order1 = new Orders({ SellerID: newSID, destAddress: newAdd, CC: newCC, status: newStatus, total: newTotal, ProductList: newPList});
+		Order1.save(function(err, Order) {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(Order);
+			}
+		});
+	});
+};
+	
 module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({ SellerID: newSID, destAddress: newAdd, CC: newCC, status: newStatus, total: newTotal });

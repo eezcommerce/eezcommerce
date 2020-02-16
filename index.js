@@ -136,7 +136,12 @@ app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
 		.getAllOrders(req.auth.userDetails._id)
 		.then(prods => {
-			res.render("orders", { layout: "dashboard", pagename: "orders", orders: prods, userDetails: req.auth.userDetails});
+			res.render("orders", {
+				layout: "dashboard",
+				pagename: "orders",
+				orders: prods,
+				userDetails: req.auth.userDetails
+			});
 		})
 		.catch(e => {
 			res.json({ error: "unable to get all orders" });
