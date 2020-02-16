@@ -46,10 +46,9 @@ module.exports.getAllOrders = sID => {
 
 module.exports.getOrderById = oneId => {
 	return new Promise((resolve, reject) => {
-		Orders.find({ _id: oneId }, (err, ords) => {
-			var parsedProds = parseResponse(ords);
+		Orders.findOne({ _id: oneId }, (err, ords) => {
 			if (!err) {
-				resolve(parsedProds);
+				resolve(ords);
 			} else {
 				console.log("error:" + err);
 				reject(err);

@@ -24,7 +24,8 @@
 						</thead>
 						<tbody>
 							{{#each orders}}
-								<tr class="OrderRow" data-toggle="modal" data-id={{_id}} data-target="#orderModal">
+
+								<tr class="OrderRow" data-toggle="modal" data-id='{{_id}}' data-target="#orderDetail" aria-hidden="true">
 									<th scope="row">{{_id}}</th>
 									<td>{{destAddress}}</td>
 									<td>{{status}}</td>
@@ -47,20 +48,14 @@
 	$(".OrderRow").click((e)=>{
 
 	id = $(e.currentTarget).data("id");
-
+		
 	$.get("/getOrderDetail/"+ id, (data)=>{
-		console.log(data);
-
-		$('#productDetail').find('#title').html(data.product.name);
-		$('#productDetail').find('#skuDetail').html(data.product.SKU);
-		$('#productDetail').find('#descDetail').html(data.product.description);
-		$('#productDetail').find('#qtyDetail').val(data.product.quantity);
-		$('#productDetail').find('#priceDetail').val(data.product.price);
-		$('#productDetail').find('#soldDetail').val(data.product.purchased);
+		$('#orderDetail').find('#title').html("Order #" + data.order._id);
+		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.destAddress + "</strong>");
+		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
+		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
+		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total);
 	})
 })
-
-
-</script>
 
 </script>
