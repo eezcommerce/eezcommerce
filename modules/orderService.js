@@ -49,7 +49,7 @@ module.exports.getOrderById = oneId => {
 	return new Promise((resolve, reject) => {
 		Orders.findOne({ _id: oneId }, (err, ords) => {
 			if (!err) {
-				resolve(ords);
+				console.log(ords);
 			} else {
 				console.log("error:" + err);
 				reject(err);
@@ -80,7 +80,14 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList)
 
 module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 	return new Promise((resolve, reject) => {
-		var Order1 = new Orders({ SellerID: newSID, destAddress: newAdd, CC: newCC, status: newStatus, total: newTotal });
+		var Order1 = new Orders({
+			SellerID: newSID,
+			destAddress: newAdd,
+			CC: newCC,
+			status: newStatus,
+			total: newTotal,
+			ProductList: []
+		});
 		Order1.save(function(err, Order) {
 			if (err) {
 				reject(err);
