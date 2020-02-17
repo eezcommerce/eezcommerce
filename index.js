@@ -160,6 +160,18 @@ app.get("/dashboard/orders", (req, res) => {
 		});
 });
 
+app.get("/getOrderDetail/:id", (req, res) => {
+	var id = req.params.id;
+	var oneOrder = orderService
+		.getOrderById(id)
+		.then(prod => {
+			res.json({ order: prod });
+		})
+		.catch(e => {
+			res.json({ error: "Unable to get product" });
+		});
+});
+
 app.get("/dashboard/settings", (req, res) => {
 	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
 });
