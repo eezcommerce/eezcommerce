@@ -1,6 +1,5 @@
 var mongoose = require("mongoose");
-var bcrypt = require("bcryptjs");
-var ObjectId = require("mongodb").ObjectId;
+const Orders = require("./Models/OrderModel");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -18,6 +17,7 @@ function parseResponse(response) {
 	return parsed;
 }
 
+
 const Orders = mongoose.model(
 	"Orders",
 	new mongoose.Schema({
@@ -29,6 +29,7 @@ const Orders = mongoose.model(
 		ProductList: [{ ProductID: String, Qty: Number }]
 	})
 );
+
 
 module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {

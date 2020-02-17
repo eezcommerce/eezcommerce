@@ -4,9 +4,13 @@
 <head>
 	{{>header}}
 	<script src="/js/dashboard.js"></script>
+	<script src="/js/jscolor.js"></script>
 </head>
 
 <body>
+	<div class="loader-block position-fixed d-none align-items-center justify-content-center w-100 h-100" style="z-index: 200; background: rgba(0,0,0,0.4)">
+		<h1 class="text-white">loading...</h1>
+	</div>
 
 	<div class="dashboardGrid">
 		<div class="sidebar bg-secondary">
@@ -67,10 +71,10 @@
 		</div>
 	</div>
 </body>
+{{> cancelConfirm}}
 {{> addCategoryModal}}
 {{> ordersDetail}}
-{{> cancelConfirm}}
 {{> addOrderModal}}
 {{> addProductModal}}
-
+{{> productDetail}}
 </html>

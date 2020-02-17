@@ -138,11 +138,11 @@ h1 {
 }
 
 .overview-circles {
-	width: 20vw;
-	height: 20vw;
+	width: 15vw;
+	height: 15vw;
 	border-width: 1vw !important;
 	font-weight: 1000 !important;
-	font-size: 2vw;
+	font-size: 1.5vw;
 	text-align: center;
 }
 
@@ -161,6 +161,17 @@ h1 {
 
 #dashboard-logout:hover {
 	transform: translateX(5px);
+}
+
+.livePreview {
+	position: fixed;
+	right: 0px;
+	top: 0px;
+	width: 50%;
+	height: 100%;
+	border: none;
+	outline: none;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
 .notification-badge::before {
