@@ -17,20 +17,6 @@ function parseResponse(response) {
 	return parsed;
 }
 
-
-const Orders = mongoose.model(
-	"Orders",
-	new mongoose.Schema({
-		SellerID: { type: String },
-		destAddress: { type: String },
-		CC: { type: Number },
-		status: { type: String },
-		total: { type: String },
-		ProductList: [{ ProductID: String, Qty: Number }]
-	})
-);
-
-
 module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {
 		Orders.find({ SellerID: sID }, (err, ords) => {
