@@ -8,6 +8,10 @@ var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 var sass = require("sass");
+const multer = require('multer');
+var	upload = multer({ dest:'public/siteData/temp/img/'});
+const sizeOf = require('image-size');
+
 
 // custom modules
 const mailService = require("./modules/emailService.js");
@@ -381,6 +385,38 @@ app.post("/customize", (req, res) => {
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}
+});
+
+		
+app.post('/dashboard/upload', upload.single('file'),  (req, res) => {
+	
+	if (!req.file.mimetype.startsWith('image/')) {
+	  upload.dest()
+	  return res.status(422).json({
+		error :'The uploaded file must be an image'
+	  });
+	}
+  
+	const dimensions = sizeOf(req.file.path);
+  
+	if ((dimensions.width < 640) || (dimensions.height < 480)) {
+	  return res.status(422).json({
+		error :'The image must be at least 640 x 480px'
+	  });
+	}
+	console.log(req.file);
+	return res.status(200).send(req.file);
+  });
+
+  app.post('/dashboard/upload/delete',  (req, res) => {
+	const path = "./public/siteData/temp/img/" + req.file.filename
+try{
+	fs.unlinkSync(path);
+	resolve("successfully deleted image.");
+}catch(err){
+	console.error(err);
+}
+
 });
 
 // Express MiddleWares
