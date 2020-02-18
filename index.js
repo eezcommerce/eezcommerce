@@ -394,6 +394,19 @@ app.post("/dashboard/upload", upload.single("file"), (req, res) => {
 		});
 	}
 
+	let oldPath = req.file.path.split("\\").join("/");
+	//rename path
+	let newPath = "public/siteData/" + req.auth.userDetails._id + "/img/" + req.file.filename;
+
+	//Move image file from temp/img to businessUser_id/img  and delete teh temp/img/file
+	fs.readFile(oldPath, function(err, data) {
+		fs.writeFile(newPath, data, function(err) {
+			fs.unlink(oldPath, function(err) {
+				if (err) throw err;
+			});
+		});
+	});
+
 	const dimensions = sizeOf(req.file.path);
 
 	if (dimensions.width < 640 || dimensions.height < 480) {
