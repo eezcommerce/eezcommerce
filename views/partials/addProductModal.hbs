@@ -117,7 +117,7 @@
           });
 
 					this.on('removedfile', function(file) {
-							$.get("/dashboard/upload/delete",{file: file});
+							$.post("/dashboard/upload/delete",{file: file});
 
 					})
 

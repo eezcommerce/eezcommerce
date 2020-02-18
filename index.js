@@ -418,7 +418,7 @@ app.post("/dashboard/upload", upload.single("file"), (req, res) => {
 	return res.status(200).send(req.file);
 });
 
-app.get("/dashboard/upload/delete", (req, res) => {
+app.post("/dashboard/upload/delete", (req, res) => {
 	console.log("IN DELETE: " + req.file);
 	const path = "./public/siteData/" + req.auth.userDetails._id + "/img/" + req.file.filename;
 	try {
