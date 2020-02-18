@@ -71,9 +71,10 @@
 <script>
 	function deleteRow(rowId){
 		var deleteIt = confirm("Are you sure you want to delete this product?");
+		
 		if(deleteIt){
 	$.get("/deleteProduct/" + rowId, (data)=>{
-		location.reload();
+		location.reload();// still buggy
 		console.log(data.product.name + "deleted.");
 		});
 		}else{
