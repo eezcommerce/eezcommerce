@@ -17,48 +17,44 @@
 		</div>
 	</div>
 
-		<div class="container-fluid">
+	<div class="container-fluid">
 
-			<div class="row">
-				<div class="col-md-12">
-					<div class="table" id="order-data">
-						<table class="table table-striped table-hover">
-							<div class="table responsive">
-								<thead>
-									<tr>
-										<th>SKU</th>
-										<th>Product Name</th>
-										<th>Inventory</th>
-										<th>Price</th>
-										<th># of Purchases</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									{{#each products}}
-									<tr class="productRow" data-toggle="modal" data-id='{{_id}}' data-target="#productDetail" aria-hidden="true">
-										<th scope="row">{{SKU}}</th>
-										<td>{{name}}</td>
-										<td>{{quantity}}</td>
-										<td>{{price}}</td>
-										<td>{{purchased}}</td>
-										<td> <button 
-										type="button"  
-										id="deleteButton" 
-										class="btn btn-danger" 
-										data-toggle="modal" 
-										onclick="deleteRow('{{_id}}')">
-										<i class="fas fa-trash"></i>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table" id="order-data">
+					<table class="table table-striped table-hover">
+						<div class="table responsive">
+							<thead>
+								<tr>
+									<th>SKU</th>
+									<th>Product Name</th>
+									<th>Inventory</th>
+									<th>Price</th>
+									<th># of Purchases</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each products}}
+								<tr class="productRow" data-id='{{_id}}'>
+									<th scope="row">{{SKU}}</th>
+									<td>{{name}}</td>
+									<td>{{quantity}}</td>
+									<td>{{price}}</td>
+									<td>{{purchased}}</td>
+									<td>
+										<button type="button" class="btn btn-danger deleteButton">
+											<i class="fas fa-trash deleteButton" data-id="{{_id}}"></i>
 										</button>
-											</td>
-										
-									</tr>
-									{{/each}}
+									</td>
 
-								</tbody>
-							</div>
-						</table>
-					</div>
+								</tr>
+								{{/each}}
+
+							</tbody>
+						</div>
+					</table>
+				</div>
 				</table>
 			</div>
 			</table>
@@ -69,39 +65,45 @@
 </div>
 
 <script>
-	function deleteRow(rowId){
+	function deleteRow(rowId) {
 		var deleteIt = confirm("Are you sure you want to delete this product?");
-		if(deleteIt){
-	$.get("/deleteProduct/" + rowId, (data)=>{
+		if (deleteIt) {
+			$.get("/deleteProduct/" + rowId, (data) => {
 
-		$('.productRow').attr('data-target','#cancelOrderModal');
-			console.log("request complete" + data.success);
+				$('.productRow').attr('data-target', '#cancelOrderModal');
+				console.log("request complete" + data.success);
+			});
+		} else {
+		}
+		$(this).on("hide.bs.modal", function () {
+			$('.productRow').attr('data-target', '#productDetail');
 		});
-		}else{
-		}	
-		$(this).on("hide.bs.modal", function() {
-		$('.productRow').attr('data-target','#productDetail');
-		});	
 
-		
-
-	//$('#cancelOrderModal').modal('show');
 	}
-$(".productRow").click((e)=>{
+	$(".productRow").click((e) => {
 
-	id = $(e.currentTarget).data("id");
+		if ($(e.target).hasClass("deleteButton")) {
+			deleteRow($(e.currentTarget).data("id"));		
+		} else {
+			
+			$("#productDetail").modal("show");
 
-	$.get("/getProductDetail/"+ id, (data)=>{
-		console.log(data);
+			id = $(e.currentTarget).data("id");
 
-		$('#productDetail').find('#title').html(data.product.name);
-		$('#productDetail').find('#skuDetail').html(data.product.SKU);
-		$('#productDetail').find('#descDetail').html(data.product.description);
-		$('#productDetail').find('#qtyDetail').val(data.product.quantity);
-		$('#productDetail').find('#priceDetail').val(data.product.price);
-		$('#productDetail').find('#soldDetail').val(data.product.purchased);
+			$.get("/getProductDetail/" + id, (data) => {
+
+
+				$('#productDetail').find('#title').html(data.product.name);
+				$('#productDetail').find('#skuDetail').html(data.product.SKU);
+				$('#productDetail').find('#descDetail').html(data.product.description);
+				$('#productDetail').find('#qtyDetail').val(data.product.quantity);
+				$('#productDetail').find('#priceDetail').val(data.product.price);
+				$('#productDetail').find('#soldDetail').val(data.product.purchased);
+			})
+		}
+
+
 	})
-})
 
 
 </script>
