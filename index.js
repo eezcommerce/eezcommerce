@@ -256,9 +256,6 @@ app.post("/signup", (req, res) => {
 				});
 		})
 		.catch(error => {
-			userService.delete(req.body.email).catch(err => {
-				console.log(err);
-			});
 			switch (error.code) {
 				case 11000:
 					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
