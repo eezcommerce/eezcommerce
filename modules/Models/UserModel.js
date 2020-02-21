@@ -39,21 +39,13 @@ const UserModel = mongoose.model(
 			{
 				index: {
 					type: Number,
-					default: 1
+					default: 0
 				},
 				answer: {
 					type: String,
-					default: "answer"
-				}
-			},
-			{
-				index: {
-					type: Number,
-					default: 2
-				},
-				answer: {
-					type: String,
-					default: "answer"
+					default: "answer",
+					maxlength: 64,
+					minlength: 2
 				}
 			}
 		]

@@ -43,7 +43,7 @@
 					{{/each}}
 
 					<input class="form-control mt-2 mb-4" placeholder="Answer" name="answerOne" type="text" required
-						minlength="4" autocomplete="off" value="{{userDetails.securityAnswers.0.answer}}">
+						minlength="2" maxlength="64" autocomplete="off" value="{{userDetails.securityAnswers.0.answer}}">
 				</select>
 
 				<label for="questionTwo">Question 2:</label>
@@ -55,7 +55,7 @@
 					{{/each}}
 
 					<input class="form-control mt-2" placeholder="Answer" name="answerTwo" type="text" required
-						minlength="4" autocomplete="off" value="{{userDetails.securityAnswers.1.answer}}">
+						required minlength="2" maxlength="64" autocomplete="off" value="{{userDetails.securityAnswers.1.answer}}">
 				</select>
 
 

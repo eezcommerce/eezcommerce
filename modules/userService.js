@@ -182,9 +182,12 @@ module.exports.edit = passed => {
 					]
 				}
 			},
+			{
+				runValidators: true
+			},
 			(err, result) => {
 				if (err) {
-					reject(err);
+					reject("Error saving: check input for requirements");
 				} else {
 					resolve(result);
 				}
