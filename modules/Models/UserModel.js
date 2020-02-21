@@ -34,7 +34,29 @@ const UserModel = mongoose.model(
 			maxlength: 64,
 			required: true,
 			default: "eEz Commerce Business"
-		}
+		},
+		securityAnswers: [
+			{
+				index: {
+					type: Number,
+					default: 1
+				},
+				answer: {
+					type: String,
+					default: "answer"
+				}
+			},
+			{
+				index: {
+					type: Number,
+					default: 2
+				},
+				answer: {
+					type: String,
+					default: "answer"
+				}
+			}
+		]
 	})
 );
 

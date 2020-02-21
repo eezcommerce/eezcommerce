@@ -24,7 +24,8 @@ app.engine(
 	exphbs({
 		extname: ".hbs",
 		helpers: {
-			activeLink: hbHelpers.activeLink
+			activeLink: hbHelpers.activeLink,
+			isEqual: hbHelpers.isEqual
 		}
 	})
 );
@@ -173,12 +174,16 @@ app.get("/getOrderDetail/:id", (req, res) => {
 });
 
 app.get("/dashboard/settings", (req, res) => {
-	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
+	res.render("settings", {
+		layout: "dashboard",
+		pagename: "settings",
+		userDetails: req.auth.userDetails,
+		securityQuestions: userService.SecurityQuestions
+	});
 });
 
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
-
 	res.render(
 		route,
 		{
@@ -352,13 +357,20 @@ app.post("/addOrder", (req, res) => {
 app.post("/edit-user", (req, res) => {
 	if (req.auth.isLoggedIn) {
 		let passed = req.body;
+
 		passed._id = req.auth.userDetails._id;
 		userService
 			.edit(passed)
 			.then(result => {
-				req.auth.userDetails.businessName = passed.businessName;
-				req.auth.userDetails.email = passed.email;
-				res.json({ redirectUrl: "/dashboard/settings" });
+				userService
+					.getUserDataForSession(req.auth.userDetails._id)
+					.then(user => {
+						req.auth.userDetails = user;
+						res.json({ redirectUrl: "/dashboard/settings" });
+					})
+					.catch(err => {
+						res.json({ error: err });
+					});
 			})
 			.catch(err => {
 				res.json({ error: err });
