@@ -17,10 +17,8 @@ const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customHelpers = require("./modules/hbHelpers.js");
 
-
 // express middlewares & setup
 console.log(hbHelpers);
-
 
 // Sets the express view engine to use handlebars (file endings in .hbs), registers helpers
 app.engine(
