@@ -29,28 +29,28 @@
 
 
 			<div class="sidebarMenu">
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "overview" pagename}}">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "overview" pagename}}active{{/eq}}">
 					<a class="text-muted" href="/dashboard/overview">Overview</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "orders" pagename}}">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "orders" pagename}}active{{/eq}}">
 					<a class="text-muted" href="/dashboard/orders">Orders</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "categories" pagename}}">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "categories" pagename}}active{{/eq}}">
 					<a class="text-muted" href="/dashboard/categories">
 						Categories
 					</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "products" pagename}}">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "products" pagename}}active{{/eq}}">
 					<a class="text-muted" href="/dashboard/products">
 						Products
 					</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "customize" pagename}}">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "customize" pagename}}active{{/eq}}">
 					<a class="text-muted" href="/dashboard/customize">
 						Customize
 					</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "report" pagename}}">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "report" pagename}}active{{/eq}}">
 					<a class="text-muted" href="/dashboard/report">
 						Report
 					</a>
@@ -58,7 +58,7 @@
 				<div></div>
 			</div>
 			<div class="sidebarFooter mb-5">
-				<a class="pr-3 {{#unless userDetails.isVerified}}notification-badge{{/unless}}" href="/dashboard/settings">
+				<a class="pr-3 {{#unless userDetails.isVerified}}notification-badge{{/unless}} {{#eq userDetails.securityAnswers.0.answer ""}}notification-badge{{/eq}}" href="/dashboard/settings">
 					<i id="dashboard-settings" class="fas fa-cog fa-2x text-muted"></i>
 				</a>
 				<a href="/logout">

@@ -8,25 +8,23 @@ var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 var sass = require("sass");
+var hbHelpers = require("handlebars-helpers")();
 
 // custom modules
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
-const hbHelpers = require("./modules/hbHelpers.js");
 
 // express middlewares & setup
+console.log(hbHelpers);
 
 // Sets the express view engine to use handlebars (file endings in .hbs), registers helpers
 app.engine(
 	".hbs",
 	exphbs({
 		extname: ".hbs",
-		helpers: {
-			activeLink: hbHelpers.activeLink,
-			isEqual: hbHelpers.isEqual
-		}
+		helpers: hbHelpers
 	})
 );
 
