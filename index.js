@@ -144,6 +144,17 @@ app.get("/getProductDetail/:id", (req, res) => {
 		});
 });
 
+app.get("/dashboard/settings/resendVerification", (req, res) => {
+	mailService
+		.sendVerificationEmail(req.auth.userDetails.email, "signup")
+		.then(() => {
+			res.redirect("/email-verification-sent");
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+
 app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
 		.getAllOrders(req.auth.userDetails._id)
@@ -349,15 +360,19 @@ app.post("/addOrder", (req, res) => {
 		});
 });
 
+// keywords k.edit
 app.post("/edit-user", (req, res) => {
 	if (req.auth.isLoggedIn) {
 		let passed = req.body;
 		passed._id = req.auth.userDetails._id;
+		passed.isVerified = req.auth.userDetails.email === passed.email ? req.auth.userDetails.isVerified : false;
+
 		userService
 			.edit(passed)
 			.then(result => {
 				req.auth.userDetails.businessName = passed.businessName;
 				req.auth.userDetails.email = passed.email;
+				req.auth.userDetails.isVerified = passed.isVerified;
 				res.json({ redirectUrl: "/dashboard/settings" });
 			})
 			.catch(err => {

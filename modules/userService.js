@@ -143,7 +143,7 @@ module.exports.edit = passed => {
 	return new Promise((resolve, reject) => {
 		UserModel.updateOne(
 			{ _id: passed._id },
-			{ businessName: passed.businessName, email: passed.email },
+			{ businessName: passed.businessName, email: passed.email, isVerified: passed.isVerified },
 			(err, result) => {
 				if (err) {
 					reject(err);

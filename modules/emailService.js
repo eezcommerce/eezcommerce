@@ -22,9 +22,10 @@ var transporter = nodemailer.createTransport({
 	}
 });
 
-// sends a verification email to the provided email containing a secret, random token
-// TODO: store the token in the user in the database
-// Returns a promise, resolving with an error or the email provided
+/**
+ * @param {String} email the user email
+ * @param {String} mailType allowed: "signup", "reset"
+ */
 module.exports.sendVerificationEmail = (email, mailType) => {
 	return new Promise((resolve, reject) => {
 		// generate secure random bytes of data
