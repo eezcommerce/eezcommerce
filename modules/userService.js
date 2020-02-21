@@ -13,6 +13,29 @@ async function doConnect() {
 
 doConnect();
 
+module.exports.SecurityQuestions = [
+	{
+		id: 0,
+		question: "What is your first pet's name?"
+	},
+	{
+		id: 1,
+		question: "What is your Mother's Maiden name?"
+	},
+	{
+		id: 2,
+		question: "What city were you born in?"
+	},
+	{
+		id: 3,
+		question: "Where was your first date?"
+	},
+	{
+		id: 4,
+		question: "What street did you grow up on?"
+	}
+];
+
 /**
  * @param {object} passed email & password
  */
@@ -143,7 +166,22 @@ module.exports.edit = passed => {
 	return new Promise((resolve, reject) => {
 		UserModel.updateOne(
 			{ _id: passed._id },
-			{ businessName: passed.businessName, email: passed.email, isVerified: passed.isVerified },
+			{
+				businessName: passed.businessName,
+				email: passed.email,
+				$set: {
+					securityAnswers: [
+						{
+							index: parseInt(passed.questionOne),
+							answer: passed.answerOne
+						},
+						{
+							index: parseInt(passed.questionTwo),
+							answer: passed.answerTwo
+						}
+					]
+				}
+			},
 			(err, result) => {
 				if (err) {
 					reject(err);
@@ -194,6 +232,25 @@ module.exports.getWebsiteDataById = id => {
 				reject(err);
 			} else {
 				resolve(site);
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} a user object sanitized for session variable
+ * @param {String} id a user id
+ */
+
+module.exports.getUserDataForSession = id => {
+	return new Promise((resolve, reject) => {
+		UserModel.findOne({ _id: id }, (err, user) => {
+			if (err) {
+				reject(err);
+			} else {
+				user.password = undefined;
+				user.token = undefined;
+				resolve(user);
 			}
 		});
 	});
