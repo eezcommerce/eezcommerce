@@ -15,7 +15,6 @@ const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
-const customHelpers = require("./modules/hbHelpers.js");
 
 // express middlewares & setup
 console.log(hbHelpers);
