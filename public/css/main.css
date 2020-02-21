@@ -101,10 +101,12 @@ h1 {
 	height: 100vh;
 	width: 100vw;
 	position: fixed;
+	grid-template-areas: "side dyna";
 }
 
 .dynamic {
 	overflow-y: scroll;
+	grid-area: dyna;
 }
 
 .dynamic h1 {
@@ -117,6 +119,11 @@ h1 {
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
+	grid-area: side;
+}
+
+.dashboardHeader {
+	display: none;
 }
 
 .sidebarMenu {
@@ -190,5 +197,39 @@ h1 {
 @media only screen and (max-width: 768px) {
 	.bigIcon {
 		font-size: 50vw;
+	}
+
+	.dashboardGrid {
+		grid-template-columns: 100%;
+		grid-template-rows: 50px 100%;
+		grid-template-areas:
+			"head"
+			"dyna";
+	}
+
+	.dashboardHeader {
+		display: flex;
+		align-items: center;
+		justify-content: end;
+		grid-area: head;
+	}
+
+	.sidebar {
+		position: fixed;
+		width: 200px;
+		transition: transform 0.5s ease;
+		z-index: 20;
+	}
+
+	.sidebarOpen {
+		transform: translateX(0px) !important;
+	}
+
+	.sidebarClosed {
+		transform: translateX(-200px);
+	}
+
+	.livePreview {
+		display: none;
 	}
 }
