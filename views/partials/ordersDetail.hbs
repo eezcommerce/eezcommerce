@@ -3,7 +3,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 						<h3>
-							<strong id="title"></strong>
+							<strong id="title" class="title"></strong>
 						</h3>
 							<button type="button" class="close" data-dismiss="modal">
 								&times;
@@ -16,7 +16,12 @@
 									<div class="col-md-12">
 										<div class="text-right mb-4">
 											<p id="DesAddress"></p>
-											<p id="oStatus"></p>
+											<select id="oStatus" name="oStatus">
+    											<option value="Placed">Placed</option>
+    											<option value="Processed">Processed</option>
+    											<option value="Shipped">Shipped</option>
+    											<option value="Complete">Complete</option>
+  											</select>
 										</div>
 										<div class="table" id="order-num-data">
 											<table class="table table-striped table-hover">
@@ -30,14 +35,7 @@
 														</tr>
 													</thead>
 													<tbody id="ProductsList">
-														<!--{{#each ProductList}}
-														<tr>
-															<th scope="row">{{sku}}</th>
-															<td>{{productname}}</td>
-															<td>{{qyty}}</td>
-															<td{>{{price}}</}td>
-														</tr>
-														{{/each}}-->
+
 													</tbody>
 												</div>
 											</table>

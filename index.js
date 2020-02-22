@@ -132,6 +132,18 @@ app.get("/dashboard/products", (req, res) => {
 		});
 });
 
+app.get("/AddOrderModal/", (req, res) => {
+	var allProds = productService
+		.getAllProducts(req.auth.userDetails._id)
+		.then(prods => {
+			console.log(prods);
+			res.json({ products: prods });
+		})
+		.catch(e => {
+			res.json({ error: "Unable to get products" });
+		});
+});
+
 app.get("/getProductDetail/:id", (req, res) => {
 	var id = req.params.id;
 	var allProds = productService

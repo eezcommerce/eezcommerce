@@ -5,7 +5,7 @@
 			<h1><strong>Orders</strong></h1>
 		</div>
 		<div class="offset-10 col-md-2">
-			<button class="btn badge-pill btn-outline-primary btn-sm" data-toggle="modal" data-target="#addOrderModal">
+			<button class="btn badge-pill btn-outline-primary btn-sm addOrder" data-toggle="modal" data-target="#addOrderModal">
 				Add Order
 			</button>
 
@@ -29,7 +29,7 @@
 									<th scope="row">{{_id}}</th>
 									<td>{{destAddress}}</td>
 									<td>{{status}}</td>
-									<td>{{total}}</td>
+									<td>${{total}}</td>
 								</tr>
 							{{/each}}
 						</tbody>
@@ -45,21 +45,30 @@
 
 <script>
 
+	$(".addOrder").click((e)=>{
+		$.get("/AddOrderModal/", (prod)=> {
+			$('#addOrderModal').find('#ProdList').html("<tr><th>Masks</th><th>15.45</th><th>Qty</th><th><button id='addProd' class='btn badge-pill btn-outline-primary btn-sm float-right'>Add</button></th></tr>");	
+			
+
+			$('#addOrderModal').find('#ProdList').append("<tr><th>"
+			+	prod.name[1] + "</th><th>" + prod.price[1]  
+			+	"</th><th> Qty</th><th><button id='addProd' class='btn badge-pill btn-outline-primary btn-sm float-right'>Add</button></th></tr>");	
+		})
+	})
+
 	$(".OrderRow").click((e)=>{
-
-	id = $(e.currentTarget).data("id");
 		
+	var id = $(e.currentTarget).data("id");
+	
 	$.get("/getOrderDetail/"+ id, (data)=>{
-
+		alert(data.order.status);
 		$('#orderDetail').find('#title').html("Order #" + data.order._id);
 		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.destAddress + "</strong>");
 		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
-		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
 		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total).toFixed(2);
 		$('#orderDetail').find('#ProductsList').html("");
 		var j = 0;
 		for (i in data.order.ProductList){
-			
 			$.get("/getProductDetail/"+ data.order.ProductList[i].ProductID, (info) =>{
 			$('#orderDetail').find('#ProductsList').append("<tr><td>" 
 				+ info.product.SKU + "</td><td>" 
