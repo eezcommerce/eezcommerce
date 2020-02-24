@@ -37,11 +37,11 @@
 				Show / Hide Security Questions <i class="fas fa-chevron-down"></i>
 			</button>
 
-			{{#eq userDetails.securityAnswers.0.answer ""}}
+			{{#isFalsey userDetails.securityAnswers.0.answer}}
 			<div class="text-danger mt-2">
 				You must set your security questions.
 			</div>
-			{{/eq}}
+			{{/isFalsey}}
 
 			<div class="form-group collapse pt-3" id="secQuestionsGroup">
 				<label for="questionOne">Question 1:</label>

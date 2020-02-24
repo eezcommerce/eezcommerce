@@ -58,7 +58,16 @@
 				<div></div>
 			</div>
 			<div class="sidebarFooter mb-5">
-				<a class="pr-3 {{#unless userDetails.isVerified}}notification-badge{{/unless}} {{#eq userDetails.securityAnswers.0.answer ""}}notification-badge{{/eq}}" href="/dashboard/settings">
+				<a 
+					class="pr-3 
+						{{#unless userDetails.isVerified}}
+							notification-badge
+						{{/unless}} 
+						{{#isFalsey userDetails.securityAnswers.0.answer}}
+							notification-badge
+						{{/isFalsey}}" 
+					href="/dashboard/settings"
+				>
 					<i id="dashboard-settings" class="fas fa-cog fa-2x text-muted"></i>
 				</a>
 				<a href="/logout">
