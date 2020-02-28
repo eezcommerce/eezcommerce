@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
 var fs = require("fs");
 const UserModel = require("./Models/UserModel");
+var customizationService = require("./customizationService.js");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -57,7 +58,14 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
 							reject("Error creating user directory. Please retry.");
 						}
 
-						resolve(result);
+						customizationService
+							.initialize(result._id)
+							.then(obj => {
+								resolve(result);
+							})
+							.catch(err => {
+								reject(err);
+							});
 					})
 					.catch(err => {
 						reject(err);
