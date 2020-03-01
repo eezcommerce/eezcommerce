@@ -9,6 +9,8 @@ var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 var sass = require("sass");
 var hbHelpers = require("handlebars-helpers")();
+var path = require("path");
+var multer = require("multer");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
@@ -17,6 +19,20 @@ const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 
 // express middlewares & setup
+var avatarStorage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		var dir = "public/siteData/" + req.auth.userDetails._id + "/img/avatar";
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
+		}
+		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/avatar/");
+	},
+	filename: function(req, file, cb) {
+		cb(null, "avatar");
+	}
+});
+
+var uploadAvatar = new multer({ storage: avatarStorage });
 
 // Sets the express view engine to use handlebars (file endings in .hbs), registers helpers
 app.engine(
@@ -410,6 +426,14 @@ app.post("/customize", (req, res) => {
 		} catch (err) {
 			res.json({ error: err });
 		}
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
+
+app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), (req, res) => {
+	if (req.auth.isLoggedIn) {
+		res.redirect("dashboard");
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}
