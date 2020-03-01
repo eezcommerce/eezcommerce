@@ -233,7 +233,7 @@ app.get("/sites/:id", (req, res) => {
 	userService
 		.getWebsiteDataById(id)
 		.then(site => {
-			productService.getAllProducts().then(prods => {
+			productService.getAllProducts(id).then(prods => {
 				site.customMessage = "hello";
 				site.baseUrl = "/sites/" + site._id;
 				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
