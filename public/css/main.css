@@ -135,6 +135,7 @@ h1 {
 	height: 100px;
 	clip-path: circle(50px at center) !important;
 }
+
 .sidebarImg img {
 	width: 100px;
 	height: 100px;
@@ -142,12 +143,13 @@ h1 {
 
 .overlay {
 	width: 100px;
-	height: 100px;
+	height: 50px;
 	position: absolute;
 	text-align: center;
-	margin-top: 38px;
+	margin-top: 50px;
 	opacity: 0;
 	transition: 0.5s ease;
+	color:white !important;
 	background-color: gray;
 	font-family: Montserrat, Arial, Helvetica, sans-serif !important;
 	font-size: 14px;
