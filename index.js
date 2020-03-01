@@ -34,7 +34,7 @@ var avatarStorage = multer.diskStorage({
 
 var uploadAvatar = new multer({
 	storage: avatarStorage,
-	limits: {fileSize: 1 * 4096 * 4096}, // 16mb max file size
+	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
 	fileFilter: function(req, file, callback) {
 		var ext = path.extname(file.originalname);
 		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".svg") {
