@@ -5,13 +5,16 @@
 	{{>websiteHeader}}
 	<title>{{siteData.businessName}} | eEz Commerce</title>
 	<style>
-		.splash{
-			min-height: 600px;
+		.splash {
+			min-height: 400px;
 		}
 
-
-		.container-fluid{
+		.container-fluid {
 			min-height: 100vh;
+		}
+
+		.productCard {
+			height: 300px;
 		}
 	</style>
 </head>
@@ -36,14 +39,41 @@
 	</div>
 	<div class="container-fluid">
 		<div class="row">
-			<div 
-				class="col-md-12 splash d-flex justify-content-center align-items-center text-white" 
-				style="background: url('https://images.unsplash.com/photo-1415025148099-17fe74102b28?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb'); background-size: cover; background-position: center"
-			>
-				<h1 class="p-2" style="background: rgba(0, 0, 0, 0.5);">Shop</h1>
+			<div class="col-md-12 splash d-flex justify-content-center align-items-center bg-primary">
+				<h1 class="p-2">Shop</h1>
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="col-lg-8 offset-lg-2 mt-4 mb-4">
+				<div class="row text-center">
+
+				{{#isTruthy prods}}
+					{{#each prods}}
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-4 productCard">
+						<div class="col-12 bg-light p-2 h-100">
+							<div class="row h-100 flex-column justify-content-between">
+								<div>
+									<h4>{{name}}</h4>
+								</div>
+								<div>
+									"img"
+								</div>
+								<div>${{toFixed price 2}}</div>
+							</div>
+						</div>
+					</div>
+					{{/each}}
+				{{/isTruthy}}
+				{{#isFalsey prods}}
+					<div class="col-12 py-5">
+						<h4>No products yet, check back soon.</h4>
+					</div>
+				{{/isFalsey}}
+
+				</div>
+			</div>
+		</div>
 	</div>
 
 

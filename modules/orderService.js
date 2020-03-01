@@ -35,7 +35,6 @@ module.exports.getOrderById = oneId => {
 	return new Promise((resolve, reject) => {
 		Orders.findOne({ _id: oneId }, (err, ords) => {
 			if (!err) {
-				console.log(ords);
 			} else {
 				console.log("error:" + err);
 				reject(err);
