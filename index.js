@@ -32,7 +32,16 @@ var avatarStorage = multer.diskStorage({
 	}
 });
 
-var uploadAvatar = new multer({ storage: avatarStorage });
+var uploadAvatar = new multer({
+	storage: avatarStorage,
+	fileFilter: function(req, file, callback) {
+		var ext = path.extname(file.originalname);
+		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".svg") {
+			return callback(new Error("Only images are allowed"));
+		}
+		callback(null, true);
+	}
+});
 
 // Sets the express view engine to use handlebars (file endings in .hbs), registers helpers
 app.engine(
