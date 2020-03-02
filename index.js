@@ -404,6 +404,28 @@ app.post("/addProduct", (req, res) => {
 	});
 });
 
+app.post("/editProduct/:id", (req, res) => {
+	let prodId = req.params.id;
+	let prodDesc = req.body.descDetail;
+	let prodQty = req.body.qtyDetail;
+	let prodPrice = req.body.priceDetail;
+	let prodSold = req.body.soldDetail;
+
+	if (req.auth.isLoggedIn) {
+		productService
+			.editProduct(prodId, prodQty, prodPrice, prodDesc, prodSold)
+			.then(() => {
+				res.json({ error: false, redirectUrl: "/dashboard/products" });
+			})
+			.catch(err => {
+				console.log(err);
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
+
 app.post("/addOrder", (req, res) => {
 	let newSID = req.auth.userDetails._id;
 	let newAdd = req.body.Address;

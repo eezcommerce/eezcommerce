@@ -85,15 +85,19 @@ module.exports.deleteProduct = id => {
  * @returns {Object} updated product
  * @param {Object} updated product object
  */
-module.exports.editProduct = passed => {
+module.exports.editProduct = (prodId, qty, prodPrice, desc, sold) => {
 	return new Promise((resolve, reject) => {
-		Products.updateOne({ _id: passed._id }, { name: passed.name, price: passed.price }, (err, result) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(result);
+		Products.updateOne(
+			{ _id: prodId },
+			{ quantity: qty, price: prodPrice, description: desc, purchased: sold },
+			(err, result) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
 			}
-		});
+		);
 	});
 };
 

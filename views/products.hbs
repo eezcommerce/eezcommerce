@@ -38,7 +38,7 @@
 									<th scope="row">{{SKU}}</th>
 									<td>{{name}}</td>
 									<td>{{quantity}}</td>
-									<td>${{addCommas price}}</td>
+									<td>${{toFixed price 2}}</td>
 									<td>{{purchased}}</td>
 									<td>
 										<button type="button" class="btn btn-danger deleteButton">
@@ -89,8 +89,7 @@
 			id = $(e.currentTarget).data("id");
 
 			$.get("/getProductDetail/" + id, (data) => {
-
-
+				$('#productDetail').find('#productDetailForm').attr('action','/editProduct/'+ id);
 				$('#productDetail').find('#title').html(data.product.name);
 				$('#productDetail').find('#skuDetail').html(data.product.SKU);
 				$('#productDetail').find('#descDetail').html(data.product.description);
