@@ -21,8 +21,14 @@
 
 
 			<div class="d-flex flex-column align-items-center justify-content-center">
-				<div class="sidebarImg mt-5 bg-white">
-					<img src="/img/default_profile.jpg" alt="">
+				<div class="sidebarImg mt-5 bg-white">	
+					<a href="" class="overlay"  data-toggle="modal" data-target="#avatarModal">
+						Change<br/>
+						Picture
+					</a>
+					<img src="/siteData/{{userDetails._id}}/img/avatar/avatar" onerror="this.src='/img/default_profile.jpg'; this.onerror= null" alt="logo">
+				
+				
 				</div>
 				<p class="text-muted text-center text-break p-2">{{userDetails.businessName}}</p>
 			</div>
@@ -84,9 +90,11 @@
 	</div>
 </body>
 {{> cancelConfirm}}
+{{> avatarModal}}
 {{> addCategoryModal}}
 {{> ordersDetail}}
 {{> addOrderModal}}
 {{> addProductModal}}
 {{> productDetail}}
+
 </html>
