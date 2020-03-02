@@ -47,22 +47,26 @@
 		<div class="row">
 			<div class="col-lg-8 offset-lg-2 mt-4 mb-4">
 				<div class="row text-center">
-
+					
+<div class="card-deck">
 				{{#isTruthy prods}}
 					{{#each prods}}
-					<div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-4 productCard">
-						<div class="col-12 bg-light p-2 h-100">
-							<div class="row h-100 flex-column justify-content-between">
-								<div>
-									<h4>{{name}}</h4>
-								</div>
-								<div>
-									"img"
-								</div>
-								<div>${{toFixed price 2}}</div>
-							</div>
-						</div>
-					</div>
+
+				<div class="card shadow-sm m-3 hover" style="min-width:14rem; max-width:14rem" >
+				 <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title">{{name}}</h5>
+					 <p class="card-text float-right mb-0">${{toFixed price 2}}</p><br>
+					{{#gt quantity '1'}}
+					<p class="card-text float-right mb-0">{{quantity}} In Stock</p>
+					{{else}}
+					<p class="card-text float-right mb-0" style="color:red">Sold Out</p>
+					{{/gt}}
+     
+      <p class="card-text"><small class="text-muted">{{qty}}</small></p>
+				</div>
+				
+			</div>
 					{{/each}}
 				{{/isTruthy}}
 				{{#isFalsey prods}}
@@ -70,6 +74,7 @@
 						<h4>No products yet, check back soon.</h4>
 					</div>
 				{{/isFalsey}}
+				</div>
 
 				</div>
 			</div>
@@ -82,7 +87,8 @@
 		&copy; {{siteData.businessName}}, <a href="/">eEz Commerce 2020</a>
 	</footer>
 
-
 </body>
 
 </html>
+
+
