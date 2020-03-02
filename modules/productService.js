@@ -62,7 +62,6 @@ module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, pro
 				reject(err);
 			} else {
 				resolve(product);
-				console.log(product.name + " saved to products collection.");
 			}
 		});
 	});

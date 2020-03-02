@@ -17,6 +17,7 @@ const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
+const customizationService = require("./modules/customizationService");
 
 // express middlewares & setup
 var avatarStorage = multer.diskStorage({
@@ -216,6 +217,22 @@ app.get("/dashboard/settings", (req, res) => {
 	});
 });
 
+app.get("/dashboard/customize", (req, res) => {
+	customizationService
+		.get(req.auth.userDetails._id)
+		.then(cust => {
+			res.render("customize", {
+				layout: "dashboard",
+				pagename: "customize",
+				userDetails: req.auth.userDetails,
+				customizations: cust
+			});
+		})
+		.catch(err => {
+			res.send("server error: " + err);
+		});
+});
+
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
 	res.render(
@@ -259,10 +276,25 @@ app.get("/sites/:id", (req, res) => {
 	userService
 		.getWebsiteDataById(id)
 		.then(site => {
-			productService.getAllProducts().then(prods => {
-				site.customMessage = "hello";
+			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
 				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
+			});
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+
+app.get("/sites/:id/:route", (req, res) => {
+	let id = req.params.id;
+	const route = req.params.route;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			productService.getAllProducts(id).then(prods => {
+				site.baseUrl = "/sites/" + site._id;
+				res.render("siteViews/" + route, { layout: false, siteData: site, prods: prods });
 			});
 		})
 		.catch(err => {
@@ -417,16 +449,36 @@ app.post("/edit-user", (req, res) => {
 	}
 });
 
-app.post("/customize", (req, res) => {
+// k.post.customize
+app.post("/customize", async (req, res) => {
 	if (req.auth.isLoggedIn) {
+		await customizationService.edit(req.auth.userDetails._id, {
+			primaryColor: req.body.primaryColor,
+			secondaryColor: req.body.secondaryColor
+		});
+
 		let customSass = sass.renderSync({
 			data: `
+				@import "node_modules/bootstrap/scss/_functions";
+				
+				
 				$theme-colors: (
 					"primary": #${req.body.primaryColor},
 					"secondary": #${req.body.secondaryColor}
 				);
 
+
+
 				@import "node_modules/bootstrap/scss/bootstrap";
+
+				.bg-secondary{
+					color: color-yiq(#${req.body.secondaryColor}, #111111, #ffffff);
+				}
+
+				.bg-primary{
+					color: color-yiq(#${req.body.primaryColor}, #111111, #ffffff);
+				}
+
 			`
 		});
 

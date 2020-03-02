@@ -191,11 +191,8 @@ h1 {
 }
 
 .livePreview {
-	position: fixed;
-	right: 0px;
-	top: 0px;
-	width: 50%;
-	height: 100%;
+	min-height: 99vh;
+	width: 100%;
 	border: none;
 	outline: none;
 	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
