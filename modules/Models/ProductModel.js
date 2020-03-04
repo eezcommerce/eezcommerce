@@ -36,7 +36,11 @@ const ProductsModel = mongoose.model(
 		},
 		description: {
 			type: String,
-			default: "This is a very strong fruit"
+			default: "No description has been given to this product yet."
+		},
+		category:  {
+			type: String,
+			default: "General"
 		}
 	})
 );
