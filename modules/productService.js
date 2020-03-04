@@ -44,7 +44,7 @@ module.exports.getProductById = id => {
 		});
 	});
 };
-module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, prodDesc) => {
+module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, prodDesc, prodCat) => {
 	return new Promise((resolve, reject) => {
 		var prod1 = new Products({
 			owner: ownerId,
@@ -53,7 +53,8 @@ module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, pro
 			quantity: prodQty,
 			price: prodPrice,
 			purchased: 0,
-			description: prodDesc
+			description: prodDesc,
+			category: prodCat
 		});
 
 		prod1.save(function(err, product) {

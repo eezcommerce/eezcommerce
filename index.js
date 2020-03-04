@@ -428,6 +428,7 @@ app.post("/addProduct", (req, res) => {
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
+	let prodCat = req.body.productCategory;
 	let ownerId = req.auth.userDetails._id;
 	if (req.auth.isLoggedIn) {
 		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
@@ -435,7 +436,7 @@ app.post("/addProduct", (req, res) => {
 				res.json({ error: "SKU already exists!" });
 			} else {
 				productService
-					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
+					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat)
 					.then(() => {
 						res.json({ error: false, redirectUrl: "/dashboard/products" });
 					})
