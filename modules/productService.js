@@ -31,6 +31,19 @@ module.exports.getAllProducts = ownerId => {
 	});
 };
 
+module.exports.productsWithCategory = (ownerId,category) => {
+	return new Promise((resolve, reject) => {
+		Products.countDocuments({ owner: ownerId, category: category }, (err, count) => {
+			if (!err) {
+				resolve(count);
+			} else {
+				console.log("error:" + err);
+				reject(err);
+			}
+		});
+	});
+};
+
 module.exports.getProductById = id => {
 	return new Promise((resolve, reject) => {
 		Products.findOne({ _id: id }, (err, prod) => {
