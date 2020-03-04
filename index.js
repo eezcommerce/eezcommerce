@@ -143,23 +143,21 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.get("/dashboard/categories", (req, res) => {
-	
 	categoryService
 		.getAllCategories(req.auth.userDetails)
 		.then(category => {
-			category.forEach(cat =>{
+			category.forEach(cat => {
 				productService
-				.productsWithCategory(req.auth.userDetails._id, cat.name)
-					.then(count=>{
+					.productsWithCategory(req.auth.userDetails._id, cat.name)
+					.then(count => {
 						cat.count = count;
 					})
 					.catch(e => {
 						res.json({ error: "unable to count products." });
 					});
-			})
+			});
 
 			console.log(category);
-
 
 			res.render("categories", {
 				layout: "dashboard",
