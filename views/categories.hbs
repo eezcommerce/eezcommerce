@@ -22,27 +22,18 @@
 					<div class="table responsive">
 						<thead>
 							<tr>
-								<th>ID</th>
 								<th>Category Name</th>
 								<th># Products</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-toggle="modal" data-id="1" data-target="#orderModal">
-								<th scope="row">0</th>
-								<td>Fashion</td>
-								<td>11</td>
-							</tr>
-							<tr data-toggle="modal" data-id="2" data-target="#orderModal">
-								<th scope="row">1</th>
-								<td>Sports</td>
-								<td>4</td>
-							</tr>
-							<tr data-toggle="modal" data-id="2" data-target="#orderModal">
-								<th scope="row">2</th>
-								<td>Electronics</td>
-								<td>7</td>
-							</tr>
+									{{#each categories}}
+								<tr data-toggle="modal" data-target="#orderModal"></tr>
+								<td>{{name}}</td>
+								<td>0</td>
+								</tr>
+									{{/each}}
+							
 						</tbody>
 					</div>
 				</table>

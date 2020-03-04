@@ -15,6 +15,7 @@ var multer = require("multer");
 // custom modules
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
+const categoryService = require("./modules/categoryService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customizationService = require("./modules/customizationService");
@@ -141,19 +142,44 @@ app.get("/dashboard", (req, res) => {
 	res.render("overview", { layout: "dashboard", pagename: "overview", userDetails: req.auth.userDetails });
 });
 
-app.get("/dashboard/products", (req, res) => {
-	var allProds = productService
-		.getAllProducts(req.auth.userDetails)
-		.then(prods => {
-			res.render("products", {
+app.get("/dashboard/categories", (req, res) => {
+	categoryService
+		.getAllCategories(req.auth.userDetails)
+		.then(category => {
+			res.render("categories", {
 				layout: "dashboard",
-				pagename: "products",
-				products: prods,
+				pagename: "categories",
+				categories: category,
 				userDetails: req.auth.userDetails
 			});
 		})
 		.catch(e => {
 			res.json({ error: "unable to get all products" });
+		});
+});
+
+app.get("/dashboard/products", (req, res) => {
+	categoryService
+		.getAllCategories(req.auth.userDetails)
+		.then(category => {
+			productService
+				.getAllProducts(req.auth.userDetails)
+				.then(prods => {
+					res.render("products", {
+						layout: "dashboard",
+						pagename: "products",
+						products: prods,
+						categories: category,
+						userDetails: req.auth.userDetails
+					});
+				})
+				.catch(e => {
+					res.json({ error: "unable to get all products" });
+				});
+		})
+
+		.catch(e => {
+			res.json({ error: "unable to get all categories" });
 		});
 });
 
@@ -378,6 +404,23 @@ app.post("/login", (req, res) => {
 			res.json({ error: err });
 		});
 });
+app.post("/addCategory", (req, res) => {
+	let categoryName = req.body.categoryName;
+	let ownerId = req.auth.userDetails._id;
+	if (req.auth.isLoggedIn) {
+		categoryService
+			.addCategory(ownerId, categoryName)
+			.then(() => {
+				res.json({ error: false, redirectUrl: "/dashboard/categories" });
+			})
+			.catch(err => {
+				console.log(err);
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
 
 app.post("/addProduct", (req, res) => {
 	let prodName = req.body.productName;
@@ -386,22 +429,25 @@ app.post("/addProduct", (req, res) => {
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
 	let ownerId = req.auth.userDetails._id;
-
-	productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
-		if (duplicate == "true") {
-			res.json({ error: "SKU already exists!" });
-		} else {
-			productService
-				.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
-				.then(() => {
-					res.json({ error: false, redirectUrl: "/dashboard/products" });
-				})
-				.catch(err => {
-					console.log(err);
-					res.json({ error: err });
-				});
-		}
-	});
+	if (req.auth.isLoggedIn) {
+		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
+			if (duplicate == "true") {
+				res.json({ error: "SKU already exists!" });
+			} else {
+				productService
+					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
+					.then(() => {
+						res.json({ error: false, redirectUrl: "/dashboard/products" });
+					})
+					.catch(err => {
+						console.log(err);
+						res.json({ error: err });
+					});
+			}
+		});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
 });
 
 app.post("/addOrder", (req, res) => {

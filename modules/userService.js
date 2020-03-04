@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
 var fs = require("fs");
 const UserModel = require("./Models/UserModel");
+const categoryService = require("./categoryService.js");
 var customizationService = require("./customizationService.js");
 
 async function doConnect() {
@@ -61,7 +62,15 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
 						customizationService
 							.initialize(result._id)
 							.then(obj => {
-								resolve(result);
+								//adding default category
+								categoryService
+									.addCategory(result._id, "General")
+									.then(obj => {
+										resolve(result);
+									})
+									.catch(err => {
+										reject(err);
+									});
 							})
 							.catch(err => {
 								reject(err);

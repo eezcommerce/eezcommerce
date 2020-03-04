@@ -38,7 +38,7 @@ const ProductsModel = mongoose.model(
 			type: String,
 			default: "No description has been given to this product yet."
 		},
-		category:  {
+		category: {
 			type: String,
 			default: "General"
 		}
