@@ -467,7 +467,11 @@ app.post("/customize", async (req, res) => {
 					"secondary": #${req.body.secondaryColor}
 				);
 
-
+				.hover:hover {
+					opacity: 0.5;
+					transition: 0.5s ease;
+					box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				}
 
 				@import "node_modules/bootstrap/scss/bootstrap";
 
