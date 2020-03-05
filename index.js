@@ -39,7 +39,7 @@ var uploadAvatar = new multer({
 	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
 	fileFilter: function(req, file, callback) {
 		var ext = path.extname(file.originalname);
-		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".svg") {
+		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
 			return callback(new Error("Only images are allowed"));
 		}
 		callback(null, true);
@@ -139,7 +139,12 @@ app.get("/email-verification-sent", (req, res) => {
 // Dashboard routes keywords k.dash
 
 app.get("/dashboard", (req, res) => {
-	res.render("overview", { layout: "dashboard", pagename: "overview", userDetails: req.auth.userDetails });
+	res.render("overview", {
+		layout: "dashboard",
+		pagename: "overview",
+		userDetails: req.auth.userDetails,
+		avatarExists: fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar")
+	});
 });
 
 app.get("/dashboard/categories", (req, res) => {

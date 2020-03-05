@@ -26,7 +26,11 @@
 						Change<br/>
 						Picture
 					</a>
-					<img src="/siteData/{{userDetails._id}}/img/avatar/avatar" onerror="this.src='/img/default_profile.jpg'; this.onerror= null" alt="logo">
+					{{#if avatarExists}}
+					<img src="/siteData/{{userDetails._id}}/img/avatar/avatar" alt="logo">
+					{{else}}
+					<img src='/img/default_profile.jpg' alt="logo">				
+					{{/if}}
 				
 				
 				</div>
