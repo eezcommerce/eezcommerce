@@ -84,6 +84,10 @@ process.on("unhandledRejection", error => {
 // protecting the /dashboard route (and subroutes) only be available if logged in
 app.use("/dashboard", (req, res, next) => {
 	if (req.auth.isLoggedIn) {
+		console.log(fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar"));
+		req.auth.userDetails.avatarExists = fs.existsSync(
+			"public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar"
+		);
 		next();
 	} else {
 		res.status(403).send("403 Unauthorized <a href='/'>home</a>");
@@ -142,8 +146,7 @@ app.get("/dashboard", (req, res) => {
 	res.render("overview", {
 		layout: "dashboard",
 		pagename: "overview",
-		userDetails: req.auth.userDetails,
-		avatarExists: fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar")
+		userDetails: req.auth.userDetails
 	});
 });
 
