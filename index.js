@@ -380,17 +380,17 @@ app.post("/edit-user", (req, res) => {
 	}
 });
 
-app.post("/UpdateOrder/", (req, res) =>{
+app.post("/UpdateOrder/", (req, res) => {
 	let newSID = req.auth.userDetails._id;
 	let newStatus = req.body.oStatus;
 	orderService
-	.updateOrder(newSID, newStatus)
-	.then(() => {
-		res.json({ error: false, redirectUrl: "/dashboard/orders" });
-	})
-	.catch(err => {
-		res.json({ error: err });
-	});
+		.updateOrder(newSID, newStatus)
+		.then(() => {
+			res.json({ error: false, redirectUrl: "/dashboard/orders" });
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
 });
 
 app.post("/customize", (req, res) => {

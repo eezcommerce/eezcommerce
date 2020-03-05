@@ -83,12 +83,12 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 		});
 	});
 };
-//Update 
+//Update
 //only thing that should be able to change is status. Price, products and address should verified before order was created
-module.exports.updateOrder = (oID, newStatus) =>{
+module.exports.updateOrder = (oID, newStatus) => {
 	return new Promise((resolve, reject) => {
 		console.log("update Order");
-		Products.updateOne({ _id: oID }, { status: newStatus}, (err, result) => {
+		Products.updateOne({ _id: oID }, { status: newStatus }, (err, result) => {
 			if (err) {
 				reject(err);
 			} else {
