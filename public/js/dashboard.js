@@ -77,4 +77,12 @@ $(() => {
 			.removeClass("is-invalid")
 			.removeClass("is-valid");
 	});
+
+	$("#dashboardMenuToggle").click(() => {
+		if (!$(".sidebar").hasClass("sidebarOpen")) {
+			$(".sidebar").addClass("sidebarOpen");
+		} else {
+			$(".sidebar").removeClass("sidebarOpen");
+		}
+	});
 });

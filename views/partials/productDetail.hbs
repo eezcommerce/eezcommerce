@@ -21,38 +21,34 @@
 										</div>
 										</div>
 
-										<form>
+										<form id="productDetailForm" class="needs-validation" novalidate>
   <div class="form-group">
     <label for="descDetail">Description</label>
-    <textarea class="form-control" id="descDetail" style="resize:none" rows="3"></textarea>
+    <textarea class="form-control" name= "descDetail" id="descDetail" style="resize:none" rows="3"></textarea>
   </div>
 
 		<div class="row">
     <div class="col">
 		<label for="qtyDetail">Quantity</label>
-      <input type="number" id="qtyDetail" class="form-control" placeholder="Quantity">
+      <input type="number" name="qtyDetail" id="qtyDetail" class="form-control" placeholder="Quantity" required>
     </div>
     <div class="col">
 		<label for="priceDetail">Price</label>
-      <input type="number" id="priceDetail" class="form-control" placeholder="Price">
+      <input type="number" name="priceDetail" id="priceDetail" class="form-control" placeholder="Price" required>
     </div>
 	 <div class="col">
 		 <label for="soldDetail">Items Sold</label>
-      <input type="number" id="soldDetail" class="form-control" placeholder="Items Sold">
+      <input type="number" name="soldDetail" id="soldDetail" class="form-control" placeholder="Items Sold">
     </div>
   </div>
-
-</form>
-										
-										<div class="text-right panel-body mt-3">
-											<button type="button" class="btn btn-danger badge-pill btn-circle-xl m-1"
-												data-toggle="modal" data-target="#cancelOrderModal">
-												<i class="fa fa-trash"></i>
-											</button>
-											<button class="btn btn-primary badge-pill btn-circle-xl m-1">
-												<i class="fa fa-check"></i>
+	<div class="text-right panel-body mt-3">
+											<button type="submit" class="btn btn-primary badge-pill btn-circle-xl m-1">
+												<i class="fa fa-check"></i> Save Changes
 											</button>
 										</div>
+</form>
+										
+									
 		
 							<!--container-->
 						</div>

@@ -16,7 +16,7 @@ function parseResponse(response) {
 	var parsed = JSON.parse(json);
 	return parsed;
 }
-//Read
+
 module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {
 		Orders.find({ SellerID: sID }, (err, ords) => {
@@ -35,7 +35,6 @@ module.exports.getOrderById = oneId => {
 	return new Promise((resolve, reject) => {
 		Orders.findOne({ _id: oneId }, (err, ords) => {
 			if (!err) {
-				resolve(ords);
 			} else {
 				console.log("error:" + err);
 				reject(err);
@@ -43,7 +42,7 @@ module.exports.getOrderById = oneId => {
 		});
 	});
 };
-//create
+
 module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
@@ -52,7 +51,7 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList)
 			CC: newCC,
 			status: newStatus,
 			total: newTotal,
-			ProductList: newPList
+			ProductList: newPList,
 		});
 		Order1.save(function(err, Order) {
 			if (err) {
@@ -63,7 +62,7 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList)
 		});
 	});
 };
-//create basic
+
 module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
@@ -79,20 +78,6 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 				reject(err);
 			} else {
 				resolve(Order);
-			}
-		});
-	});
-};
-//Update
-//only thing that should be able to change is status. Price, products and address should verified before order was created
-module.exports.updateOrder = (oID, newStatus) => {
-	return new Promise((resolve, reject) => {
-		console.log("update Order");
-		Products.updateOne({ _id: oID }, { status: newStatus }, (err, result) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(result);
 			}
 		});
 	});

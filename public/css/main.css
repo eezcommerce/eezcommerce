@@ -101,10 +101,12 @@ h1 {
 	height: 100vh;
 	width: 100vw;
 	position: fixed;
+	grid-template-areas: "side dyna";
 }
 
 .dynamic {
 	overflow-y: scroll;
+	grid-area: dyna;
 }
 
 .dynamic h1 {
@@ -117,6 +119,11 @@ h1 {
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
+	grid-area: side;
+}
+
+.dashboardHeader {
+	display: none;
 }
 
 .sidebarMenu {
@@ -128,9 +135,29 @@ h1 {
 	height: 100px;
 	clip-path: circle(50px at center) !important;
 }
+
 .sidebarImg img {
 	width: 100px;
 	height: 100px;
+}
+
+.overlay {
+	width: 100px;
+	height: 50px;
+	position: absolute;
+	text-align: center;
+	margin-top: 50px;
+	opacity: 0;
+	transition: 0.5s ease;
+	color: white !important;
+	background-color: gray;
+	font-family: Montserrat, Arial, Helvetica, sans-serif !important;
+	font-size: 14px;
+	font-weight: bold;
+}
+.overlay:hover {
+	opacity: 1;
+	transition: 0.5s ease;
 }
 
 .sidebarMenuItem.active {
@@ -164,11 +191,8 @@ h1 {
 }
 
 .livePreview {
-	position: fixed;
-	right: 0px;
-	top: 0px;
-	width: 50%;
-	height: 100%;
+	min-height: 99vh;
+	width: 100%;
 	border: none;
 	outline: none;
 	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
@@ -191,4 +215,47 @@ h1 {
 	.bigIcon {
 		font-size: 50vw;
 	}
+
+	.dashboardGrid {
+		grid-template-columns: 100%;
+		grid-template-rows: 50px 100%;
+		grid-template-areas:
+			"head"
+			"dyna";
+	}
+
+	.dashboardHeader {
+		display: flex;
+		align-items: center;
+		justify-content: end;
+		grid-area: head;
+	}
+
+	.sidebar {
+		position: fixed;
+		width: 200px;
+		transition: transform 0.5s ease;
+		z-index: 20;
+	}
+
+	.sidebarOpen {
+		transform: translateX(0px) !important;
+	}
+
+	.sidebarClosed {
+		transform: translateX(-200px);
+	}
+
+	.livePreview {
+		display: none;
+	}
+}
+/*
+TESTIMONIAL
+*/
+
+.hover:hover {
+	opacity: 0.5;
+	transition: 0.5s ease;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

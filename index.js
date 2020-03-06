@@ -8,24 +8,52 @@ var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 var sass = require("sass");
+var hbHelpers = require("handlebars-helpers")();
+var path = require("path");
+var multer = require("multer");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
 const userService = require("./modules/userService.js");
+const categoryService = require("./modules/categoryService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
-const hbHelpers = require("./modules/hbHelpers.js");
+const customizationService = require("./modules/customizationService");
+var simpleGuard = require("./modules/simpleGuard.js");
+simpleGuard(app, "foremile", "super secret string", 20);
 
 // express middlewares & setup
+var avatarStorage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		var dir = "public/siteData/" + req.auth.userDetails._id + "/img/avatar";
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
+		}
+		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/avatar/");
+	},
+	filename: function(req, file, cb) {
+		cb(null, "avatar");
+	}
+});
+
+var uploadAvatar = new multer({
+	storage: avatarStorage,
+	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
+	fileFilter: function(req, file, callback) {
+		var ext = path.extname(file.originalname);
+		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+			return callback(new Error("Only images are allowed"));
+		}
+		callback(null, true);
+	}
+});
 
 // Sets the express view engine to use handlebars (file endings in .hbs), registers helpers
 app.engine(
 	".hbs",
 	exphbs({
 		extname: ".hbs",
-		helpers: {
-			activeLink: hbHelpers.activeLink
-		}
+		helpers: hbHelpers
 	})
 );
 
@@ -38,6 +66,15 @@ app.use(express.static("public"));
 app.use(
 	sessions({
 		cookieName: "auth",
+		secret: process.env.SESSION_SECRET,
+		duration: 1 * 1 * 60 * 1000, // HH * MM * SS * MS | fill with ones to the left
+		activeDuration: 1 * 60 * 60 * 1000
+	})
+);
+
+app.use(
+	sessions({
+		cookieName: "senecaAuth",
 		secret: process.env.SESSION_SECRET,
 		duration: 1 * 1 * 60 * 1000, // HH * MM * SS * MS | fill with ones to the left
 		activeDuration: 1 * 60 * 60 * 1000
@@ -113,34 +150,65 @@ app.get("/email-verification-sent", (req, res) => {
 // Dashboard routes keywords k.dash
 
 app.get("/dashboard", (req, res) => {
-	res.render("overview", { layout: "dashboard", pagename: "overview", userDetails: req.auth.userDetails });
+	res.render("overview", {
+		layout: "dashboard",
+		pagename: "overview",
+		userDetails: req.auth.userDetails,
+		avatarExists: fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar")
+	});
 });
 
-app.get("/dashboard/products", (req, res) => {
-	var allProds = productService
-		.getAllProducts(req.auth.userDetails)
-		.then(prods => {
-			res.render("products", {
+app.get("/dashboard/categories", (req, res) => {
+	categoryService
+		.getAllCategories(req.auth.userDetails)
+		.then(category => {
+			category.forEach(cat => {
+				productService
+					.productsWithCategory(req.auth.userDetails._id, cat.name)
+					.then(count => {
+						cat.count = count;
+					})
+					.catch(e => {
+						res.json({ error: "unable to count products." });
+					});
+			});
+
+			console.log(category);
+
+			res.render("categories", {
 				layout: "dashboard",
-				pagename: "products",
-				products: prods,
+				pagename: "categories",
+				categories: category,
 				userDetails: req.auth.userDetails
 			});
 		})
 		.catch(e => {
-			res.json({ error: "unable to get all products" });
+			res.json({ error: "unable to get all categories" });
 		});
 });
 
-app.get("/AddOrderModal/", (req, res) => {
-	var allProds = productService
-		.getAllProducts(req.auth.userDetails._id)
-		.then(prods => {
-			console.log(prods);
-			res.json({ products: prods });
+app.get("/dashboard/products", (req, res) => {
+	categoryService
+		.getAllCategories(req.auth.userDetails)
+		.then(category => {
+			productService
+				.getAllProducts(req.auth.userDetails)
+				.then(prods => {
+					res.render("products", {
+						layout: "dashboard",
+						pagename: "products",
+						products: prods,
+						categories: category,
+						userDetails: req.auth.userDetails
+					});
+				})
+				.catch(e => {
+					res.json({ error: "unable to get all products" });
+				});
 		})
+
 		.catch(e => {
-			res.json({ error: "Unable to get products" });
+			res.json({ error: "unable to get all categories" });
 		});
 });
 
@@ -153,6 +221,17 @@ app.get("/getProductDetail/:id", (req, res) => {
 		})
 		.catch(e => {
 			res.json({ error: "Unable to get product" });
+		});
+});
+
+app.get("/dashboard/settings/resendVerification", (req, res) => {
+	mailService
+		.sendVerificationEmail(req.auth.userDetails.email, "signup")
+		.then(() => {
+			res.redirect("/email-verification-sent");
+		})
+		.catch(err => {
+			res.redirect("/404");
 		});
 });
 
@@ -177,6 +256,7 @@ app.get("/getOrderDetail/:id", (req, res) => {
 	var oneOrder = orderService
 		.getOrderById(id)
 		.then(prod => {
+			console.log(prod);
 			res.json({ order: prod });
 		})
 		.catch(e => {
@@ -185,12 +265,32 @@ app.get("/getOrderDetail/:id", (req, res) => {
 });
 
 app.get("/dashboard/settings", (req, res) => {
-	res.render("settings", { layout: "dashboard", pagename: "settings", userDetails: req.auth.userDetails });
+	res.render("settings", {
+		layout: "dashboard",
+		pagename: "settings",
+		userDetails: req.auth.userDetails,
+		securityQuestions: userService.SecurityQuestions
+	});
+});
+
+app.get("/dashboard/customize", (req, res) => {
+	customizationService
+		.get(req.auth.userDetails._id)
+		.then(cust => {
+			res.render("customize", {
+				layout: "dashboard",
+				pagename: "customize",
+				userDetails: req.auth.userDetails,
+				customizations: cust
+			});
+		})
+		.catch(err => {
+			res.send("server error: " + err);
+		});
 });
 
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
-
 	res.render(
 		route,
 		{
@@ -232,10 +332,25 @@ app.get("/sites/:id", (req, res) => {
 	userService
 		.getWebsiteDataById(id)
 		.then(site => {
-			productService.getAllProducts().then(prods => {
-				site.customMessage = "hello";
+			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
 				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
+			});
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+
+app.get("/sites/:id/:route", (req, res) => {
+	let id = req.params.id;
+	const route = req.params.route;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			productService.getAllProducts(id).then(prods => {
+				site.baseUrl = "/sites/" + site._id;
+				res.render("siteViews/" + route, { layout: false, siteData: site, prods: prods });
 			});
 		})
 		.catch(err => {
@@ -319,6 +434,23 @@ app.post("/login", (req, res) => {
 			res.json({ error: err });
 		});
 });
+app.post("/addCategory", (req, res) => {
+	let categoryName = req.body.categoryName;
+	let ownerId = req.auth.userDetails._id;
+	if (req.auth.isLoggedIn) {
+		categoryService
+			.addCategory(ownerId, categoryName)
+			.then(() => {
+				res.json({ error: false, redirectUrl: "/dashboard/categories" });
+			})
+			.catch(err => {
+				console.log(err);
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
 
 app.post("/addProduct", (req, res) => {
 	let prodName = req.body.productName;
@@ -326,23 +458,49 @@ app.post("/addProduct", (req, res) => {
 	let prodQty = req.body.productInventory;
 	let prodPrice = req.body.productPrice;
 	let prodSKU = req.body.productSKU;
+	let prodCat = req.body.productCategory;
 	let ownerId = req.auth.userDetails._id;
+	if (req.auth.isLoggedIn) {
+		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
+			if (duplicate == "true") {
+				res.json({ error: "SKU already exists!" });
+			} else {
+				productService
+					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat)
+					.then(() => {
+						res.json({ error: false, redirectUrl: "/dashboard/products" });
+					})
+					.catch(err => {
+						console.log(err);
+						res.json({ error: err });
+					});
+			}
+		});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
 
-	productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
-		if (duplicate == "true") {
-			res.json({ error: "SKU already exists!" });
-		} else {
-			productService
-				.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc)
-				.then(() => {
-					res.json({ error: false, redirectUrl: "/dashboard/products" });
-				})
-				.catch(err => {
-					console.log(err);
-					res.json({ error: err });
-				});
-		}
-	});
+app.post("/editProduct/:id", (req, res) => {
+	let prodId = req.params.id;
+	let prodDesc = req.body.descDetail;
+	let prodQty = req.body.qtyDetail;
+	let prodPrice = req.body.priceDetail;
+	let prodSold = req.body.soldDetail;
+
+	if (req.auth.isLoggedIn) {
+		productService
+			.editProduct(prodId, prodQty, prodPrice, prodDesc, prodSold)
+			.then(() => {
+				res.json({ error: false, redirectUrl: "/dashboard/products" });
+			})
+			.catch(err => {
+				console.log(err);
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
 });
 
 app.post("/addOrder", (req, res) => {
@@ -361,16 +519,26 @@ app.post("/addOrder", (req, res) => {
 		});
 });
 
+// keywords k.edit
 app.post("/edit-user", (req, res) => {
 	if (req.auth.isLoggedIn) {
 		let passed = req.body;
+
 		passed._id = req.auth.userDetails._id;
+		passed.isVerified = req.auth.userDetails.email === passed.email ? req.auth.userDetails.isVerified : false;
+
 		userService
 			.edit(passed)
 			.then(result => {
-				req.auth.userDetails.businessName = passed.businessName;
-				req.auth.userDetails.email = passed.email;
-				res.json({ redirectUrl: "/dashboard/settings" });
+				userService
+					.getUserDataForSession(req.auth.userDetails._id)
+					.then(user => {
+						req.auth.userDetails = user;
+						res.json({ redirectUrl: "/dashboard/settings" });
+					})
+					.catch(err => {
+						res.json({ error: err });
+					});
 			})
 			.catch(err => {
 				res.json({ error: err });
@@ -380,30 +548,40 @@ app.post("/edit-user", (req, res) => {
 	}
 });
 
-app.post("/UpdateOrder/", (req, res) => {
-	let newSID = req.auth.userDetails._id;
-	let newStatus = req.body.oStatus;
-	console.log("Update Order");
-	orderService
-		.updateOrder(newSID, newStatus)
-		.then(() => {
-			res.json({ error: false, redirectUrl: "/dashboard/orders" });
-		})
-		.catch(err => {
-			res.json({ error: err });
-		});
-});
-
-app.post("/customize", (req, res) => {
+// k.post.customize
+app.post("/customize", async (req, res) => {
 	if (req.auth.isLoggedIn) {
+		await customizationService.edit(req.auth.userDetails._id, {
+			primaryColor: req.body.primaryColor,
+			secondaryColor: req.body.secondaryColor
+		});
+
 		let customSass = sass.renderSync({
 			data: `
+				@import "node_modules/bootstrap/scss/_functions";
+				
+				
 				$theme-colors: (
 					"primary": #${req.body.primaryColor},
 					"secondary": #${req.body.secondaryColor}
 				);
 
+				.hover:hover {
+					opacity: 0.5;
+					transition: 0.5s ease;
+					box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				}
+
 				@import "node_modules/bootstrap/scss/bootstrap";
+
+				.bg-secondary{
+					color: color-yiq(#${req.body.secondaryColor}, #111111, #ffffff);
+				}
+
+				.bg-primary{
+					color: color-yiq(#${req.body.primaryColor}, #111111, #ffffff);
+				}
+
 			`
 		});
 
@@ -413,6 +591,14 @@ app.post("/customize", (req, res) => {
 		} catch (err) {
 			res.json({ error: err });
 		}
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
+
+app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), (req, res) => {
+	if (req.auth.isLoggedIn) {
+		res.redirect("dashboard");
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}
