@@ -19,6 +19,8 @@ const categoryService = require("./modules/categoryService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customizationService = require("./modules/customizationService");
+var simpleGuard = require("./modules/simpleGuard.js");
+simpleGuard(app, "foremile", "super secret string", 20);
 
 // express middlewares & setup
 var avatarStorage = multer.diskStorage({
@@ -64,6 +66,15 @@ app.use(express.static("public"));
 app.use(
 	sessions({
 		cookieName: "auth",
+		secret: process.env.SESSION_SECRET,
+		duration: 1 * 1 * 60 * 1000, // HH * MM * SS * MS | fill with ones to the left
+		activeDuration: 1 * 60 * 60 * 1000
+	})
+);
+
+app.use(
+	sessions({
+		cookieName: "senecaAuth",
 		secret: process.env.SESSION_SECRET,
 		duration: 1 * 1 * 60 * 1000, // HH * MM * SS * MS | fill with ones to the left
 		activeDuration: 1 * 60 * 60 * 1000
