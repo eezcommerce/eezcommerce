@@ -1,34 +1,42 @@
 <div class="container">
-	<div class="row">
+	<div class="row m-0">
 		<div class="pb-2 mt-4 mb-2 col-md-4">
 			<!--header-->
 			<h1><strong>Orders</strong></h1>
 		</div>
-		<div class="offset-10 col-md-2">
-			<button class="btn badge-pill btn-outline-primary btn-sm addOrder" data-toggle="modal" data-target="#addOrderModal">
-				Add Order
-			</button>
-			Sort by: 
-			<select>
-				<option value="Recent">Recent</option>
-				<option value="Oldest">Oldest</option>
-				<option value="Status">Status</option>
-				<option value="Amount">Totals</option>
-			</select>
+	</div>
+	<div class="row">
+
+		<div class="col-md-4">
+			 
+		
+
 		</div>
-		<div class="col-md-12">
-			<div class="table" id="order-data">
-				<table class="table table-striped table-hover">
+	</div>
+
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table" id="order-data" data-toggle="table">
+					<table class="table table-striped table-hover" id="orderTable">
+
+					<button class="btn badge-pill btn-outline-primary btn-sm addOrder" 
+					data-toggle="modal" data-target="#addOrderModal">
+						<i class="fas fa-plus"></i> Add Order
+					</button>
+
 					<div class="table responsive">
-						<thead>
-							<tr>
-								<th>Order ID</th>
-								<th>Destination</th>
-								<th>Status</th>
-								<th>Total</th>
+							<thead>
+								<tr>
+								<th data-field="Oid" data-sortable="true">Order ID</th>
+								<th data-field="Des" data-sortable="true">Destination</th>
+								<th data-field="Sta" data-sortable="true">Status</th>
+								<th data-field="TTL" data-sortable="true">Total</th>
+							<th></th>
 							</tr>
-						</thead>
-						<tbody>
+							</thead>
+							<tbody>
 							{{#each orders}}
 
 								<tr class="OrderRow" data-toggle="modal" data-id='{{_id}}' data-target="#orderDetail" aria-hidden="true">
@@ -38,19 +46,26 @@
 									<td>${{total}}</td>
 								</tr>
 							{{/each}}
-						</tbody>
-					</div>
+							</tbody>
+						</div>
+					</table>
+				</div>
 				</table>
 			</div>
-			<!--table-->
-
+			</table>
 		</div>
+		<!--table-->
 	</div>
 	<!--row-->
 </div>
 
-<script>
 
+<script>
+	$(document).ready(function(){
+
+ 		 $('#orderTable').DataTable();
+	});
+	
 	$(".addOrder").click((e)=>{
 		$.get("/AddOrderModal/", (prod)=> {
 			$('#addOrderModal').find('#ProdList').html("<tr><th>Masks</th><th>15.45</th><th>Qty</th><th><button id='addProd' class='btn badge-pill btn-outline-primary btn-sm float-right'>Add</button></th></tr>");	

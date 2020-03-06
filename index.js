@@ -383,6 +383,7 @@ app.post("/edit-user", (req, res) => {
 app.post("/UpdateOrder/", (req, res) => {
 	let newSID = req.auth.userDetails._id;
 	let newStatus = req.body.oStatus;
+	console.log("Update Order");
 	orderService
 		.updateOrder(newSID, newStatus)
 		.then(() => {
