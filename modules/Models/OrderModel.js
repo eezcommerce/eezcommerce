@@ -9,8 +9,8 @@ const OrdersModel = mongoose.model(
 		status: { type: String },
 		total: { type: String },
 		ProductList: [{ ProductID: String, Qty: Number }],
-		created: {type: Date, default: Date.now},
-		updated:  {type: Date, default: Date.now}
+		created: { type: Date, default: Date.now },
+		updated: { type: Date, default: Date.now }
 	})
 );
 

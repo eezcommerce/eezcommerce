@@ -35,6 +35,7 @@ module.exports.getOrderById = oneId => {
 	return new Promise((resolve, reject) => {
 		Orders.findOne({ _id: oneId }, (err, ords) => {
 			if (!err) {
+				resolve(ords);
 			} else {
 				console.log("error:" + err);
 				reject(err);
@@ -51,7 +52,7 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList)
 			CC: newCC,
 			status: newStatus,
 			total: newTotal,
-			ProductList: newPList,
+			ProductList: newPList
 		});
 		Order1.save(function(err, Order) {
 			if (err) {
