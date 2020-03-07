@@ -252,7 +252,6 @@ app.get("/dashboard/orders", (req, res) => {
 });
 
 app.get("/getOrderDetail/:id", (req, res) => {
-	
 	var id = req.params.id;
 	var oneOrder = orderService
 		.getOrderById(id)

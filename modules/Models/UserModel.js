@@ -54,7 +54,6 @@ const UserModel = mongoose.model(
 			enum: ["Basic", "Premium"],
 			default: "Basic"
 		}
-
 	})
 );
 
