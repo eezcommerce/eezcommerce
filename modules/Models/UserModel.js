@@ -48,7 +48,13 @@ const UserModel = mongoose.model(
 					minlength: 2
 				}
 			}
-		]
+		],
+		membershipType: {
+			type: String,
+			enum: ["Basic", "Premium"],
+			default: "Basic"
+		}
+
 	})
 );
 
