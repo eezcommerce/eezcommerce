@@ -24,8 +24,8 @@
 						</thead>
 						<tbody>
 							{{#each orders}}
-
 								<tr class="OrderRow" data-toggle="modal" data-id='{{_id}}' data-target="#orderDetail" aria-hidden="true">
+
 									<th scope="row">{{_id}}</th>
 									<td>{{destAddress}}</td>
 									<td>{{status}}</td>
@@ -44,6 +44,11 @@
 </div>
 
 <script>
+
+	$(document).ready(function(){
+		  $('#orderTable').DataTable();
+	});
+	
 
 	$(".OrderRow").click((e)=>{
 
@@ -73,5 +78,4 @@
 		}
 	})
 })
-
 </script>
