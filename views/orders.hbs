@@ -56,6 +56,9 @@
 		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
 		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
 		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total).toFixed(2);
+
+		//$('#orderDetail').find('#oStatus option[value="Shipped"]').attr('selected','selected');
+
 		$('#orderDetail').find('#ProductsList').html("");
 		var j = 0;
 		for (i in data.order.ProductList){
