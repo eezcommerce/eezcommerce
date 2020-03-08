@@ -6,9 +6,21 @@
 						<button type="button" class="close" data-dismiss="modal">
 							<span>&times;</span>
 						</button>
+
+
+						<form type="POST" id="addProduct" enctype="multipart/form-data"  action="/test">
+								<input
+										type="file"
+										name="imgFile"
+										id="imgFile"
+										class="form-control-file"
+			
+									/>
+									<button type="submit">SUBMIT</button>
+						</form>
 						<h1>Add Product</h1>
 
-						<form type="POST" id="addProduct" class="needs-validation" novalidate action="/addProduct">
+						<form type="POST" id="addProduct" enctype="multipart/form-data" class="needs-validation" novalidate action="/addProduct">
 						
 								<div class="form-group row">
 									<div class="col-sm-12">	
@@ -19,6 +31,16 @@
 										class="form-control"
 										placeholder="Product"
 										required
+									/>
+									</div>
+												<div class="col-sm-12">	
+									
+										<label for="imgFile">Upload Image</label>
+									<input
+										type="file"
+										name="imgFile"
+										class="form-control-file"
+			
 									/>
 									</div>
 									

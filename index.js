@@ -57,7 +57,6 @@ const uploadImg = new multer({
 	}
 });
 
-
 var uploadAvatar = new multer({
 	storage: avatarStorage,
 	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
@@ -478,22 +477,20 @@ app.post("/addCategory", (req, res) => {
 });
 
 app.post("/test", uploadImg.single("imgFile"), (req, res) => {
-	console.log("HELLO?")
-	if(req.file == undefined){
-		console.log("file undefined")
-	}else{
+	console.log("HELLO?");
+	if (req.file == undefined) {
+		console.log("file undefined");
+	} else {
 		console.log(req.file);
 	}
-
 });
 
 app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
-		if(req.file == undefined){
-			console.log("file undefined")
-		}else{
-			console.log(req.file);
-			
-		}
+	if (req.file == undefined) {
+		console.log("file undefined");
+	} else {
+		console.log(req.file);
+	}
 	let prodName = req.body.productName;
 	let prodDesc = req.body.productDesc;
 	let prodQty = req.body.productInventory;
