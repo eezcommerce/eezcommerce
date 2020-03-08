@@ -60,7 +60,7 @@
 		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.destAddress + "</strong>");
 		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
 		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total).toFixed(2);
-		$('#orderDetail').find('#oStatus option[value="Shipped"]').attr('selected','selected');
+		//$('#orderDetail').find('#oStatus option[value="Shipped"]').attr('selected','selected');
 		$('#orderDetail').find('#ProductsList').html("");
 
 		var j = 0;
