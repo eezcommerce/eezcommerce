@@ -505,6 +505,24 @@ app.post("/editProduct/:id", (req, res) => {
 	}
 });
 
+app.post("/editOrder/:id", (req, res) => {
+	let OrdId = req.params.id;
+	let newStatus = req.body.odStatus;
+
+	if (req.auth.isLoggedIn) {
+		orderService
+			.editOrder(OrdId, newStatus)
+			.then(() => {
+				res.json({ error: false, redirectUrl: "/dashboard/orders" });
+			})
+			.catch(err => {
+				console.log(err);
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
 app.post("/addOrder", (req, res) => {
 	let newSID = req.auth.userDetails._id;
 	let newAdd = req.body.Address;
