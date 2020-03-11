@@ -22,9 +22,8 @@ const customizationService = require("./modules/customizationService");
 var simpleGuard = require("./modules/simpleGuard.js");
 
 if (!process.env.DEV_MODE) {
-	simpleGuard(app, "foremile", "super secret string", 20);	
+	simpleGuard(app, "foremile", "super secret string", 20);
 }
-
 
 // express middlewares & setup
 var avatarStorage = multer.diskStorage({
