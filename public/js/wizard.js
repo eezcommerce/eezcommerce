@@ -40,4 +40,16 @@ $(function() {
 		],
 		prevent: ({ el }) => el.classList && el.classList.contains("prevent")
 	});
+
+	$(document).on("click", ".s-1-done", e => {
+		let query =
+			"?name=" +
+			encodeURIComponent(
+				$("body")
+					.find(".s-1-in")
+					.val()
+			);
+
+		barba.go($(e.target).data("href") + query);
+	});
 });

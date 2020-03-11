@@ -289,14 +289,49 @@ app.get("/dashboard/customize", (req, res) => {
 		});
 });
 
-app.get("/dashboard/wizard/:step", (req, res) => {
+app.get("/dashboard/wizard/one", (req, res) => {
+	res.render("wizardSteps/one", {
+		layout: "wizard"
+	});
+});
+
+app.get("/dashboard/wizard/two", async (req, res) => {
+	if (req.query.name) {
+		try {
+			await userService.directEdit({ _id: req.auth.userDetails._id, businessName: req.query.name });
+		} catch (error) {
+			res.send("Error: " + error);
+		}
+	}
+
 	industryModel.find({}, {}, { lean: true }, (err, industries) => {
-		res.render("wizardSteps/" + req.params.step, {
+		res.render("wizardSteps/two", {
 			layout: "wizard",
 			wizardCommon: {
 				industries: industries
 			}
 		});
+	});
+});
+
+app.get("/dashboard/wizard/three", (req, res) => {
+	industryModel.find({ _id: req.query.industry }, async (err, result) => {
+		if (err) {
+			res.send("ERROR: PARAMETER MODIFIED");
+		} else {
+			try {
+				await userService.directEdit({ _id: req.auth.userDetails._id, $set: { industry: result } });
+			} catch (error) {
+				res.send("Error: " + error);
+			}
+
+			userService.getUserDataForSession(req.auth.userDetails._id).then(result => {
+				req.auth.userDetails = result;
+				res.render("wizardSteps/three", {
+					layout: "wizard"
+				});
+			});
+		}
 	});
 });
 
