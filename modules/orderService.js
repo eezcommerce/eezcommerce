@@ -83,3 +83,19 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 		});
 	});
 };
+
+module.exports.UpdateOrder = () => {
+	return new Promise((resolve, reject) => {
+		Products.updateOne(
+			{ _id: prodId },
+			{ quantity: qty, price: prodPrice, description: desc, purchased: sold },
+			(err, result) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			}
+		);
+	});
+};
