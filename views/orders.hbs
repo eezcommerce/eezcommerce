@@ -11,8 +11,8 @@
 
 		</div>
 		<div class="col-md-12">
-			<div class="table" id="order-data" data-toggle="table">
-				<table class="table table-striped table-hover" id="orderTable">
+			<div class="table" id="order-data">
+				<table class="table table-striped table-hover">
 					<div class="table responsive">
 						<thead>
 							<tr>
@@ -24,7 +24,8 @@
 						</thead>
 						<tbody>
 							{{#each orders}}
-								<tr class="OrderRow" data-id='{{_id}}'>
+								<tr class="OrderRow" data-toggle="modal" data-id='{{_id}}' data-target="#orderDetail" aria-hidden="true">
+
 									<th scope="row">{{_id}}</th>
 									<td>{{destAddress}}</td>
 									<td>{{status}}</td>
@@ -43,14 +44,13 @@
 </div>
 
 <script>
+
 	$(document).ready(function(){
 		  $('#orderTable').DataTable();
 	});
 	
+
 	$(".OrderRow").click((e)=>{
-
-
-	$("#orderDetail").modal("show");
 
 	id = $(e.currentTarget).data("id");
 		
@@ -59,10 +59,17 @@
 		$('#orderDetail').find('#title').html("Order #" + data.order._id);
 		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.destAddress + "</strong>");
 		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
+		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
 		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total).toFixed(2);
+<<<<<<< HEAD
 		$('#orderDetail').find('#odStatus option[value=Shipped]').attr('selected', true);
 		$('#orderDetail').find('#ProductsList').html("");
+=======
 
+		//$('#orderDetail').find('#oStatus option[value="Shipped"]').attr('selected','selected');
+>>>>>>> 9cb3c24314bca765674b36ffc89f79774b551cd2
+
+		$('#orderDetail').find('#ProductsList').html("");
 		var j = 0;
 		for (i in data.order.ProductList){
 			
