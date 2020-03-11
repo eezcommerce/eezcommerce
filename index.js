@@ -20,7 +20,10 @@ const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customizationService = require("./modules/customizationService");
 var simpleGuard = require("./modules/simpleGuard.js");
-simpleGuard(app, "foremile", "super secret string", 20);
+
+if (!process.env.DEV_MODE) {
+	simpleGuard(app, "foremile", "super secret string", 20);
+}
 
 // express middlewares & setup
 var avatarStorage = multer.diskStorage({

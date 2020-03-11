@@ -46,17 +46,24 @@ module.exports.getCategoryById = id => {
 };
 module.exports.addCategory = (ownerId, categoryName) => {
 	return new Promise((resolve, reject) => {
-		var cat = new Categories({
-			owner: ownerId,
-			name: categoryName
-		});
-
-		cat.save(function(err, category) {
-			if (err) {
-				console.log(err);
-				reject(err);
+		Categories.find({ owner: ownerId, name: categoryName }, function(err, docs) {
+			console.log("LENGTH" + docs.length);
+			if (docs.length) {
+				reject("Name already exists!");
 			} else {
-				resolve(category);
+				var cat = new Categories({
+					owner: ownerId,
+					name: categoryName
+				});
+
+				cat.save(function(err, category) {
+					if (err) {
+						console.log(err);
+						reject(err);
+					} else {
+						resolve(category);
+					}
+				});
 			}
 		});
 	});
