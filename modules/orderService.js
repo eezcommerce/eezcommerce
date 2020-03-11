@@ -84,6 +84,23 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 	});
 };
 
-module.exports.UpdateOrder = () => {
+/**
+ * @returns {Object}
+ * @param {Object} updated
+ */
 
+module.exports.UpdateOrder = (OrdId, newStatus) => {
+	return new Promise((resolve, reject) => {
+		Products.updateOne(
+			{ _id: OrdId },
+			{ status: newStatus},
+			(err, result) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			}
+		);
+	});
 };
