@@ -61,14 +61,7 @@
 		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
 		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
 		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total).toFixed(2);
-<<<<<<< HEAD
-		$('#orderDetail').find('#odStatus option[value=Shipped]').attr('selected', true);
-		$('#orderDetail').find('#ProductsList').html("");
-=======
-
-		//$('#orderDetail').find('#oStatus option[value="Shipped"]').attr('selected','selected');
->>>>>>> 9cb3c24314bca765674b36ffc89f79774b551cd2
-
+		$('#odStatus').val(data.order.status); 
 		$('#orderDetail').find('#ProductsList').html("");
 		var j = 0;
 		for (i in data.order.ProductList){
