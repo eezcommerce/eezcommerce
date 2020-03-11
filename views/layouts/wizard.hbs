@@ -30,11 +30,23 @@
 		}
 
 
-		.wizard-industry, .wizard-industry div{
+		.wizard-industry{
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			min-height: 150px;
+			transition: all 0.2s ease;
+		}
+
+		.wizard-industry:hover{
+			transform: translateY(-5px);
+			background-color: var(--primary) !important;
+			color: var(--white) !important;
+		}
+
+
+		a:link, a:visited{
+			text-decoration: none;
 		}
 	</style>
 </head>
