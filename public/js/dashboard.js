@@ -32,12 +32,14 @@ $(() => {
 					//specific for seperate
 					$("#emailReset").addClass("is-invalid");
 					$("#productSKU").addClass("is-invalid");
+					$("#categoryAdd").addClass("is-invalid");
 					form
 						.find(".server-response")
 						.html(data.error)
 						.addClass("d-block");
 					loader.removeClass("d-flex");
 				} else {
+					$("#categoryAdd").removeClass("is-invalid");
 					// the server will respond with a redirect url. if everything goes well, we should go there
 					window.location = data.redirectUrl;
 				}
