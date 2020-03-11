@@ -31,7 +31,7 @@
 									<td>{{destAddress}}</td>
 									<td>{{status}}</td>
 									<td>{{toFixed total 2}}</td>
-									<td>{{substr created_at 6}}</td>
+									<td>{{created_at}}</td>
 								</tr>
 							{{/each}}
 						</tbody>
@@ -62,7 +62,7 @@
 		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
 		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
 		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total).toFixed(2);
-		$('#orderDetail').find('odStatus').val(data.order.status);
+		$('#orderDetail').find('#odStatus option[value="' + data.order.status + '"]').attr('selected', true);
 		$('#orderDetail').find('#ProductsList').html("");
 		var j = 0;
 		for (i in data.order.ProductList){
