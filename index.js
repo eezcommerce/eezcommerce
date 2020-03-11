@@ -19,6 +19,7 @@ const categoryService = require("./modules/categoryService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customizationService = require("./modules/customizationService");
+const industryModel = require("./modules/Models/IndustryModel");
 var simpleGuard = require("./modules/simpleGuard.js");
 
 if (!process.env.DEV_MODE) {
@@ -291,6 +292,63 @@ app.get("/dashboard/customize", (req, res) => {
 		});
 });
 
+app.get("/dashboard/wizard/one", (req, res) => {
+	res.render("wizardSteps/one", {
+		layout: "wizard"
+	});
+});
+
+app.get("/dashboard/wizard/two", async (req, res) => {
+	if (req.query.name) {
+		try {
+			await userService.directEdit({ _id: req.auth.userDetails._id, businessName: req.query.name });
+		} catch (error) {
+			res.send("Error: " + error);
+		}
+	}
+
+	industryModel.find({}, {}, { lean: true }, (err, industries) => {
+		res.render("wizardSteps/two", {
+			layout: "wizard",
+			wizardCommon: {
+				industries: industries
+			}
+		});
+	});
+});
+
+app.get("/dashboard/wizard/three", (req, res) => {
+	industryModel.find({ _id: req.query.industry }, async (err, result) => {
+		if (err) {
+			res.send("ERROR: PARAMETER MODIFIED");
+		} else {
+			try {
+				await userService.directEdit({ _id: req.auth.userDetails._id, $set: { industry: result } });
+			} catch (error) {
+				res.send("Error: " + error);
+			}
+
+			userService.getUserDataForSession(req.auth.userDetails._id).then(result => {
+				req.auth.userDetails = result;
+				res.render("wizardSteps/three", {
+					layout: "wizard"
+				});
+			});
+		}
+	});
+});
+
+app.get("/dashboard/wizard", (req, res) => {
+	industryModel.find({}, {}, { lean: true }, (err, industries) => {
+		res.render("wizardSteps/start", {
+			layout: "wizard",
+			wizardCommon: {
+				industries: industries
+			}
+		});
+	});
+});
+
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
 	res.render(
@@ -430,7 +488,11 @@ app.post("/login", (req, res) => {
 		.then(user => {
 			req.auth.isLoggedIn = true;
 			req.auth.userDetails = user;
-			res.json({ error: false, redirectUrl: "/dashboard" });
+			if (user.didCompleteWizard) {
+				res.json({ error: false, redirectUrl: "/dashboard" });
+			} else {
+				res.json({ error: false, redirectUrl: "/dashboard/wizard" });
+			}
 		})
 		.catch(err => {
 			res.json({ error: err });

@@ -1,0 +1,22 @@
+<div class="w-100 text-center">
+	<h1 class="my-3 float-up">Step two.</h1>
+	<p class="mb-5 float-up">Select the industry that best describes you: </p>
+
+	<div class="container-fluid pb-5" style="overflow-y: auto; max-height: 450px">
+		<div class="row">
+
+			{{#each wizardCommon.industries}}
+			<div class="col-lg-3 text-center wizard-industry my-3 float-up">
+				<a href="/dashboard/wizard/three?industry={{_id}}" class="w-100 h-100">
+					<div class="p-2 shadow rounded-lg w-100 h-100">
+						{{name}}
+					</div>
+				</a>
+
+			</div>
+			{{/each}}
+		</div>
+	</div>
+
+
+</div>

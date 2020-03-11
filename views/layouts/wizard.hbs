@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	{{>header}}
+	<title>Document</title>
+	<style>
+		.loader {
+			position: fixed;
+			width: 100vw;
+			height: 100vh;
+			top: 0px;
+			left: 0px;
+			z-index: 5;
+			pointer-events: none;
+			display: flex;
+			list-style: none;
+		}
+
+		.loader li {
+			background: var(--primary);
+			transform: scaleY(0);
+			width: 12.5%;
+		}
+
+		.wizard-close{
+			position: fixed;
+			right: 20px;
+			top: 20px;
+		}
+
+
+		.wizard-industry, .wizard-industry div{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 150px;
+		}
+	</style>
+</head>
+
+<body data-barba="wrapper">
+
+	<ul class="loader">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<div class="container" style="height: 100vh">
+		<a class="prevent" href="/dashboard">
+			<i class="fas fa-times wizard-close fa-2x text-muted"></i>
+		</a>
+		
+		<div class="row h-100">
+			<div class="col-12 h-100 d-flex justify-content-center align-items-center" data-barba="container">
+				{{{body}}}
+			</div>
+		</div>
+
+	</div>
+
+
+</body>
+
+<!-- Barba Core -->
+<script src="https://unpkg.com/@barba/core"></script>
+
+<!-- GSAP for animation -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>
+
+
+<script src="/js/wizard.js"></script>
+
+</html>
