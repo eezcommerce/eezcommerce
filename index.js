@@ -288,11 +288,11 @@ app.get("/dashboard/customize", (req, res) => {
 		});
 });
 
-app.get("/dashboard/wizard", (req, res)=>{
+app.get("/dashboard/wizard", (req, res) => {
 	res.render("wizard", {
 		layout: false
-	})
-})
+	});
+});
 
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
