@@ -32,7 +32,8 @@ const imageStorage = multer.diskStorage({
 		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/");
 	},
 	filename: function(req, file, cb) {
-		cb(null, "Image");
+		// probably want the image to actually be an image
+		cb(null, "Image" + path.extname(file.originalname));
 	}
 });
 const avatarStorage = multer.diskStorage({
