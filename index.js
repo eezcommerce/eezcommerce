@@ -19,8 +19,9 @@ const categoryService = require("./modules/categoryService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customizationService = require("./modules/customizationService");
+const industryModel = require("./modules/Models/IndustryModel");
 var simpleGuard = require("./modules/simpleGuard.js");
-simpleGuard(app, "foremile", "super secret string", 20);
+simpleGuard(app, "foremile", "super secret string", 120);
 
 // express middlewares & setup
 var avatarStorage = multer.diskStorage({
@@ -288,9 +289,25 @@ app.get("/dashboard/customize", (req, res) => {
 		});
 });
 
+app.get("/dashboard/wizard/:step", (req, res) => {
+	industryModel.find({}, {}, { lean: true }, (err, industries) => {
+		res.render("wizardSteps/" + req.params.step, {
+			layout: "wizard",
+			wizardCommon: {
+				industries: industries
+			}
+		});
+	});
+});
+
 app.get("/dashboard/wizard", (req, res) => {
-	res.render("wizard", {
-		layout: false
+	industryModel.find({}, {}, { lean: true }, (err, industries) => {
+		res.render("wizardSteps/start", {
+			layout: "wizard",
+			wizardCommon: {
+				industries: industries
+			}
+		});
 	});
 });
 
@@ -433,7 +450,11 @@ app.post("/login", (req, res) => {
 		.then(user => {
 			req.auth.isLoggedIn = true;
 			req.auth.userDetails = user;
-			res.json({ error: false, redirectUrl: "/dashboard" });
+			if (user.didCompleteWizard) {
+				res.json({ error: false, redirectUrl: "/dashboard" });
+			} else {
+				res.json({ error: false, redirectUrl: "/dashboard/wizard" });
+			}
 		})
 		.catch(err => {
 			res.json({ error: err });
