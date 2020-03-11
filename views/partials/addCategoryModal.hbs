@@ -10,7 +10,8 @@
 				<form method="POST" id="addCategory" class="needs-validation" novalidate action="/addCategory">
 					<div class="form-group row">
 						<div class="col-sm-12">
-							<input name="categoryName" class="form-control" placeholder="Category" required />
+							<input id="categoryAdd" name="categoryName" class="form-control" placeholder="Category" required />
+							<div class="invalid-feedback">Category already exists</div>
 						</div>
 					</div>
 					<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit">

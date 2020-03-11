@@ -36,7 +36,6 @@ module.exports.getOrderById = oneId => {
 		Orders.findOne({ _id: oneId }, (err, ords) => {
 			if (!err) {
 				resolve(ords);
-
 			} else {
 				console.log("error:" + err);
 				reject(err);
@@ -82,5 +81,26 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 				resolve(Order);
 			}
 		});
+	});
+};
+
+/**
+ * @returns {Object}
+ * @param {Object} updated
+ */
+
+module.exports.UpdateOrder = (OrdId, newStatus) => {
+	return new Promise((resolve, reject) => {
+		Products.updateOne(
+			{ _id: OrdId },
+			{ status: newStatus},
+			(err, result) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			}
+		);
 	});
 };
