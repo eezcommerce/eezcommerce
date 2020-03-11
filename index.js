@@ -346,7 +346,9 @@ app.get("/dashboard/wizard/three", (req, res) => {
 	});
 });
 
-app.get("/dashboard/wizard/four", (req, res) => {
+app.get("/dashboard/wizard/four", async (req, res) => {
+	await userService.directEdit({ _id: req.auth.userDetails._id, didCompleteWizard: true });
+
 	res.render("wizardSteps/four", {
 		layout: "wizard"
 	});

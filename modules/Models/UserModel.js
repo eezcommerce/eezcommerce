@@ -37,6 +37,10 @@ const UserModel = mongoose.model(
 			default: "eEz Commerce Business"
 		},
 		industry: industryModel.schema,
+		didCompleteWizard: {
+			type: Boolean,
+			default: false
+		},
 		securityAnswers: [
 			{
 				index: {
