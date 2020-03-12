@@ -58,47 +58,33 @@ module.exports.getProductById = id => {
 	});
 };
 
-
 /**
  * @function getTopSellers returns the top selling products for a given userId
  * @param id the userId to search products by
  */
 module.exports.getTopSellers = id => {
 	return new Promise((resolve, reject) => {
-		Products.find(
-			{ owner: id },
-			null,
-			{ sort: { purchased: -1 } },
-			(err, result) => {
-				if (err) {
-					reject(err)
-				} else{
-					resolve(result)
-				}
-			}).lean()
-	})
+		Products.find({ owner: id }, null, { sort: { purchased: -1 } }, (err, result) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(result);
+			}
+		}).lean();
+	});
+};
 
-}
-
-
-
-module.exports.getTopCategories = (id) => {
+module.exports.getTopCategories = id => {
 	return new Promise((resolve, reject) => {
-		Products.find(
-			{ owner: id },
-			null,
-			{ sort: { purchased: -1 } },
-			(err, result) => {
-				if (err) {
-					reject(err)
-				} else{
-					resolve(result)
-				}
-			}).lean()
-	})
-
-}
-
+		Products.find({ owner: id }, null, { sort: { purchased: -1 } }, (err, result) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(result);
+			}
+		}).lean();
+	});
+};
 
 module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, prodDesc, prodCat) => {
 	return new Promise((resolve, reject) => {
@@ -113,7 +99,7 @@ module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, pro
 			category: prodCat
 		});
 
-		prod1.save(function (err, product) {
+		prod1.save(function(err, product) {
 			if (err) {
 				console.log(err);
 				reject(err);
