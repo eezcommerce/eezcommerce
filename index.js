@@ -475,22 +475,27 @@ app.post("/signup", (req, res) => {
 	userService
 		.create({ email: req.body.email, password: req.body.inputPassword })
 		.then(() => {
-			mailService
-				.sendVerificationEmail(req.body.email, "signup")
-				.then(() => {
-					res.json({ error: false, redirectUrl: "/email-verification-sent" });
-					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
-				})
-				.catch(e => {
-					res.json({ error: "Error sending verification email. Please try again later." });
+			if (process.env.BYPASS_VERIFICATION === "true") {
+				res.json({ error: "**SIGNED UP WITH BYPASSED VERIFICATION**" });
+				console.log("\n\n\t**DANGER: SIGNED UP WITH BYPASSED VERIFICATION CHECK ENV.BYPASS_VERIFICATION**\n\n");
+			} else {
+				mailService
+					.sendVerificationEmail(req.body.email, "signup")
+					.then(() => {
+						res.json({ error: false, redirectUrl: "/email-verification-sent" });
+						//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+					})
+					.catch(e => {
+						res.json({ error: "Error sending verification email. Please try again later." });
 
-					userService.delete(req.body.email).catch(err => {
-						console.log(err);
+						userService.delete(req.body.email).catch(err => {
+							console.log(err);
+						});
+						if (e.toString().indexOf("Greeting") >= 0) {
+							console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
+						}
 					});
-					if (e.toString().indexOf("Greeting") >= 0) {
-						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
-					}
-				});
+			}
 		})
 		.catch(error => {
 			console.log(error);
