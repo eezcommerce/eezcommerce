@@ -4,6 +4,7 @@ const OrdersModel = mongoose.model(
 	"Orders",
 	new mongoose.Schema({
 		SellerID: { type: String },
+		CustName: { type: String}, 
 		destAddress: { type: String },
 		CC: { type: Number },
 		status: { type: String },
