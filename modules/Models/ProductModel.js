@@ -6,7 +6,6 @@ let productSchema = new mongoose.Schema({
 		required: true,
 		unique: false
 	},
-
 	SKU: {
 		type: String,
 		maxlength: 4,
@@ -38,7 +37,8 @@ let productSchema = new mongoose.Schema({
 	category: {
 		type: String,
 		default: "General"
-	}
+	},
+		img: { type: String, default: "" }
 });
 
 productSchema.index({ owner: 1, SKU: 1 }, { unique: true });
