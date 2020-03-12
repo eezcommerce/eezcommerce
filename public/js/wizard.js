@@ -17,17 +17,18 @@ $(function() {
 	function floatIn() {
 		var tl = gsap.timeline();
 		tl.set(".float-up", { opacity: 0, y: 30 });
-		tl.to(".float-up", { duration: 0.5, opacity: 1, y: 0, stagger: 0.2 });
+		tl.to(".float-up", { duration: 0.5, opacity: 1, y: 0, stagger: 0.1 });
 	}
 
 	barba.init({
 		sync: true,
+		prefetchIgnore: true,
 		transitions: [
 			{
 				async leave(data) {
 					const done = this.async();
 					dotrans();
-					await delay(500);
+					await delay(800);
 					done();
 				},
 				async enter(data) {
