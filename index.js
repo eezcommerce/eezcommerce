@@ -581,14 +581,14 @@ app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 	let prodSKU = req.body.productSKU;
 	let prodCat = req.body.productCategory;
 	let ownerId = req.auth.userDetails._id;
-
+	let prodPath = file.destination + prodSKU + path.extname(file.originalname);
 	if (req.auth.isLoggedIn) {
 		if (req.file == undefined) {
 			console.log("file undefined");
 		} else {
 			fs.rename(
 				file.destination + file.filename,
-				file.destination + prodName + path.extname(file.originalname),
+				file.destination + prodSKU + path.extname(file.originalname),
 				function(err) {
 					if (err) throw err;
 					//temporary
@@ -596,13 +596,12 @@ app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 				}
 			);
 		}
-
 		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
 			if (duplicate == "true") {
 				res.json({ error: "SKU already exists!" });
 			} else {
 				productService
-					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat)
+					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat, prodPath.substring(6))
 					.then(() => {
 						res.json({ error: false, redirectUrl: "/dashboard/products" });
 					})

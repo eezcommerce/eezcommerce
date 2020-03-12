@@ -41,7 +41,8 @@ const ProductsModel = mongoose.model(
 		category: {
 			type: String,
 			default: "General"
-		}
+		},
+		img: { type: String, default: "" }
 	})
 );
 module.exports = ProductsModel;
