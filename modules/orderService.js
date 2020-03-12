@@ -54,7 +54,7 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList)
 			total: newTotal,
 			ProductList: newPList
 		});
-		Order1.save(function(err, Order) {
+		Order1.save(function (err, Order) {
 			if (err) {
 				reject(err);
 			} else {
@@ -74,7 +74,7 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 			total: newTotal,
 			ProductList: []
 		});
-		Order1.save(function(err, Order) {
+		Order1.save(function (err, Order) {
 			if (err) {
 				reject(err);
 			} else {
@@ -85,6 +85,29 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 };
 
 /**
+ * @function getOrdersWithSort gets orders for a specified site with a sort object being passed
+ * @returns {Array} array of orders
+ * @param {String} id ID of site to lookup orders for
+ * @param {Object} sort sort object in mongoose format ie: {date: -1}
+ */
+
+module.exports.getOrdersWithSort = (id, sort = {date: -1}) => {
+	return new Promise((resolve, reject) => {
+		Orders.find(
+			{ SellerID: id },
+			null,
+			{ sort: sort },
+			(err, result) => {
+				if(err){
+					reject(err)
+				} else{
+					resolve(result)
+				}
+			}).lean()
+	})
+}
+
+/**
  * @returns {Object}
  * @param {Object} updated
  */
@@ -93,7 +116,7 @@ module.exports.UpdateOrder = (OrdId, newStatus) => {
 	return new Promise((resolve, reject) => {
 		Products.updateOne(
 			{ _id: OrdId },
-			{ status: newStatus},
+			{ status: newStatus },
 			(err, result) => {
 				if (err) {
 					reject(err);

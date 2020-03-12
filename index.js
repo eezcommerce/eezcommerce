@@ -162,13 +162,33 @@ Dashboard routes keywords k.dash
 */
 
 app.get("/dashboard", (req, res) => {
+	res.redirect("/dashboard/overview")
+});
+app.get("/dashboard/overview", async (req, res)=>{
+	let topSellers = [];
+	try {
+		topSellers = await productService.getTopSellers(req.auth.userDetails._id)
+	} catch (error) {
+		console.log(error)
+	}
+
+	let latestOrders=[]
+	try {
+		latestOrders = await orderService.getOrdersWithSort(req.auth.userDetails._id)
+	} catch (error) {
+		console.log(error)
+	}
+
+	
 	res.render("overview", {
 		layout: "dashboard",
 		pagename: "overview",
 		userDetails: req.auth.userDetails,
-		avatarExists: fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar")
+		avatarExists: fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar"),
+		topSellers: topSellers,
+		latestOrders: latestOrders
 	});
-});
+})
 
 app.get("/dashboard/categories", (req, res) => {
 	categoryService
@@ -407,6 +427,15 @@ Website routes keyword: k.web k.site
 
 */
 
+app.get("/sites/:id/topSellers", (req, res)=>{
+	productService.getTopSellers(req.params.id)
+		.then((result)=>{
+			res.json(result);
+		}).catch((err)=>{
+			res.json({error: err})
+		})
+})
+
 app.get("/sites/:id", (req, res) => {
 	let id = req.params.id;
 	userService
@@ -475,6 +504,8 @@ app.post("/signup", (req, res) => {
 				});
 		})
 		.catch(error => {
+			console.log(error);
+			
 			switch (error.code) {
 				case 11000:
 					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
