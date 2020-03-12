@@ -32,7 +32,6 @@ const imageStorage = multer.diskStorage({
 		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/");
 	},
 	filename: function(req, file, cb) {
-		// probably want the image to actually be an image
 		cb(null, "Image" + path.extname(file.originalname));
 	}
 });
@@ -377,7 +376,6 @@ app.get("/sites/:id/:route", (req, res) => {
 		.then(site => {
 			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
-				console.log(prods);
 				res.render("siteViews/" + route, { layout: false, siteData: site, prods: prods });
 			});
 		})
