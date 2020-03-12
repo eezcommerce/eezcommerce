@@ -6,7 +6,6 @@ const OrdersModel = mongoose.model(
 		SellerID: { type: String },
 		CustName: { type: String },
 		destAddress: { type: String },
-		CC: { type: Number },
 		status: { type: String },
 		total: { type: String },
 		ProductList: [{ ProductID: String, Qty: Number }],
