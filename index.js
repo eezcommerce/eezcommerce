@@ -27,7 +27,16 @@ if (!process.env.DEV_MODE) {
 }
 
 // express middlewares & setup
-var avatarStorage = multer.diskStorage({
+
+const imageStorage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/");
+	},
+	filename: function(req, file, cb) {
+		cb(null, "Image" + path.extname(file.originalname));
+	}
+});
+const avatarStorage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		var dir = "public/siteData/" + req.auth.userDetails._id + "/img/avatar";
 		if (!fs.existsSync(dir)) {
@@ -37,6 +46,18 @@ var avatarStorage = multer.diskStorage({
 	},
 	filename: function(req, file, cb) {
 		cb(null, "avatar");
+	}
+});
+
+const uploadImg = new multer({
+	storage: imageStorage,
+	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
+	fileFilter: function(req, file, callback) {
+		var ext = path.extname(file.originalname);
+		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+			return callback(new Error("Only images are allowed"));
+		}
+		callback(null, true);
 	}
 });
 
@@ -99,6 +120,9 @@ process.on("unhandledRejection", error => {
 // protecting the /dashboard route (and subroutes) only be available if logged in
 app.use("/dashboard", (req, res, next) => {
 	if (req.auth.isLoggedIn) {
+		req.auth.userDetails.avatarExists = fs.existsSync(
+			"public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar"
+		);
 		next();
 	} else {
 		res.status(403).send("403 Unauthorized <a href='/'>home</a>");
@@ -165,8 +189,7 @@ app.get("/dashboard", (req, res) => {
 	res.render("overview", {
 		layout: "dashboard",
 		pagename: "overview",
-		userDetails: req.auth.userDetails,
-		avatarExists: fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar")
+		userDetails: req.auth.userDetails
 	});
 });
 
@@ -414,6 +437,7 @@ app.get("/sites/:id", (req, res) => {
 		.then(site => {
 			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
+
 				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
 			});
 		})
@@ -548,7 +572,8 @@ app.post("/addCategory", (req, res) => {
 	}
 });
 
-app.post("/addProduct", (req, res) => {
+app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
+	let file = req.file;
 	let prodName = req.body.productName;
 	let prodDesc = req.body.productDesc;
 	let prodQty = req.body.productInventory;
@@ -556,7 +581,22 @@ app.post("/addProduct", (req, res) => {
 	let prodSKU = req.body.productSKU;
 	let prodCat = req.body.productCategory;
 	let ownerId = req.auth.userDetails._id;
+
 	if (req.auth.isLoggedIn) {
+		if (req.file == undefined) {
+			console.log("file undefined");
+		} else {
+			fs.rename(
+				file.destination + file.filename,
+				file.destination + prodName + path.extname(file.originalname),
+				function(err) {
+					if (err) throw err;
+					//temporary
+					console.log("renamed complete");
+				}
+			);
+		}
+
 		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
 			if (duplicate == "true") {
 				res.json({ error: "SKU already exists!" });
