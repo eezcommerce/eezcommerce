@@ -12,6 +12,7 @@ SERVER_HOSTNAME=localhost
 SERVER_PUBLIC_URL=http://localhost:8080
 ENABLE_SSL=true/false                       //make sure you have /cert with 3 certificate files if set to true
 DEV_MODE=false
+BYPASS_VERIFICATION=false
 
 EMAIL_USER="email to send from"
 EMAIL_PASS="email password"
