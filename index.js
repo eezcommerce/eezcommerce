@@ -28,14 +28,14 @@ if (!process.env.DEV_MODE) {
 
 // express middlewares & setup
 var avatarStorage = multer.diskStorage({
-	destination: function(req, file, cb) {
+	destination: function (req, file, cb) {
 		var dir = "public/siteData/" + req.auth.userDetails._id + "/img/avatar";
 		if (!fs.existsSync(dir)) {
 			fs.mkdirSync(dir);
 		}
 		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/avatar/");
 	},
-	filename: function(req, file, cb) {
+	filename: function (req, file, cb) {
 		cb(null, "avatar");
 	}
 });
@@ -43,7 +43,7 @@ var avatarStorage = multer.diskStorage({
 var uploadAvatar = new multer({
 	storage: avatarStorage,
 	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
-	fileFilter: function(req, file, callback) {
+	fileFilter: function (req, file, callback) {
 		var ext = path.extname(file.originalname);
 		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
 			return callback(new Error("Only images are allowed"));
@@ -325,24 +325,18 @@ app.get("/dashboard/wizard/two", async (req, res) => {
 	});
 });
 
-app.get("/dashboard/wizard/three", (req, res) => {
-	industryModel.find({ _id: req.query.industry }, async (err, result) => {
-		if (err) {
-			res.send("ERROR: PARAMETER MODIFIED");
-		} else {
-			try {
-				await userService.directEdit({ _id: req.auth.userDetails._id, $set: { industry: result } });
-			} catch (error) {
-				res.send("Error: " + error);
-			}
+app.get("/dashboard/wizard/three", async (req, res) => {
+	try {
+		await userService.directEdit({ _id: req.auth.userDetails._id, industry_id: req.query.industry });
+	} catch (error) {
+		res.send("Error: " + error);
+	}
 
-			userService.getUserDataForSession(req.auth.userDetails._id).then(result => {
-				req.auth.userDetails = result;
-				res.render("wizardSteps/three", {
-					layout: "wizard"
-				});
-			});
-		}
+	userService.getUserDataForSession(req.auth.userDetails._id).then(result => {
+		req.auth.userDetails = result;
+		res.render("wizardSteps/three", {
+			layout: "wizard"
+		});
 	});
 });
 
@@ -475,6 +469,8 @@ app.post("/signup", (req, res) => {
 				});
 		})
 		.catch(error => {
+			console.log(error);
+			
 			switch (error.code) {
 				case 11000:
 					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
@@ -488,10 +484,10 @@ app.post("/signup", (req, res) => {
 		});
 });
 
-app.post("/resetPassword", function(req, res) {
+app.post("/resetPassword", function (req, res) {
 	const email = req.body.email;
 
-	userService.findMatchingEmail(email).then(function(user) {
+	userService.findMatchingEmail(email).then(function (user) {
 		if (user) {
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")

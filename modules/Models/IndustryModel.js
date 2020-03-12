@@ -20,9 +20,6 @@ IndustryModel.insertMany(
 			name: "Life Insurance"
 		},
 		{
-			name: "Major Pharmaceuticals"
-		},
-		{
 			name: "Shoe Manufacturing"
 		},
 		{
@@ -41,9 +38,6 @@ IndustryModel.insertMany(
 			name: "Hotels/Resorts"
 		},
 		{
-			name: "Property-Casualty Insurers"
-		},
-		{
 			name: "Major Pharmaceuticals"
 		},
 		{
@@ -59,22 +53,16 @@ IndustryModel.insertMany(
 			name: "Savings Institutions"
 		},
 		{
-			name: "Property-Casualty Insurers"
-		},
-		{
 			name: "Major Chemicals"
 		},
 		{
 			name: "Electrical Products"
-		},
-		{
-			name: "Major Pharmaceuticals"
 		}
 	],
 	(err, res) => {
 		if (err) {
 			console.log("Industries already setup");
-		}
+		}    
 	}
 );
 
