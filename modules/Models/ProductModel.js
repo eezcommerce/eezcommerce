@@ -38,7 +38,7 @@ let productSchema = new mongoose.Schema({
 		type: String,
 		default: "General"
 	},
-		img: { type: String, default: "" }
+	img: { type: String, default: "" }
 });
 
 productSchema.index({ owner: 1, SKU: 1 }, { unique: true });

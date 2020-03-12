@@ -609,7 +609,6 @@ app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 						break;
 
 					default:
-
 						res.json({ error: err });
 						break;
 				}
