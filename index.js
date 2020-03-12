@@ -480,15 +480,6 @@ app.post("/addCategory", (req, res) => {
 	}
 });
 
-app.post("/test", uploadImg.single("imgFile"), (req, res) => {
-	console.log("HELLO?");
-	if (req.file == undefined) {
-		console.log("file undefined");
-	} else {
-		console.log(req.file);
-	}
-});
-
 app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 	if (req.file == undefined) {
 		console.log("file undefined");
