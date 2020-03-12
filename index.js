@@ -593,21 +593,22 @@ app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 			);
 		}
 
-		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
-			if (duplicate == "true") {
-				res.json({ error: "SKU already exists!" });
-			} else {
-				productService
-					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat)
-					.then(() => {
-						res.json({ error: false, redirectUrl: "/dashboard/products" });
-					})
-					.catch(err => {
-						console.log(err);
+		productService
+			.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat)
+			.then(() => {
+				res.json({ error: false, redirectUrl: "/dashboard/products" });
+			})
+			.catch(err => {
+				switch (err.code) {
+					case 11000:
+						res.json({ error: "SKU already exists!" });
+						break;
+
+					default:
 						res.json({ error: err });
-					});
-			}
-		});
+						break;
+				}
+			});
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}

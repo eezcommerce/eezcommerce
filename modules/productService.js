@@ -72,7 +72,9 @@ module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, pro
 
 		prod1.save(function(err, product) {
 			if (err) {
-				console.log(err);
+				if (err.code != 11000) {
+					console.log(err);
+				}
 				reject(err);
 			} else {
 				resolve(product);
