@@ -479,11 +479,7 @@ app.post("/addCategory", (req, res) => {
 });
 
 app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
-	if (req.file == undefined) {
-		console.log("file undefined");
-	} else {
-		console.log(req.file);
-	}
+	let file = req.file;
 	let prodName = req.body.productName;
 	let prodDesc = req.body.productDesc;
 	let prodQty = req.body.productInventory;
@@ -491,7 +487,22 @@ app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 	let prodSKU = req.body.productSKU;
 	let prodCat = req.body.productCategory;
 	let ownerId = req.auth.userDetails._id;
+
 	if (req.auth.isLoggedIn) {
+		if (req.file == undefined) {
+			console.log("file undefined");
+		} else {
+			fs.rename(
+				file.destination + file.filename,
+				file.destination + prodName + path.extname(file.originalname),
+				function(err) {
+					if (err) throw err;
+					//temporary
+					console.log("renamed complete");
+				}
+			);
+		}
+
 		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
 			if (duplicate == "true") {
 				res.json({ error: "SKU already exists!" });
