@@ -62,7 +62,7 @@ IndustryModel.insertMany(
 	(err, res) => {
 		if (err) {
 			console.log("Industries already setup");
-		}    
+		}
 	}
 );
 

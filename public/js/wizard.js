@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 	function delay(time) {
 		return new Promise(resolve => {
 			window.setTimeout(() => {
