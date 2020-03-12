@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+const industryModel = require("./IndustryModel");
 
 const UserModel = mongoose.model(
 	"user",
@@ -34,6 +35,11 @@ const UserModel = mongoose.model(
 			maxlength: 64,
 			required: true,
 			default: "eEz Commerce Business"
+		},
+		industry: industryModel.schema,
+		didCompleteWizard: {
+			type: Boolean,
+			default: false
 		},
 		securityAnswers: [
 			{

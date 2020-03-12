@@ -19,6 +19,7 @@ const categoryService = require("./modules/categoryService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customizationService = require("./modules/customizationService");
+const industryModel = require("./modules/Models/IndustryModel");
 var simpleGuard = require("./modules/simpleGuard.js");
 
 if (!process.env.DEV_MODE) {
@@ -104,8 +105,19 @@ app.use("/dashboard", (req, res, next) => {
 	}
 });
 
-// ROUTES keyword: k.get
-// 		->	GET 	Place all GET routes here
+/* 
+
+
+
+
+	ROUTES keyword: k.get
+ 		->	GET 	Place all GET routes here
+
+
+
+
+
+*/
 
 app.get("/", (req, res) => {
 	res.render("home", { layout: "NavBar", pagename: "home" });
@@ -130,14 +142,6 @@ app.get("/verify_email/:email/:token", (req, res) => {
 		});
 });
 
-app.get("/about_me", (req, res) => {
-	if (req.auth.isLoggedIn) {
-		res.json(req.auth);
-	} else {
-		res.sendStatus(403);
-	}
-});
-
 app.get("/testimonials", (req, res) => {
 	res.render("testimonials", { layout: "Navbar" });
 });
@@ -150,7 +154,12 @@ app.get("/email-verification-sent", (req, res) => {
 	res.render("EmailVerificationSent", { layout: "NavBar" });
 });
 
-// Dashboard routes keywords k.dash
+/* 
+
+
+Dashboard routes keywords k.dash
+
+*/
 
 app.get("/dashboard", (req, res) => {
 	res.render("overview", {
@@ -291,6 +300,71 @@ app.get("/dashboard/customize", (req, res) => {
 		});
 });
 
+app.get("/dashboard/wizard/one", (req, res) => {
+	res.render("wizardSteps/one", {
+		layout: "wizard"
+	});
+});
+
+app.get("/dashboard/wizard/two", async (req, res) => {
+	if (req.query.name) {
+		try {
+			await userService.directEdit({ _id: req.auth.userDetails._id, businessName: req.query.name });
+		} catch (error) {
+			res.send("Error: " + error);
+		}
+	}
+
+	industryModel.find({}, {}, { lean: true }, (err, industries) => {
+		res.render("wizardSteps/two", {
+			layout: "wizard",
+			wizardCommon: {
+				industries: industries
+			}
+		});
+	});
+});
+
+app.get("/dashboard/wizard/three", (req, res) => {
+	industryModel.find({ _id: req.query.industry }, async (err, result) => {
+		if (err) {
+			res.send("ERROR: PARAMETER MODIFIED");
+		} else {
+			try {
+				await userService.directEdit({ _id: req.auth.userDetails._id, $set: { industry: result } });
+			} catch (error) {
+				res.send("Error: " + error);
+			}
+
+			userService.getUserDataForSession(req.auth.userDetails._id).then(result => {
+				req.auth.userDetails = result;
+				res.render("wizardSteps/three", {
+					layout: "wizard"
+				});
+			});
+		}
+	});
+});
+
+app.get("/dashboard/wizard/four", async (req, res) => {
+	await userService.directEdit({ _id: req.auth.userDetails._id, didCompleteWizard: true });
+
+	res.render("wizardSteps/four", {
+		layout: "wizard"
+	});
+});
+
+app.get("/dashboard/wizard", (req, res) => {
+	industryModel.find({}, {}, { lean: true }, (err, industries) => {
+		res.render("wizardSteps/start", {
+			layout: "wizard",
+			wizardCommon: {
+				industries: industries
+			}
+		});
+	});
+});
+
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
 	res.render(
@@ -327,7 +401,11 @@ app.get("/logout", (req, res) => {
 	res.render("loggedOut", { layout: "NavBar" });
 });
 
-// Website routes keyword: k.web k.site
+/* 
+
+Website routes keyword: k.web k.site
+
+*/
 
 app.get("/sites/:id", (req, res) => {
 	let id = req.params.id;
@@ -360,8 +438,20 @@ app.get("/sites/:id/:route", (req, res) => {
 		});
 });
 
-// ROUTES k.post
-// 		->	POST 	Place all POST routes here
+/* 
+
+
+
+
+
+	ROUTES k.post 
+		->	POST 	Place all POST routes here
+
+
+
+
+
+*/
 
 app.post("/signup", (req, res) => {
 	userService
@@ -430,7 +520,11 @@ app.post("/login", (req, res) => {
 		.then(user => {
 			req.auth.isLoggedIn = true;
 			req.auth.userDetails = user;
-			res.json({ error: false, redirectUrl: "/dashboard" });
+			if (user.didCompleteWizard) {
+				res.json({ error: false, redirectUrl: "/dashboard" });
+			} else {
+				res.json({ error: false, redirectUrl: "/dashboard/wizard" });
+			}
 		})
 		.catch(err => {
 			res.json({ error: err });
@@ -624,15 +718,23 @@ app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), (req, res) => {
 	}
 });
 
-// Express MiddleWares
+/*
 
-// fallback for unknown routes
+
+
+
+	other
+
+
+
+
+*/
 app.get("*", (req, res) => {
 	res.status(404);
 	res.render("ErrorPage", { layout: "NavBar" });
 });
 
-if (process.env.ENABLE_SSL) {
+if (process.env.ENABLE_SSL === true) {
 	try {
 		var httpsOptions = {
 			key: fs.readFileSync(__dirname + "/cert/prj666-2021.key"),

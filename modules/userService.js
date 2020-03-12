@@ -177,6 +177,24 @@ module.exports.setToken = (token, inputEmail) => {
 
 /**
  * @returns {Object} updated user
+ * @param {Object} passed user object
+ */
+module.exports.directEdit = passed => {
+	return new Promise((resolve, reject) => {
+		UserModel.updateOne({ _id: passed._id }, passed, (err, result) => {
+			if (err) {
+				console.log(err);
+
+				reject("Error saving: check input for requirements");
+			} else {
+				resolve(result);
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} updated user
  * @param {Object} updated user object
  */
 module.exports.edit = passed => {
