@@ -27,7 +27,16 @@ if (!process.env.DEV_MODE) {
 }
 
 // express middlewares & setup
-var avatarStorage = multer.diskStorage({
+
+const imageStorage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/");
+	},
+	filename: function(req, file, cb) {
+		cb(null, "Image" + path.extname(file.originalname));
+	}
+});
+const avatarStorage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		var dir = "public/siteData/" + req.auth.userDetails._id + "/img/avatar";
 		if (!fs.existsSync(dir)) {
@@ -37,6 +46,18 @@ var avatarStorage = multer.diskStorage({
 	},
 	filename: function(req, file, cb) {
 		cb(null, "avatar");
+	}
+});
+
+const uploadImg = new multer({
+	storage: imageStorage,
+	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
+	fileFilter: function(req, file, callback) {
+		var ext = path.extname(file.originalname);
+		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+			return callback(new Error("Only images are allowed"));
+		}
+		callback(null, true);
 	}
 });
 
@@ -99,6 +120,9 @@ process.on("unhandledRejection", error => {
 // protecting the /dashboard route (and subroutes) only be available if logged in
 app.use("/dashboard", (req, res, next) => {
 	if (req.auth.isLoggedIn) {
+		req.auth.userDetails.avatarExists = fs.existsSync(
+			"public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar"
+		);
 		next();
 	} else {
 		res.status(403).send("403 Unauthorized <a href='/'>home</a>");
@@ -342,24 +366,18 @@ app.get("/dashboard/wizard/two", async (req, res) => {
 	});
 });
 
-app.get("/dashboard/wizard/three", (req, res) => {
-	industryModel.find({ _id: req.query.industry }, async (err, result) => {
-		if (err) {
-			res.send("ERROR: PARAMETER MODIFIED");
-		} else {
-			try {
-				await userService.directEdit({ _id: req.auth.userDetails._id, $set: { industry: result } });
-			} catch (error) {
-				res.send("Error: " + error);
-			}
+app.get("/dashboard/wizard/three", async (req, res) => {
+	try {
+		await userService.directEdit({ _id: req.auth.userDetails._id, industry_id: req.query.industry });
+	} catch (error) {
+		res.send("Error: " + error);
+	}
 
-			userService.getUserDataForSession(req.auth.userDetails._id).then(result => {
-				req.auth.userDetails = result;
-				res.render("wizardSteps/three", {
-					layout: "wizard"
-				});
-			});
-		}
+	userService.getUserDataForSession(req.auth.userDetails._id).then(result => {
+		req.auth.userDetails = result;
+		res.render("wizardSteps/three", {
+			layout: "wizard"
+		});
 	});
 });
 
@@ -442,6 +460,7 @@ app.get("/sites/:id", (req, res) => {
 		.then(site => {
 			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
+
 				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
 			});
 		})
@@ -485,22 +504,27 @@ app.post("/signup", (req, res) => {
 	userService
 		.create({ email: req.body.email, password: req.body.inputPassword })
 		.then(() => {
-			mailService
-				.sendVerificationEmail(req.body.email, "signup")
-				.then(() => {
-					res.json({ error: false, redirectUrl: "/email-verification-sent" });
-					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
-				})
-				.catch(e => {
-					res.json({ error: "Error sending verification email. Please try again later." });
+			if (process.env.BYPASS_VERIFICATION === "true") {
+				res.json({ error: "**SIGNED UP WITH BYPASSED VERIFICATION**" });
+				console.log("\n\n\t**DANGER: SIGNED UP WITH BYPASSED VERIFICATION CHECK ENV.BYPASS_VERIFICATION**\n\n");
+			} else {
+				mailService
+					.sendVerificationEmail(req.body.email, "signup")
+					.then(() => {
+						res.json({ error: false, redirectUrl: "/email-verification-sent" });
+						//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+					})
+					.catch(e => {
+						res.json({ error: "Error sending verification email. Please try again later." });
 
-					userService.delete(req.body.email).catch(err => {
-						console.log(err);
+						userService.delete(req.body.email).catch(err => {
+							console.log(err);
+						});
+						if (e.toString().indexOf("Greeting") >= 0) {
+							console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
+						}
 					});
-					if (e.toString().indexOf("Greeting") >= 0) {
-						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
-					}
-				});
+			}
 		})
 		.catch(error => {
 			console.log(error);
@@ -578,7 +602,8 @@ app.post("/addCategory", (req, res) => {
 	}
 });
 
-app.post("/addProduct", (req, res) => {
+app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
+	let file = req.file;
 	let prodName = req.body.productName;
 	let prodDesc = req.body.productDesc;
 	let prodQty = req.body.productInventory;
@@ -586,22 +611,37 @@ app.post("/addProduct", (req, res) => {
 	let prodSKU = req.body.productSKU;
 	let prodCat = req.body.productCategory;
 	let ownerId = req.auth.userDetails._id;
+	let prodPath = file.destination + prodSKU + path.extname(file.originalname);
 	if (req.auth.isLoggedIn) {
-		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
-			if (duplicate == "true") {
-				res.json({ error: "SKU already exists!" });
-			} else {
-				productService
-					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat)
-					.then(() => {
-						res.json({ error: false, redirectUrl: "/dashboard/products" });
-					})
-					.catch(err => {
-						console.log(err);
+		if (req.file == undefined) {
+			console.log("file undefined");
+		} else {
+			fs.rename(
+				file.destination + file.filename,
+				file.destination + prodSKU + path.extname(file.originalname),
+				function(err) {
+					if (err) throw err;
+					//temporary
+					console.log("renamed complete");
+				}
+			);
+		}
+		productService
+			.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat, prodPath.substring(6))
+			.then(() => {
+				res.json({ error: false, redirectUrl: "/dashboard/products" });
+			})
+			.catch(err => {
+				switch (err.code) {
+					case 11000:
+						res.json({ error: "SKU already exists!" });
+						break;
+
+					default:
 						res.json({ error: err });
-					});
-			}
-		});
+						break;
+				}
+			});
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}

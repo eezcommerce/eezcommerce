@@ -89,7 +89,7 @@ module.exports.getTopCategories = id => {
 	});
 };
 
-module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, prodDesc, prodCat) => {
+module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, prodDesc, prodCat, prodPath) => {
 	return new Promise((resolve, reject) => {
 		var prod1 = new Products({
 			owner: ownerId,
@@ -99,12 +99,15 @@ module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, pro
 			price: prodPrice,
 			purchased: 0,
 			description: prodDesc,
-			category: prodCat
+			category: prodCat,
+			img: prodPath
 		});
 
 		prod1.save(function(err, product) {
 			if (err) {
-				console.log(err);
+				if (err.code != 11000) {
+					console.log(err);
+				}
 				reject(err);
 			} else {
 				resolve(product);
