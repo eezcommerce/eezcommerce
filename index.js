@@ -22,7 +22,7 @@ const customizationService = require("./modules/customizationService");
 const industryModel = require("./modules/Models/IndustryModel");
 var simpleGuard = require("./modules/simpleGuard.js");
 
-if (!process.env.DEV_MODE) {
+if (process.env.DEV_MODE !== "true") {
 	simpleGuard(app, "foremile", "super secret string", 20);
 }
 
@@ -803,7 +803,7 @@ app.get("*", (req, res) => {
 	res.render("ErrorPage", { layout: "NavBar" });
 });
 
-if (process.env.ENABLE_SSL === true) {
+if (process.env.ENABLE_SSL === "true") {
 	try {
 		var httpsOptions = {
 			key: fs.readFileSync(__dirname + "/cert/prj666-2021.key"),
