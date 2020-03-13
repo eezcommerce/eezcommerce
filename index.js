@@ -207,7 +207,6 @@ app.get("/dashboard/overview", async (req, res) => {
 		layout: "dashboard",
 		pagename: "overview",
 		userDetails: req.auth.userDetails,
-		avatarExists: fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar"),
 		topSellers: topSellers,
 		latestOrders: latestOrders
 	});
