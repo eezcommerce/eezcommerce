@@ -79,9 +79,9 @@ module.exports.getTopCategories = id => {
 		Products.aggregate(
 			[{ $match: { owner: id } }, { $group: { _id: "$category", count: { $sum: { $add: ["$purchased"] } } } }],
 			(err, res) => {
-				if(err){
-					reject(err)
-				} else{
+				if (err) {
+					reject(err);
+				} else {
 					resolve(res);
 				}
 			}
