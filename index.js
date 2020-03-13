@@ -186,10 +186,29 @@ Dashboard routes keywords k.dash
 */
 
 app.get("/dashboard", (req, res) => {
+	res.redirect("/dashboard/overview");
+});
+app.get("/dashboard/overview", async (req, res) => {
+	let topSellers = [];
+	try {
+		topSellers = await productService.getTopSellers(req.auth.userDetails._id);
+	} catch (error) {
+		console.log(error);
+	}
+
+	let latestOrders = [];
+	try {
+		latestOrders = await orderService.getOrdersWithSort(req.auth.userDetails._id);
+	} catch (error) {
+		console.log(error);
+	}
+
 	res.render("overview", {
 		layout: "dashboard",
 		pagename: "overview",
-		userDetails: req.auth.userDetails
+		userDetails: req.auth.userDetails,
+		topSellers: topSellers,
+		latestOrders: latestOrders
 	});
 });
 
@@ -207,8 +226,6 @@ app.get("/dashboard/categories", (req, res) => {
 						res.json({ error: "unable to count products." });
 					});
 			});
-
-			console.log(category);
 
 			res.render("categories", {
 				layout: "dashboard",
@@ -423,6 +440,17 @@ app.get("/logout", (req, res) => {
 Website routes keyword: k.web k.site
 
 */
+
+app.get("/salesByCategory", (req, res) => {
+	productService
+		.getTopCategories(req.auth.userDetails._id)
+		.then(counts => {
+			res.json(counts);
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
 
 app.get("/sites/:id", (req, res) => {
 	let id = req.params.id;

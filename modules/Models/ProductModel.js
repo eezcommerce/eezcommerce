@@ -22,8 +22,7 @@ let productSchema = new mongoose.Schema({
 	},
 	price: {
 		type: Number,
-		required: true,
-		default: false
+		required: true
 	},
 	purchased: {
 		type: Number,
