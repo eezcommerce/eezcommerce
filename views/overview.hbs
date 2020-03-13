@@ -49,9 +49,10 @@
 			</div>
 			<div class="row">
 				<div class="col-12 text-center mt-5">
-					<h4>Sales by category</h4>
+					<h4><b>Sales by Category</b></h4>
+					<h5 id="no-sales"></h5>
 				</div>
-				<div class="col-12 my-3">
+				<div class="col-12 my-5">
 					<canvas id="myChart" height="100px">
 
 					</canvas>
@@ -62,30 +63,47 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>
-	var ctx = document.getElementById('myChart').getContext('2d');
-	var chart = new Chart(ctx, {
-		// The type of chart we want to create
-		type: 'doughnut',
-		
-		// The data for our dataset
-		data: {
-			labels: ['General', 'Sale', 'Boats', 'Sanitizers'],
-			datasets: [{
-				label: 'Sales',
-				backgroundColor: ["#fc5c65", "#45aaf2", "#fd9644", "#4b7bec", "#fed330", "#a55eea", "#778ca3", "#eb3b5a", "#2d98da"],
-				data: [132, 10, 20, 20]
-			}]
-		},
 
-		// Configuration options go here
-		options: {
-			responsive: true,
-			title: {
-				text: "Sales by Category"
-			},
-			legend: {
-				display: false
-			}
+
+
+	$.get("/salesByCategory", (data) => {
+		let catLabels = [];
+		let catVals = [];
+		data.forEach(cat => {
+			catLabels.push(cat._id)
+			catVals.push(cat.count)
+		});
+
+		if(data.length < 1){
+			$("#no-sales").text("No sales yet")
 		}
-	});
+
+
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var chart = new Chart(ctx, {
+			// The type of chart we want to create
+			type: 'pie',
+
+			// The data for our dataset
+			data: {
+				labels: catLabels,
+				datasets: [{
+					label: 'Sales',
+					backgroundColor: ["#55C0A7", "#ECF8F5", "#7BCEBB", "#C6EAE1", "#A1DCCE", "#B3E3D8", "#8ED5C4", "#D9F1EB", "#68C7B1"],
+					data: catVals
+				}]
+			},
+
+			// Configuration options go here
+			options: {
+				responsive: true,
+				title: {
+					text: "Sales by Category"
+				},
+				legend: {
+					display: false
+				}
+			}
+		});
+	})
 </script>

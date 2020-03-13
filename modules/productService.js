@@ -76,13 +76,16 @@ module.exports.getTopSellers = id => {
 
 module.exports.getTopCategories = id => {
 	return new Promise((resolve, reject) => {
-		Products.find({ owner: id }, null, { sort: { purchased: -1 } }, (err, result) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(result);
+		Products.aggregate(
+			[{ $match: { owner: id } }, { $group: { _id: "$category", count: { $sum: { $add: ["$purchased"] } } } }],
+			(err, res) => {
+				if(err){
+					reject(err)
+				} else{
+					resolve(res);
+				}
 			}
-		}).lean();
+		);
 	});
 };
 

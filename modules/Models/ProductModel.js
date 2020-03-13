@@ -26,8 +26,7 @@ const ProductsModel = mongoose.model(
 		},
 		price: {
 			type: Number,
-			required: true,
-			default: false
+			required: true
 		},
 		purchased: {
 			type: Number,

@@ -204,8 +204,6 @@ app.get("/dashboard/categories", (req, res) => {
 					});
 			});
 
-			console.log(category);
-
 			res.render("categories", {
 				layout: "dashboard",
 				pagename: "categories",
@@ -426,11 +424,11 @@ Website routes keyword: k.web k.site
 
 */
 
-app.get("/sites/:id/topSellers", (req, res) => {
+app.get("/salesByCategory", (req, res) => {
 	productService
-		.getTopSellers(req.params.id)
-		.then(result => {
-			res.json(result);
+		.getTopCategories(req.auth.userDetails._id)
+		.then(counts => {
+			res.json(counts);
 		})
 		.catch(err => {
 			res.json({ error: err });
