@@ -44,12 +44,11 @@ module.exports.getOrderById = oneId => {
 	});
 };
 
-module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList) => {
+module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
 			SellerID: newSID,
 			destAddress: newAdd,
-			CC: newCC,
 			status: newStatus,
 			total: newTotal,
 			ProductList: newPList
@@ -64,12 +63,11 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList)
 	});
 };
 
-module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
+module.exports.addOrder = (newSID, newAdd, newStatus, newTotal) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
 			SellerID: newSID,
 			destAddress: newAdd,
-			CC: newCC,
 			status: newStatus,
 			total: newTotal,
 			ProductList: []
