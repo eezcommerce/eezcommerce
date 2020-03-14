@@ -91,7 +91,7 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal) => {
 
 module.exports.getOrdersWithSort = (id, sort = { date: -1 }) => {
 	return new Promise((resolve, reject) => {
-		Orders.find({ SellerID: id }, null, { sort: sort }, (err, result) => {
+		Orders.find({ SellerID: id }, null, { sort: sort, limit: 5 }, (err, result) => {
 			if (err) {
 				reject(err);
 			} else {

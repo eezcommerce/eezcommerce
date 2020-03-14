@@ -64,7 +64,7 @@ module.exports.getProductById = id => {
  */
 module.exports.getTopSellers = id => {
 	return new Promise((resolve, reject) => {
-		Products.find({ owner: id }, null, { sort: { purchased: -1 } }, (err, result) => {
+		Products.find({ owner: id }, null, { limit: 5, sort: { purchased: -1 } }, (err, result) => {
 			if (err) {
 				reject(err);
 			} else {
