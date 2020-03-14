@@ -89,7 +89,7 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal) => {
 
 module.exports.UpdateOrder = (OrdId, newStatus) => {
 	return new Promise((resolve, reject) => {
-		Products.updateOne({ _id: OrdId }, { status: newStatus }, (err, result) => {
+		Products.updateOne({ _id: OrdId }, { status: newStatus, updated_at: Date.now }, (err, result) => {
 			if (err) {
 				reject(err);
 			} else {
