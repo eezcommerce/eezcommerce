@@ -3,7 +3,6 @@ var mongoose = require("mongoose");
 const OrdersModel = mongoose.model(
 	"Orders",
 	new mongoose.Schema({
-		orderID: {type: Number},
 		SellerID: { type: String },
 		CustName: { type: String },
 		destAddress: { type: String },
