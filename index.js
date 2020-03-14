@@ -115,6 +115,10 @@ app.get("/", (req, res) => {
 app.get("/forgot", (req, res) => {
 	res.render("ForgottenPassword", { layout: "NavBar" });
 });
+app.get("/terms", (req, res) => {
+	res.render("terms", { layout: "NavBar" });
+});
+
 app.get("/verify_email/:email/:token", (req, res) => {
 	let token = req.params.token;
 	let email = req.params.email;
