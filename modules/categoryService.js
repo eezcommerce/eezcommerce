@@ -47,7 +47,6 @@ module.exports.getCategoryById = id => {
 module.exports.addCategory = (ownerId, categoryName) => {
 	return new Promise((resolve, reject) => {
 		Categories.find({ owner: ownerId, name: categoryName }, function(err, docs) {
-			console.log("LENGTH" + docs.length);
 			if (docs.length) {
 				reject("Name already exists!");
 			} else {

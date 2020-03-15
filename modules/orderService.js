@@ -44,12 +44,11 @@ module.exports.getOrderById = oneId => {
 	});
 };
 
-module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList) => {
+module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
 			SellerID: newSID,
 			destAddress: newAdd,
-			CC: newCC,
 			status: newStatus,
 			total: newTotal,
 			ProductList: newPList
@@ -64,12 +63,11 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal, newPList)
 	});
 };
 
-module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
+module.exports.addOrder = (newSID, newAdd, newStatus, newTotal) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
 			SellerID: newSID,
 			destAddress: newAdd,
-			CC: newCC,
 			status: newStatus,
 			total: newTotal,
 			ProductList: []
@@ -85,22 +83,37 @@ module.exports.addOrder = (newSID, newAdd, newCC, newStatus, newTotal) => {
 };
 
 /**
+ * @function getOrdersWithSort gets orders for a specified site with a sort object being passed
+ * @returns {Array} array of orders
+ * @param {String} id ID of site to lookup orders for
+ * @param {Object} sort sort object in mongoose format ie: {date: -1}
+ */
+
+module.exports.getOrdersWithSort = (id, sort = { date: -1 }) => {
+	return new Promise((resolve, reject) => {
+		Orders.find({ SellerID: id }, null, { sort: sort, limit: 5 }, (err, result) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(result);
+			}
+		}).lean();
+	});
+};
+
+/**
  * @returns {Object}
  * @param {Object} updated
  */
 
 module.exports.UpdateOrder = (OrdId, newStatus) => {
 	return new Promise((resolve, reject) => {
-		Products.updateOne(
-			{ _id: OrdId },
-			{ status: newStatus},
-			(err, result) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(result);
-				}
+		Products.updateOne({ _id: OrdId }, { status: newStatus }, (err, result) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(result);
 			}
-		);
+		});
 	});
 };

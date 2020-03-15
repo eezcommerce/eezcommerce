@@ -19,14 +19,24 @@ const categoryService = require("./modules/categoryService.js");
 const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customizationService = require("./modules/customizationService");
+const industryModel = require("./modules/Models/IndustryModel");
 var simpleGuard = require("./modules/simpleGuard.js");
 
-if (!process.env.DEV_MODE) {
+if (process.env.DEV_MODE !== "true") {
 	simpleGuard(app, "foremile", "super secret string", 20);
 }
 
 // express middlewares & setup
-var avatarStorage = multer.diskStorage({
+
+const imageStorage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/");
+	},
+	filename: function(req, file, cb) {
+		cb(null, "Image" + path.extname(file.originalname));
+	}
+});
+const avatarStorage = multer.diskStorage({
 	destination: function(req, file, cb) {
 		var dir = "public/siteData/" + req.auth.userDetails._id + "/img/avatar";
 		if (!fs.existsSync(dir)) {
@@ -36,6 +46,18 @@ var avatarStorage = multer.diskStorage({
 	},
 	filename: function(req, file, cb) {
 		cb(null, "avatar");
+	}
+});
+
+const uploadImg = new multer({
+	storage: imageStorage,
+	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
+	fileFilter: function(req, file, callback) {
+		var ext = path.extname(file.originalname);
+		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+			return callback(new Error("Only images are allowed"));
+		}
+		callback(null, true);
 	}
 });
 
@@ -98,14 +120,28 @@ process.on("unhandledRejection", error => {
 // protecting the /dashboard route (and subroutes) only be available if logged in
 app.use("/dashboard", (req, res, next) => {
 	if (req.auth.isLoggedIn) {
+		req.auth.userDetails.avatarExists = fs.existsSync(
+			"public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar"
+		);
 		next();
 	} else {
 		res.status(403).send("403 Unauthorized <a href='/'>home</a>");
 	}
 });
 
-// ROUTES keyword: k.get
-// 		->	GET 	Place all GET routes here
+/* 
+
+
+
+
+	ROUTES keyword: k.get
+ 		->	GET 	Place all GET routes here
+
+
+
+
+
+*/
 
 app.get("/", (req, res) => {
 	res.render("home", { layout: "NavBar", pagename: "home" });
@@ -130,14 +166,6 @@ app.get("/verify_email/:email/:token", (req, res) => {
 		});
 });
 
-app.get("/about_me", (req, res) => {
-	if (req.auth.isLoggedIn) {
-		res.json(req.auth);
-	} else {
-		res.sendStatus(403);
-	}
-});
-
 app.get("/testimonials", (req, res) => {
 	res.render("testimonials", { layout: "Navbar" });
 });
@@ -150,14 +178,37 @@ app.get("/email-verification-sent", (req, res) => {
 	res.render("EmailVerificationSent", { layout: "NavBar" });
 });
 
-// Dashboard routes keywords k.dash
+/* 
+
+
+Dashboard routes keywords k.dash
+
+*/
 
 app.get("/dashboard", (req, res) => {
+	res.redirect("/dashboard/overview");
+});
+app.get("/dashboard/overview", async (req, res) => {
+	let topSellers = [];
+	try {
+		topSellers = await productService.getTopSellers(req.auth.userDetails._id);
+	} catch (error) {
+		console.log(error);
+	}
+
+	let latestOrders = [];
+	try {
+		latestOrders = await orderService.getOrdersWithSort(req.auth.userDetails._id);
+	} catch (error) {
+		console.log(error);
+	}
+
 	res.render("overview", {
 		layout: "dashboard",
 		pagename: "overview",
 		userDetails: req.auth.userDetails,
-		avatarExists: fs.existsSync("public/siteData/" + req.auth.userDetails._id + "/img/avatar/avatar")
+		topSellers: topSellers,
+		latestOrders: latestOrders
 	});
 });
 
@@ -175,8 +226,6 @@ app.get("/dashboard/categories", (req, res) => {
 						res.json({ error: "unable to count products." });
 					});
 			});
-
-			console.log(category);
 
 			res.render("categories", {
 				layout: "dashboard",
@@ -291,6 +340,65 @@ app.get("/dashboard/customize", (req, res) => {
 		});
 });
 
+app.get("/dashboard/wizard/one", (req, res) => {
+	res.render("wizardSteps/one", {
+		layout: "wizard"
+	});
+});
+
+app.get("/dashboard/wizard/two", async (req, res) => {
+	if (req.query.name) {
+		try {
+			await userService.directEdit({ _id: req.auth.userDetails._id, businessName: req.query.name });
+		} catch (error) {
+			res.send("Error: " + error);
+		}
+	}
+
+	industryModel.find({}, {}, { lean: true }, (err, industries) => {
+		res.render("wizardSteps/two", {
+			layout: "wizard",
+			wizardCommon: {
+				industries: industries
+			}
+		});
+	});
+});
+
+app.get("/dashboard/wizard/three", async (req, res) => {
+	try {
+		await userService.directEdit({ _id: req.auth.userDetails._id, industry_id: req.query.industry });
+	} catch (error) {
+		res.send("Error: " + error);
+	}
+
+	userService.getUserDataForSession(req.auth.userDetails._id).then(result => {
+		req.auth.userDetails = result;
+		res.render("wizardSteps/three", {
+			layout: "wizard"
+		});
+	});
+});
+
+app.get("/dashboard/wizard/four", async (req, res) => {
+	await userService.directEdit({ _id: req.auth.userDetails._id, didCompleteWizard: true });
+
+	res.render("wizardSteps/four", {
+		layout: "wizard"
+	});
+});
+
+app.get("/dashboard/wizard", (req, res) => {
+	industryModel.find({}, {}, { lean: true }, (err, industries) => {
+		res.render("wizardSteps/start", {
+			layout: "wizard",
+			wizardCommon: {
+				industries: industries
+			}
+		});
+	});
+});
+
 app.get("/dashboard/:route", (req, res) => {
 	const route = req.params.route;
 	res.render(
@@ -327,7 +435,22 @@ app.get("/logout", (req, res) => {
 	res.render("loggedOut", { layout: "NavBar" });
 });
 
-// Website routes keyword: k.web k.site
+/* 
+
+Website routes keyword: k.web k.site
+
+*/
+
+app.get("/salesByCategory", (req, res) => {
+	productService
+		.getTopCategories(req.auth.userDetails._id)
+		.then(counts => {
+			res.json(counts);
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
 
 app.get("/sites/:id", (req, res) => {
 	let id = req.params.id;
@@ -336,6 +459,7 @@ app.get("/sites/:id", (req, res) => {
 		.then(site => {
 			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
+
 				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
 			});
 		})
@@ -360,31 +484,50 @@ app.get("/sites/:id/:route", (req, res) => {
 		});
 });
 
-// ROUTES k.post
-// 		->	POST 	Place all POST routes here
+/* 
+
+
+
+
+
+	ROUTES k.post 
+		->	POST 	Place all POST routes here
+
+
+
+
+
+*/
 
 app.post("/signup", (req, res) => {
 	userService
 		.create({ email: req.body.email, password: req.body.inputPassword })
 		.then(() => {
-			mailService
-				.sendVerificationEmail(req.body.email, "signup")
-				.then(() => {
-					res.json({ error: false, redirectUrl: "/email-verification-sent" });
-					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
-				})
-				.catch(e => {
-					res.json({ error: "Error sending verification email. Please try again later." });
+			if (process.env.BYPASS_VERIFICATION === "true") {
+				res.json({ error: "**SIGNED UP WITH BYPASSED VERIFICATION**" });
+				console.log("\n\n\t**DANGER: SIGNED UP WITH BYPASSED VERIFICATION CHECK ENV.BYPASS_VERIFICATION**\n\n");
+			} else {
+				mailService
+					.sendVerificationEmail(req.body.email, "signup")
+					.then(() => {
+						res.json({ error: false, redirectUrl: "/email-verification-sent" });
+						//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
+					})
+					.catch(e => {
+						res.json({ error: "Error sending verification email. Please try again later." });
 
-					userService.delete(req.body.email).catch(err => {
-						console.log(err);
+						userService.delete(req.body.email).catch(err => {
+							console.log(err);
+						});
+						if (e.toString().indexOf("Greeting") >= 0) {
+							console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
+						}
 					});
-					if (e.toString().indexOf("Greeting") >= 0) {
-						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
-					}
-				});
+			}
 		})
 		.catch(error => {
+			console.log(error);
+
 			switch (error.code) {
 				case 11000:
 					res.json({ error: "Email already exists. Please login or check your email address for accuracy." });
@@ -430,7 +573,11 @@ app.post("/login", (req, res) => {
 		.then(user => {
 			req.auth.isLoggedIn = true;
 			req.auth.userDetails = user;
-			res.json({ error: false, redirectUrl: "/dashboard" });
+			if (user.didCompleteWizard) {
+				res.json({ error: false, redirectUrl: "/dashboard" });
+			} else {
+				res.json({ error: false, redirectUrl: "/dashboard/wizard" });
+			}
 		})
 		.catch(err => {
 			res.json({ error: err });
@@ -454,7 +601,8 @@ app.post("/addCategory", (req, res) => {
 	}
 });
 
-app.post("/addProduct", (req, res) => {
+app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
+	let file = req.file;
 	let prodName = req.body.productName;
 	let prodDesc = req.body.productDesc;
 	let prodQty = req.body.productInventory;
@@ -462,22 +610,37 @@ app.post("/addProduct", (req, res) => {
 	let prodSKU = req.body.productSKU;
 	let prodCat = req.body.productCategory;
 	let ownerId = req.auth.userDetails._id;
+	let prodPath = file.destination + prodSKU + path.extname(file.originalname);
 	if (req.auth.isLoggedIn) {
-		productService.isDuplicate(ownerId, prodSKU).then(duplicate => {
-			if (duplicate == "true") {
-				res.json({ error: "SKU already exists!" });
-			} else {
-				productService
-					.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat)
-					.then(() => {
-						res.json({ error: false, redirectUrl: "/dashboard/products" });
-					})
-					.catch(err => {
-						console.log(err);
+		if (req.file == undefined) {
+			console.log("file undefined");
+		} else {
+			fs.rename(
+				file.destination + file.filename,
+				file.destination + prodSKU + path.extname(file.originalname),
+				function(err) {
+					if (err) throw err;
+					//temporary
+					console.log("renamed complete");
+				}
+			);
+		}
+		productService
+			.addProduct(ownerId, prodSKU, prodName, prodQty, prodPrice, prodDesc, prodCat, prodPath.substring(6))
+			.then(() => {
+				res.json({ error: false, redirectUrl: "/dashboard/products" });
+			})
+			.catch(err => {
+				switch (err.code) {
+					case 11000:
+						res.json({ error: "SKU already exists!" });
+						break;
+
+					default:
 						res.json({ error: err });
-					});
-			}
-		});
+						break;
+				}
+			});
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}
@@ -624,15 +787,23 @@ app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), (req, res) => {
 	}
 });
 
-// Express MiddleWares
+/*
 
-// fallback for unknown routes
+
+
+
+	other
+
+
+
+
+*/
 app.get("*", (req, res) => {
 	res.status(404);
 	res.render("ErrorPage", { layout: "NavBar" });
 });
 
-if (process.env.ENABLE_SSL) {
+if (process.env.ENABLE_SSL === "true") {
 	try {
 		var httpsOptions = {
 			key: fs.readFileSync(__dirname + "/cert/prj666-2021.key"),

@@ -35,6 +35,13 @@ const UserModel = mongoose.model(
 			required: true,
 			default: "eEz Commerce Business"
 		},
+		industry_id: {
+			type: String
+		},
+		didCompleteWizard: {
+			type: Boolean,
+			default: false
+		},
 		securityAnswers: [
 			{
 				index: {

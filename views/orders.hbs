@@ -27,11 +27,11 @@
 							{{#each orders}}
 								<tr class="OrderRow" data-toggle="modal" data-id='{{_id}}' data-target="#orderDetail" aria-hidden="true">
 
-									<th scope="row">{{_id}}</th>
+									<th scope="row">{{truncate _id 7}}</th>
 									<td>{{destAddress}}</td>
 									<td>{{status}}</td>
 									<td>{{toFixed total 2}}</td>
-									<td>{{created_at}}</td>
+									<td>{{moment this.created_at "YYYY-MM-DD"}}</td>
 								</tr>
 							{{/each}}
 						</tbody>
@@ -61,8 +61,10 @@
 		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.destAddress + "</strong>");
 		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
 		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
-		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total).toFixed(2);
-		$('#orderDetail').find('#odStatus option[value="' + data.order.status + '"]').attr('selected', true);
+		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total);
+
+		$('#odStatus').val(data.order.status);
+
 		$('#orderDetail').find('#ProductsList').html("");
 		var j = 0;
 		for (i in data.order.ProductList){
