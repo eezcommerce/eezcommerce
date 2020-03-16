@@ -106,9 +106,9 @@ module.exports.getOrdersWithSort = (id, sort = { date: -1 }) => {
  * @param {Object} updated
  */
 
-module.exports.UpdateOrder = (OrdId, newStatus) => {
+module.exports.editOrder = (OrdId, newStatus) => {
 	return new Promise((resolve, reject) => {
-		Products.updateOne({ _id: OrdId }, { status: newStatus }, (err, result) => {
+		Orders.updateOne({ _id: OrdId }, { status: newStatus, updated_at: Date.now() }, (err, result) => {
 			if (err) {
 				reject(err);
 			} else {
