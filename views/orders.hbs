@@ -21,6 +21,7 @@
 								<th>Status</th>
 								<th>Total</th>
 								<th>Ordered</th>
+								<th>Updated</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -32,6 +33,7 @@
 									<td>{{status}}</td>
 									<td>{{toFixed total 2}}</td>
 									<td>{{moment this.created_at "YYYY-MM-DD"}}</td>
+									<td>{{moment this.updated_at "YYYY-MM-DD"}}</td>
 								</tr>
 							{{/each}}
 						</tbody>
