@@ -59,12 +59,10 @@
 	$.get("/getOrderDetail/"+ id, (data)=>{
 		$('#orderDetail').find('#title').html("Order #" + data.order._id);
 		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.destAddress + "</strong>");
-		$('#orderDetail').find('#oCC').html("<strong>Credit Card</strong> **** **** **** " + data.order.CC);
 		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
 		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total);
-
 		$('#odStatus').val(data.order.status);
-
+		$('#orderDetail').find('#OrderDetailForm').attr('action','/editOrder/'+ id);
 		$('#orderDetail').find('#ProductsList').html("");
 		var j = 0;
 		for (i in data.order.ProductList){

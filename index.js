@@ -266,7 +266,7 @@ app.get("/getOrderDetail/:id", (req, res) => {
 			res.json({ order: prod });
 		})
 		.catch(e => {
-			res.json({ error: "Unable to get product" });
+			res.json({ error: "Unable to get Order" });
 		});
 });
 
