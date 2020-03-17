@@ -497,6 +497,9 @@ app.get("/sites/:id", (req, res) => {
 });
 
 app.get("/sites/:id/shoppingCart", (req, res) => {
+	if (!req.shoppingCart.cart) {
+		req.shoppingCart.cart = {};
+	}
 	let id = req.params.id;
 	let shoppingCart = req.shoppingCart.cart;
 	userService

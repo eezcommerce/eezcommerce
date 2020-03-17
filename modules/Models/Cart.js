@@ -9,6 +9,7 @@ module.exports = function Cart(oldCart) {
 			storedItem = this.items[id] = { item: item, qty: 0, price: 0, pricePer: 0 };
 		}
 		storedItem.qty++;
+		//If you want to store extra variable do it here and get a new cookie
 		storedItem.name = storedItem.item.name;
 		storedItem.img = storedItem.item.img;
 		storedItem.category = storedItem.item.category;
