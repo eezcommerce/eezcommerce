@@ -496,6 +496,32 @@ app.get("/sites/:id", (req, res) => {
 		});
 });
 
+app.get("/sites/:id/shoppingCart", (req, res) => {
+	let id = req.params.id;
+	let shoppingCart = req.shoppingCart.cart;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			site.baseUrl = "/sites/" + site._id;
+
+			if (!req.shoppingCart.cart) {
+				res.render("siteViews/shoppingCart", { layout: false, siteData: site, cart: shoppingCart });
+			}
+			var cart = new Cart(req.shoppingCart.cart);
+			res.render("siteViews/shoppingCart", {
+				layout: false,
+				cart: shoppingCart,
+				siteData: site,
+				products: cart.generateArray(),
+				totalPrice: cart.totalPrice,
+				totalQty: cart.totalQty
+			});
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+
 app.get("/sites/:id/:route", (req, res) => {
 	let id = req.params.id;
 	let shoppingCart = req.shoppingCart.cart;
