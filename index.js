@@ -467,6 +467,33 @@ app.get("/addToCart/:id", (req, res) => {
 	});
 });
 
+app.get("/removeFromCart/:id", (req, res) => {
+	var productId = req.params.id;
+
+	var cart = new Cart(req.shoppingCart.cart ? req.shoppingCart.cart : {});
+
+	productService.getProductById(productId).then((prod, err) => {
+		if (err) {
+			console.log(err);
+			return res.redirect("*");
+		} else {
+			cart.remove(prod, productId);
+			req.shoppingCart.cart = cart;
+			console.log(req.shoppingCart);
+			res.redirect("back");
+		}
+	});
+});
+
+app.get("/clearCart", (req, res) => {
+	var cart = new Cart(req.shoppingCart.cart ? req.shoppingCart.cart : {});
+
+	cart.clear();
+	req.shoppingCart.cart = cart;
+	console.log(req.shoppingCart);
+	res.redirect("back");
+});
+
 app.get("/salesByCategory", (req, res) => {
 	productService
 		.getTopCategories(req.auth.userDetails._id)
