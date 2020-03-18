@@ -901,7 +901,7 @@ app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), (req, res) => {
 			.read(`${__dirname}/public/siteData/${req.auth.userDetails._id}/img/avatar/avatar`)
 			.then(avatar => {
 				avatar
-					.resize(jimp.AUTO, 250)
+					.resize(jimp.AUTO, 500)
 					.write(`${__dirname}/public/siteData/${req.auth.userDetails._id}/img/avatar/avatar.png`);
 				res.redirect("dashboard");
 			})
