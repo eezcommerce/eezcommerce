@@ -465,7 +465,6 @@ app.get("/addToCart/:id", (req, res) => {
 		} else {
 			cart.add(prod, productId);
 			req.shoppingCart.cart = cart;
-			console.log(req.shoppingCart);
 			res.redirect("back");
 		}
 	});
@@ -483,7 +482,6 @@ app.get("/removeFromCart/:id", (req, res) => {
 		} else {
 			cart.remove(prod, productId);
 			req.shoppingCart.cart = cart;
-			console.log(req.shoppingCart);
 			res.redirect("back");
 		}
 	});
@@ -494,7 +492,6 @@ app.get("/clearCart", (req, res) => {
 
 	cart.clear();
 	req.shoppingCart.cart = cart;
-	console.log(req.shoppingCart);
 	res.redirect("back");
 });
 
@@ -519,7 +516,12 @@ app.get("/sites/:id", (req, res) => {
 		.then(site => {
 			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
-				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
+				res.render("siteViews/home", {
+					layout: __dirname + "/views/siteViews/layouts/nav",
+					siteData: site,
+					prods: prods,
+					cart: req.shoppingCart.cart
+				});
 			});
 		})
 		.catch(err => {
@@ -566,7 +568,12 @@ app.get("/sites/:id/:route", (req, res) => {
 		.then(site => {
 			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
-				res.render("siteViews/" + route, { layout: false, siteData: site, prods: prods, cart: shoppingCart });
+				res.render("siteViews/" + route, {
+					layout: __dirname + "/views/siteViews/layouts/nav",
+					siteData: site,
+					prods: prods,
+					cart: shoppingCart
+				});
 			});
 		})
 		.catch(err => {
