@@ -76,7 +76,11 @@
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });*/
-  $('#productTable').DataTable();
+  $('#productTable').DataTable({
+	  "language": {
+      			"emptyTable": "No products have been created."
+    }
+  });
 });
 	function deleteRow(rowId) {
 		var deleteIt = confirm("Are you sure you want to delete this product?");
