@@ -1,59 +1,67 @@
 			<div class="modal fade" id="productDetail">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
-						<div class="modal-header">
-						<h3>
-												<strong id="title"></strong>
-											</h3>
-							<button type="button" class="close" data-dismiss="modal">
-								&times;
-							</button>
+
+							<div class="container p-3">
+								<div class="row pr-3">
+									<div class="offset-11 col-1 corner">
+												<button type="button" class="pl-2 pt-2 close" data-dismiss="modal">&times;</button>	
+									</div>			
+					</div>
+					<div class="row">
+						<div class="col-6 text-center">
+<h1><strong id="title"></strong></h1>
+	<i><header>SKU:<span id="skuDetail"></span></header></i>
+			<img id="imgDetail"/>
 						</div>
 
-						<div class="modal-body">
-							<div class="container">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="text-left mb-4">
-											
-											<i><header>SKU:<span id="skuDetail"></span></header></i>
-											</div>
-										</div>
-										</div>
-
-										<form id="productDetailForm" class="needs-validation" novalidate>
-  <div class="form-group">
-    <label for="descDetail">Description</label>
-    <textarea class="form-control" name= "descDetail" id="descDetail" style="resize:none" rows="3"></textarea>
+						<div class="col-6">
+						<form id="productDetailForm" class="needs-validation" novalidate>
+  <div class="form-group mt-5">
+    <label for="descDetail"><strong>Description</strong></label>
+    <textarea class="form-control" name= "descDetail" id="descDetail" style="resize:none" rows="4"></textarea>
   </div>
-
 		<div class="row">
     <div class="col">
-		<label for="qtyDetail">Quantity</label>
+		<label for="qtyDetail"><strong>Quantity</strong></label>
       <input type="number" name="qtyDetail" id="qtyDetail" class="form-control" placeholder="Quantity" required>
     </div>
-    <div class="col">
-		<label for="priceDetail">Price</label>
+		</div>
+		<div class="row">
+<div class="col">
+		<label for="priceDetail"><strong>Price</strong></label>
       <input type="number" name="priceDetail" id="priceDetail" class="form-control" placeholder="Price" required>
     </div>
-	 <div class="col">
-		 <label for="soldDetail">Items Sold</label>
+		</div>
+			<div class="row">
+				 <div class="col">
+		 <label for="soldDetail"><strong>Items Sold</strong></label>
       <input type="number" name="soldDetail" id="soldDetail" class="form-control" placeholder="Items Sold">
     </div>
-  </div>
+		</div>
+
+				<div class="row mt-3">
+				 <div class="col">
+		 <label for="soldDetail"><strong>Change Image</strong></label>
+      <input type="file" name="newImg" class="form-control-file" >
+    </div>
+		</div>
+    
+
+
+
+						</div>	
+					</div>
+					<hr/>
 	<div class="text-right panel-body mt-3">
 											<button type="submit" class="btn btn-primary badge-pill btn-circle-xl m-1">
 												<i class="fa fa-check"></i> Save Changes
 											</button>
 										</div>
 </form>
+
+
+
 										
-									
-		
-							<!--container-->
-						</div>
-						<div class="panel-body mb-2 mr-2">
-					
-						</div>
-		
+
 			</div>

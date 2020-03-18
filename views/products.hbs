@@ -113,6 +113,7 @@
 				$('#productDetail').find('#qtyDetail').val(data.product.quantity);
 				$('#productDetail').find('#priceDetail').val(data.product.price);
 				$('#productDetail').find('#soldDetail').val(data.product.purchased);
+				$('#productDetail').find('#imgDetail').attr('src', data.product.img);
 			})
 		}
 
