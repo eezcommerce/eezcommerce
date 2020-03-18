@@ -14,6 +14,7 @@
 							<div class="container">
 								<div class="row">
 									<div class="col-md-12">
+										<form id="OrderDetailForm" class="needs-validation" novalidate>
 										<div class="text-right mb-4">
 											<p id="DesAddress"></p>
 											<p id="oStatus"></p>
@@ -38,14 +39,7 @@
 														</tr>
 													</thead>
 													<tbody id="ProductsList">
-														<!--{{#each ProductList}}
-														<tr>
-															<th scope="row">{{sku}}</th>
-															<td>{{productname}}</td>
-															<td>{{qyty}}</td>
-															<td{>{{price}}</}td>
-														</tr>
-														{{/each}}-->
+
 													</tbody>
 												</div>
 											</table>
@@ -56,28 +50,27 @@
 											<h2>
 												<strong id="oTotal"></strong>
 											</h2>
-											<h5>
-												<strong id="oCC"></strong>
-											</h5>
 										</div>
 										<div class="text-right panel-body mt-5">
-											<button class="btn btn-secondary badge-pill btn-circle-xl m-1">
+											<button class="btn btn-secondary badge-pill btn-circle-xl m-1 updateOrder"
+											type="submit">
 												<i class="fa fa-envelope"></i>
 											</button>
 										</div>
+										</form>
 									</div>
 								</div>
 								<!--row-->
 							</div>
 							<!--container-->
 						</div>
-						<div class="panel-body mb-2 mr-2">
+						<!--<div class="panel-body mb-2 mr-2">
 							<div class="pull-right">
 								<button type="button" class="btn btn-outline-primary badge-pill" data-dismiss="modal">
 									Close
 								</button>
 							</div>
-						</div>
+						</div>-->
 					</div>
 				</div>
 			</div>
