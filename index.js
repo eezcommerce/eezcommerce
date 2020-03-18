@@ -20,6 +20,8 @@ const productService = require("./modules/productService.js");
 const orderService = require("./modules/orderService");
 const customizationService = require("./modules/customizationService");
 const industryModel = require("./modules/Models/IndustryModel");
+const Cart = require("./modules/Models/Cart");
+
 var simpleGuard = require("./modules/simpleGuard.js");
 
 if (process.env.DEV_MODE !== "true") {
@@ -103,6 +105,14 @@ app.use(
 		secret: process.env.SESSION_SECRET,
 		duration: 1 * 1 * 60 * 1000, // HH * MM * SS * MS | fill with ones to the left
 		activeDuration: 1 * 60 * 60 * 1000
+	})
+);
+// Shopping cart cookie
+app.use(
+	sessions({
+		cookieName: "shoppingCart",
+		secret: "shoppingcart secret",
+		duration: 7 * 24 * 60 * 60 * 1000
 	})
 );
 
@@ -444,6 +454,22 @@ app.get("/logout", (req, res) => {
 Website routes keyword: k.web k.site
 
 */
+app.get("/addToCart/:id", (req, res) => {
+	var productId = req.params.id;
+
+	var cart = new Cart(req.shoppingCart.cart ? req.shoppingCart.cart : {});
+	productService.getProductById(productId).then((prod, err) => {
+		if (err) {
+			console.log(err);
+			return res.redirect("*");
+		} else {
+			cart.add(prod, productId);
+			req.shoppingCart.cart = cart;
+			console.log(req.shoppingCart);
+			res.redirect("back");
+		}
+	});
+});
 
 app.get("/salesByCategory", (req, res) => {
 	productService
@@ -458,13 +484,44 @@ app.get("/salesByCategory", (req, res) => {
 
 app.get("/sites/:id", (req, res) => {
 	let id = req.params.id;
+	if (!req.shoppingCart.cart) {
+		req.shoppingCart.cart = {};
+	}
 	userService
 		.getWebsiteDataById(id)
 		.then(site => {
 			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
-
 				res.render("siteViews/home", { layout: false, siteData: site, prods: prods });
+			});
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+
+app.get("/sites/:id/shoppingCart", (req, res) => {
+	if (!req.shoppingCart.cart) {
+		req.shoppingCart.cart = {};
+	}
+	let id = req.params.id;
+	let shoppingCart = req.shoppingCart.cart;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			site.baseUrl = "/sites/" + site._id;
+
+			if (!req.shoppingCart.cart) {
+				res.render("siteViews/shoppingCart", { layout: false, siteData: site, cart: shoppingCart });
+			}
+			var cart = new Cart(req.shoppingCart.cart);
+			res.render("siteViews/shoppingCart", {
+				layout: false,
+				cart: shoppingCart,
+				siteData: site,
+				products: cart.generateArray(),
+				totalPrice: cart.totalPrice,
+				totalQty: cart.totalQty
 			});
 		})
 		.catch(err => {
@@ -474,13 +531,15 @@ app.get("/sites/:id", (req, res) => {
 
 app.get("/sites/:id/:route", (req, res) => {
 	let id = req.params.id;
+	let shoppingCart = req.shoppingCart.cart;
+
 	const route = req.params.route;
 	userService
 		.getWebsiteDataById(id)
 		.then(site => {
 			productService.getAllProducts(id).then(prods => {
 				site.baseUrl = "/sites/" + site._id;
-				res.render("siteViews/" + route, { layout: false, siteData: site, prods: prods });
+				res.render("siteViews/" + route, { layout: false, siteData: site, prods: prods, cart: shoppingCart });
 			});
 		})
 		.catch(err => {

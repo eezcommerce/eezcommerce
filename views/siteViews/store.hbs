@@ -37,7 +37,7 @@
 				<a class="nav-item nav-link active" href="{{siteData.baseUrl}}/store">Shop</a>
 			</div>
 		</div>
-		<div class="float-right"><a href="#" class="primary"><i class="fas fa-shopping-cart fa-lg"></i><span class="badge">0</span></a></div>
+		<div class="float-right"><a href="{{siteData.baseUrl}}/shoppingCart" class="primary"><i class="fas fa-shopping-cart fa-lg"></i><span class="badge">{{cart.totalQty}}</span></a></div>
 	</div>
 	<div class="container-fluid">
 		<div class="row">
@@ -79,7 +79,7 @@
 					<p class="card-text float-right mb-0" style="color:red">Sold Out</p>
 					{{/gt}}
 					
-     <button class="btn btn-primary w-25 float-left"><i class="left fas fa-cart-plus"></i></button>
+     <a href="/addToCart/{{this._id}}" role="button" class="btn btn-primary w-25 float-left"><i class="left fas fa-cart-plus"></i></a>
       <p class="card-text"><small class="text-muted">{{qty}}</small></p>
 				</div>
 				
