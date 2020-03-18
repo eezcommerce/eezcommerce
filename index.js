@@ -11,6 +11,7 @@ var sass = require("sass");
 var hbHelpers = require("handlebars-helpers")();
 var path = require("path");
 var multer = require("multer");
+var jimp = require("jimp");
 
 // custom modules
 const mailService = require("./modules/emailService.js");
@@ -896,7 +897,18 @@ app.post("/customize", async (req, res) => {
 
 app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), (req, res) => {
 	if (req.auth.isLoggedIn) {
-		res.redirect("dashboard");
+		jimp
+			.read(`${__dirname}/public/siteData/${req.auth.userDetails._id}/img/avatar/avatar`)
+			.then(avatar => {
+				avatar
+					.resize(jimp.AUTO, 250)
+					.write(`${__dirname}/public/siteData/${req.auth.userDetails._id}/img/avatar/avatar.png`);
+				res.redirect("dashboard");
+			})
+			.catch(err => {
+				console.log(err);
+				res.redirect("dashboard");
+			});
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
 	}
