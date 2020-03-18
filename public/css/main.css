@@ -259,3 +259,18 @@ TESTIMONIAL
 	transition: 0.5s ease;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+/*
+PRODUCT DETAILS
+*/
+.corner {
+	height: 10vh;
+	width: 50%;
+	background-color: #43ba9e;
+	-webkit-clip-path: polygon(100% 0, 0 0, 100% 100%);
+	clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+#imgDetail {
+	width: 100%;
+	object-fit: cover;
+}

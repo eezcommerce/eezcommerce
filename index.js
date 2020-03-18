@@ -736,12 +736,30 @@ app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 	}
 });
 
-app.post("/editProduct/:id", (req, res) => {
+app.post("/editProduct/:id", uploadImg.single("newImg"), (req, res) => {
 	let prodId = req.params.id;
 	let prodDesc = req.body.descDetail;
 	let prodQty = req.body.qtyDetail;
 	let prodPrice = req.body.priceDetail;
 	let prodSold = req.body.soldDetail;
+	let prodSKU = req.body.skuDetail;
+	let file = req.file;
+
+	if (req.file == undefined) {
+		console.log("file undefined");
+	} else {
+		productService.getProductById(prodId).then(prod => {
+			fs.renameSync(
+				file.destination + file.filename,
+				file.destination + prod.SKU + path.extname(file.originalname),
+				function(err) {
+					if (err) throw err;
+					//temporary
+					console.log("renamed complete");
+				}
+			);
+		});
+	}
 
 	if (req.auth.isLoggedIn) {
 		productService
