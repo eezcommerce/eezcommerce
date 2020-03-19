@@ -161,7 +161,7 @@ module.exports.findMatchingEmail = inputEmail => {
  * @param {String} inputEmail email used as identifier to update token value.
  * */
 
-module.exports.setToken = (token, inputEmail, tokenExpiry = (Date.now() + 1000 * 60 * 60 * 24)) => {
+module.exports.setToken = (token, inputEmail, tokenExpiry = Date.now() + 1000 * 60 * 60 * 24) => {
 	return new Promise(function(resolve, reject) {
 		try {
 			UserModel.updateOne({ email: inputEmail }, { token: token, tokenExpiry: tokenExpiry }, function(err, res) {
