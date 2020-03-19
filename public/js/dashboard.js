@@ -107,6 +107,9 @@ $(() => {
 			.find("input")
 			.removeClass("is-invalid")
 			.removeClass("is-valid");
+		$(this)
+			.find("#avatar")
+			.attr("src", "/img/default_profile.jpg");
 	});
 
 	$("#dashboardMenuToggle").click(() => {
