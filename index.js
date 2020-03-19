@@ -156,7 +156,6 @@ app.use("/dashboard", (req, res, next) => {
 
 app.get("/", (req, res) => {
 	res.render("home", { layout: "NavBar", pagename: "home" });
-	//res.render("home"); //Change to this when HBS is implemented
 });
 
 app.get("/forgot", (req, res) => {
@@ -171,13 +170,27 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	let email = req.params.email;
 
 	userService
-		.validateToken(token, email)
+		.verifyEmail(token, email)
 		.then(() => {
 			req.auth.userDetails.isVerified = true;
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
 			res.json(error);
+		});
+});
+
+app.get("/reset_password/:email/:token", (req, res) => {
+	let token = req.params.token;
+	let email = req.params.email;
+
+	userService
+		.validateToken(token, email)
+		.then(() => {
+			res.render("changePassword", { layout: "NavBar", token: token, email: email });
+		})
+		.catch(() => {
+			res.send("Invalid token");
 		});
 });
 
@@ -648,7 +661,6 @@ app.post("/resetPassword", function(req, res) {
 				.sendVerificationEmail(req.body.email, "reset")
 				.then(() => {
 					res.json({ error: false, redirectUrl: "/email-reset-sent" });
-					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 				})
 				.catch(e => {
 					console.log(e);
@@ -658,11 +670,38 @@ app.post("/resetPassword", function(req, res) {
 						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
 					}
 				});
-			//res.send("No User...<script>alert('user Email does not exist'); window.location = 'forgot'</script>");
 		} else {
-			res.json({ error: "User not found in our database.", redirectUrl: "forgot" });
+			res.json({ error: "User not found in our database.", redirectUrl: "/forgot" });
 		}
 	});
+});
+
+app.post("/resetPassword/change", (req, res) => {
+	if (req.body.newPassword === req.body.newConfirmPassword) {
+		userService
+			.changePasswordWithToken(req.body.email, req.body.token, req.body.newPassword)
+			.then(result => {
+				res.json({ redirectUrl: "/" });
+			})
+			.catch(err => [res.json({ error: err })]);
+	} else {
+		res.json({ error: "Passwords don't match" });
+	}
+});
+
+app.post("/changePassword", (req, res) => {
+	if (req.body.newPassword === req.body.newConfirmPassword) {
+		userService
+			.changePassword(req.auth.userDetails._id, req.body.originalPassword, req.body.newPassword)
+			.then(result => {
+				res.json({ error: false, redirectUrl: "/dashboard/settings" });
+			})
+			.catch(err => {
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Passwords don't match" });
+	}
 });
 
 app.post("/login", (req, res) => {

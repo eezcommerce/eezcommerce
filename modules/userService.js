@@ -161,10 +161,10 @@ module.exports.findMatchingEmail = inputEmail => {
  * @param {String} inputEmail email used as identifier to update token value.
  * */
 
-module.exports.setToken = (token, inputEmail) => {
+module.exports.setToken = (token, inputEmail, tokenExpiry = Date.now()) => {
 	return new Promise(function(resolve, reject) {
 		try {
-			UserModel.updateOne({ email: inputEmail }, { token: token }, function(err, res) {
+			UserModel.updateOne({ email: inputEmail }, { token: token, tokenExpiry: tokenExpiry }, function(err, res) {
 				if (res.modifiedCount == 1) {
 					resolve(res);
 				}
@@ -232,12 +232,30 @@ module.exports.edit = passed => {
 };
 
 /**
+ * @returns {Boolean} is the token valid for the entered email?
+ * @param {String} token token to validate
+ * @param {String} email email to validate
+ */
+
+module.exports.validateToken = (token, email) => {
+	return new Promise(function(resolve, reject) {
+		UserModel.findOne({ email: email, token: token }, function(err, user) {
+			if (!err && user.tokenExpiry < Date.now()) {
+				resolve(true);
+			} else {
+				reject(err);
+			}
+		});
+	});
+};
+
+/**
  * @returns {Object} a user object
  * @param {String} token token to validate
  * @param {String} inputEmail email to validate
  */
 
-module.exports.validateToken = (token, inputEmail) => {
+module.exports.verifyEmail = (token, inputEmail) => {
 	return new Promise(function(resolve, reject) {
 		UserModel.findOne({ email: inputEmail }, function(err, user) {
 			if (err) {
@@ -289,6 +307,68 @@ module.exports.getUserDataForSession = id => {
 				user.password = undefined;
 				user.token = undefined;
 				resolve(user);
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} a user object
+ * @param {String} id a user id
+ * @param {String} oldPass old (current) password
+ * @param {String} newPass new password to update to
+ */
+module.exports.changePassword = (id, oldPass, newPass) => {
+	return new Promise((resolve, reject) => {
+		UserModel.findById(id, (err, user) => {
+			if (!err) {
+				bcrypt.compare(oldPass, user.password, (err, result) => {
+					if (!err && result) {
+						bcrypt.genSalt(10, (err, salt) => {
+							bcrypt.hash(newPass, salt, (err, hash) => {
+								UserModel.updateOne({ _id: id }, { password: hash }, (err, result) => {
+									if (!err) {
+										resolve(result);
+									} else {
+										reject(err);
+									}
+								});
+							});
+						});
+					} else {
+						reject("Old password incorrect");
+					}
+				});
+			} else {
+				reject("Something went wrong, try logging out and logging back in.");
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} a user object
+ * @param {String} email user email
+ * @param {String} token token to verify
+ * @param {String} newPass new password to update to
+ */
+module.exports.changePasswordWithToken = (email, token, newPass) => {
+	return new Promise((resolve, reject) => {
+		UserModel.findOne({ email: email, token: token }, (err, result) => {
+			if (!err && result) {
+				bcrypt.genSalt(10, (err, salt) => {
+					bcrypt.hash(newPass, salt, (err, hash) => {
+						UserModel.updateOne({ email: email }, { password: hash }, (err, result) => {
+							if (!err) {
+								resolve(result);
+							} else {
+								reject(err);
+							}
+						});
+					});
+				});
+			} else {
+				reject("Token invalid");
 			}
 		});
 	});

@@ -60,6 +60,10 @@ const UserModel = mongoose.model(
 			type: String,
 			enum: ["Basic", "Premium"],
 			default: "Basic"
+		},
+		tokenExpiry: {
+			type: Number,
+			default: Date.now() + 1000 * 60 * 60 * 24
 		}
 	})
 );
