@@ -240,7 +240,7 @@ module.exports.edit = passed => {
 module.exports.validateToken = (token, email) => {
 	return new Promise(function(resolve, reject) {
 		UserModel.findOne({ email: email, token: token }, function(err, user) {
-			if (!err && user.tokenExpiry < Date.now()) {
+			if (!err && user.tokenExpiry > Date.now()) {
 				resolve(true);
 			} else {
 				reject(err);
