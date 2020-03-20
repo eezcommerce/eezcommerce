@@ -34,7 +34,7 @@ $(() => {
 						.find(".server-response")
 						.html(data.error)
 						.addClass("d-block");
-					form.find(".form-loader").show();
+					form.find(".form-loader").hide();
 				} else {
 					// the server will respond with a redirect url. if everything goes well, we should go there
 					window.location = data.redirectUrl;
