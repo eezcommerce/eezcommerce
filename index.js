@@ -542,11 +542,15 @@ app.get("/sites/:id/shoppingCart", (req, res) => {
 			site.baseUrl = "/sites/" + site._id;
 
 			if (!req.shoppingCart.cart) {
-				res.render("siteViews/shoppingCart", { layout:  __dirname + "/views/siteViews/layouts/nav", siteData: site, cart: shoppingCart });
+				res.render("siteViews/shoppingCart", {
+					layout: __dirname + "/views/siteViews/layouts/nav",
+					siteData: site,
+					cart: shoppingCart
+				});
 			}
 			var cart = new Cart(req.shoppingCart.cart);
 			res.render("siteViews/shoppingCart", {
-				layout:  __dirname + "/views/siteViews/layouts/nav",
+				layout: __dirname + "/views/siteViews/layouts/nav",
 				cart: shoppingCart,
 				siteData: site,
 				products: cart.generateArray(),
@@ -561,7 +565,11 @@ app.get("/sites/:id/shoppingCart", (req, res) => {
 
 app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 	if (!req.shoppingCart.cart) {
-		return res.render("siteViews/shoppingCart", { layout:  __dirname + "/views/siteViews/layouts/nav", siteData: site, cart: shoppingCart })
+		return res.render("siteViews/shoppingCart", {
+			layout: __dirname + "/views/siteViews/layouts/nav",
+			siteData: site,
+			cart: shoppingCart
+		});
 	}
 	let id = req.params.id;
 	let shoppingCart = req.shoppingCart.cart;
@@ -571,11 +579,15 @@ app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 			site.baseUrl = "/sites/" + site._id;
 
 			if (!req.shoppingCart.cart) {
-				res.render("siteViews/checkout", { layout:  __dirname + "/views/siteViews/layouts/nav", siteData: site, cart: shoppingCart });
+				res.render("siteViews/checkout", {
+					layout: __dirname + "/views/siteViews/layouts/nav",
+					siteData: site,
+					cart: shoppingCart
+				});
 			}
 			var cart = new Cart(req.shoppingCart.cart);
 			res.render("siteViews/checkout", {
-				layout:  __dirname + "/views/siteViews/layouts/nav",
+				layout: __dirname + "/views/siteViews/layouts/nav",
 				cart: shoppingCart,
 				siteData: site,
 				products: cart.generateArray(),
@@ -589,18 +601,16 @@ app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 });
 app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 	console.log("hello!");
-var validate = true; //validate credit card
-var firstname = req.body.firstName;
-var lastname = req.body.lastName;
-console.log(firstname);
-	if(validate){
-		res.json({success:true});
+	var validate = true; //validate credit card
+	var firstname = req.body.firstName;
+	var lastname = req.body.lastName;
+	console.log(firstname);
+	if (validate) {
+		res.json({ success: true });
 		//create order
-	
 
 		//remove product
 	}
-
 });
 app.get("/sites/:id/:route", (req, res) => {
 	let id = req.params.id;
