@@ -24,6 +24,7 @@ $(() => {
 		// the [0] after form is to access the raw DOM element since it was wrapped in jquery before (same result as just e.target)
 		// if the form is valid (so checkvalidity is true) we can do our posting of data (submit the form to the "action" attribute url)
 		if (form[0].checkValidity()) {
+			form.find(".form-loader").show();
 			$.post(form.attr("action"), form.serialize(), data => {
 				// if theres an error, put it in the element with the class "server-response" and show that element
 				if (data.error) {
@@ -33,6 +34,7 @@ $(() => {
 						.find(".server-response")
 						.html(data.error)
 						.addClass("d-block");
+					form.find(".form-loader").hide();
 				} else {
 					// the server will respond with a redirect url. if everything goes well, we should go there
 					window.location = data.redirectUrl;

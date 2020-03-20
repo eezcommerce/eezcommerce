@@ -156,7 +156,6 @@ app.use("/dashboard", (req, res, next) => {
 
 app.get("/", (req, res) => {
 	res.render("home", { layout: "NavBar", pagename: "home" });
-	//res.render("home"); //Change to this when HBS is implemented
 });
 
 app.get("/forgot", (req, res) => {
@@ -171,13 +170,27 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	let email = req.params.email;
 
 	userService
-		.validateToken(token, email)
+		.verifyEmail(token, email)
 		.then(() => {
 			req.auth.userDetails.isVerified = true;
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
 			res.json(error);
+		});
+});
+
+app.get("/reset_password/:email/:token", (req, res) => {
+	let token = req.params.token;
+	let email = req.params.email;
+
+	userService
+		.validateToken(token, email)
+		.then(() => {
+			res.render("changePassword", { layout: "NavBar", token: token, email: email });
+		})
+		.catch(() => {
+			res.send("Invalid token");
 		});
 });
 
@@ -701,7 +714,6 @@ app.post("/resetPassword", function(req, res) {
 				.sendVerificationEmail(req.body.email, "reset")
 				.then(() => {
 					res.json({ error: false, redirectUrl: "/email-reset-sent" });
-					//res.send("signup success, redirecting <script>setTimeout(()=>{window.location = '/'}, 2000)</script>");
 				})
 				.catch(e => {
 					console.log(e);
@@ -711,11 +723,38 @@ app.post("/resetPassword", function(req, res) {
 						console.log(e + "\n\n\n ***CHECK YOUR FIREWALL FOR PORT 587***");
 					}
 				});
-			//res.send("No User...<script>alert('user Email does not exist'); window.location = 'forgot'</script>");
 		} else {
-			res.json({ error: "User not found in our database.", redirectUrl: "forgot" });
+			res.json({ error: "User not found in our database.", redirectUrl: "/forgot" });
 		}
 	});
+});
+
+app.post("/resetPassword/change", (req, res) => {
+	if (req.body.newPassword === req.body.newConfirmPassword) {
+		userService
+			.changePasswordWithToken(req.body.email, req.body.token, req.body.newPassword)
+			.then(result => {
+				res.json({ redirectUrl: "/" });
+			})
+			.catch(err => [res.json({ error: err })]);
+	} else {
+		res.json({ error: "Passwords don't match" });
+	}
+});
+
+app.post("/changePassword", (req, res) => {
+	if (req.body.newPassword === req.body.newConfirmPassword) {
+		userService
+			.changePassword(req.auth.userDetails._id, req.body.originalPassword, req.body.newPassword)
+			.then(result => {
+				res.json({ error: false, redirectUrl: "/dashboard/settings" });
+			})
+			.catch(err => {
+				res.json({ error: err });
+			});
+	} else {
+		res.json({ error: "Passwords don't match" });
+	}
 });
 
 app.post("/login", (req, res) => {
@@ -876,6 +915,11 @@ app.post("/edit-user", (req, res) => {
 	if (req.auth.isLoggedIn) {
 		let passed = req.body;
 
+		if (passed.questionOne === passed.questionTwo) {
+			res.json({ error: "Security questions must be unique." });
+			return;
+		}
+
 		passed._id = req.auth.userDetails._id;
 		passed.isVerified = req.auth.userDetails.email === passed.email ? req.auth.userDetails.isVerified : false;
 
@@ -903,45 +947,16 @@ app.post("/edit-user", (req, res) => {
 // k.post.customize
 app.post("/customize", async (req, res) => {
 	if (req.auth.isLoggedIn) {
-		await customizationService.edit(req.auth.userDetails._id, {
-			primaryColor: req.body.primaryColor,
-			secondaryColor: req.body.secondaryColor
-		});
-
-		let customSass = sass.renderSync({
-			data: `
-				@import "node_modules/bootstrap/scss/_functions";
-				
-				
-				$theme-colors: (
-					"primary": #${req.body.primaryColor},
-					"secondary": #${req.body.secondaryColor}
-				);
-
-				.hover:hover {
-					opacity: 0.5;
-					transition: 0.5s ease;
-					box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-				}
-
-				@import "node_modules/bootstrap/scss/bootstrap";
-
-				.bg-secondary{
-					color: color-yiq(#${req.body.secondaryColor}, #111111, #ffffff);
-				}
-
-				.bg-primary{
-					color: color-yiq(#${req.body.primaryColor}, #111111, #ffffff);
-				}
-
-			`
-		});
-
 		try {
-			fs.writeFileSync(__dirname + "/public/siteData/" + req.auth.userDetails._id + "/theme.css", customSass.css);
+			await customizationService.edit(req.auth.userDetails._id, {
+				primaryColor: req.body.primaryColor,
+				secondaryColor: req.body.secondaryColor
+			});
 			res.json({ redirectUrl: "/dashboard/customize" });
-		} catch (err) {
-			res.json({ error: err });
+		} catch (error) {
+			console.log(error);
+
+			res.json({ error: error });
 		}
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });

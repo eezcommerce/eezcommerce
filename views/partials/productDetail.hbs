@@ -43,13 +43,16 @@
 				<div class="row mt-3">
 				 <div class="col">
 		 <label for="soldDetail"><strong>Change Image</strong></label>
-      <input type="file" name="newImg" class="form-control-file" >
+      <input type="file" name="newImg" class="form-control-file"  onchange="loadFile(event)">
+			<script>
+  var loadFile = function(event) {
+    var output = document.getElementById('imgDetail');
+			output.src = URL.createObjectURL(event.target.files[0]);
+    
+  };
+</script>
     </div>
 		</div>
-    
-
-
-
 						</div>	
 					</div>
 					<hr/>
@@ -59,9 +62,4 @@
 											</button>
 										</div>
 </form>
-
-
-
-										
-
 			</div>

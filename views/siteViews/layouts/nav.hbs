@@ -5,19 +5,28 @@
 	{{>websiteHeader}}
 	<link rel="icon" type="image/jpg" href="/siteData/{{siteData._id}}/img/avatar/avatar.png" />
 	<title>{{siteData.businessName}} | eEz Commerce</title>
-    	<style>
-		.splash{
+	<style>
+		.splash {
 			min-height: 400px;
 		}
 
-		.container-fluid{
+		.container-fluid {
 			min-height: 100vh;
+		}
+		.card{
+			transition: all 0.4s ease;
+			cursor: pointer;
+		}
+
+		.card:hover{
+			box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.2) !important;
+			transform: translateY(-5px);
 		}
 	</style>
 </head>
 
 <body>
-    	<div class="navbar navbar-expand-lg bg-secondary navbar-dark fixed-top">
+	<div class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
 		<div class="navbar-brand">
 			<a class="text-light" href="{{siteData.baseUrl}}">
 				<img src="/siteData/{{siteData._id}}/img/avatar/avatar.png" style="width: auto;height:50px;">
@@ -33,9 +42,13 @@
 				<a class="nav-item nav-link active" href="{{siteData.baseUrl}}/store">Shop</a>
 			</div>
 		</div>
-		<div class="float-right"><a href="{{siteData.baseUrl}}/shoppingCart" class="primary"><i class="fas fa-shopping-cart fa-lg"></i><span class="badge">{{cart.totalQty}}</span></a></div>
+		<div class="float-right">
+			<a href="{{siteData.baseUrl}}/shoppingCart" class="primary">
+				<i class="fas fa-shopping-cart fa-lg"></i><span class="badge">{{cart.totalQty}}</span>
+			</a>
+		</div>
 	</div>
-{{{body}}}
+	{{{body}}}
 </body>
 	<footer class="bg-light text-center pt-5 pb-5">
 		&copy; {{siteData.businessName}}, <a href="/">eEz Commerce 2020</a>

@@ -74,7 +74,7 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 						<p> You recently requested to reset your password for ${email} account.</p>
 						<p>Please click the link below to reset your password. 
 						<strong>This password reset is only valid for the next 24 hours.</strong></p>
-						<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Reset Password</a>
+						<a href="${process.env.SERVER_PUBLIC_URL}/reset_password/${email}/${token}">Reset Password</a>
 					</div>
 					`
 					};

@@ -44,6 +44,25 @@ h1 {
 	font-weight: 1000;
 }
 
+.form-loader {
+	text-align: center;
+	display: none;
+}
+
+.form-loader i {
+	animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
 #errorTitle {
 	color: red;
 	font-family: Montserrat;
@@ -160,8 +179,18 @@ h1 {
 	transition: 0.5s ease;
 }
 
+.sidebarMenuItem a {
+	transition: all 0.4s ease;
+	outline: none;
+}
+
+.sidebarMenuItem a:hover {
+	text-decoration: none;
+	box-shadow: 0px 3px 0px 0px var(--primary);
+}
+
 .sidebarMenuItem.active {
-	background: rgba(0, 0, 0, 0.1);
+	background: rgba(0, 0, 0, 0.2);
 }
 
 .overview-circles {
@@ -256,7 +285,7 @@ TESTIMONIAL
 
 .hover:hover {
 	opacity: 0.5;
-	transition: 0.5s ease;
+	transition: 0s ease;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -272,5 +301,6 @@ PRODUCT DETAILS
 }
 #imgDetail {
 	width: 100%;
+	height: 50vh;
 	object-fit: cover;
 }
