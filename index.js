@@ -823,6 +823,11 @@ app.post("/edit-user", (req, res) => {
 	if (req.auth.isLoggedIn) {
 		let passed = req.body;
 
+		if (passed.questionOne === passed.questionTwo) {
+			res.json({ error: "Security questions must be unique." });
+			return;
+		}
+
 		passed._id = req.auth.userDetails._id;
 		passed.isVerified = req.auth.userDetails.email === passed.email ? req.auth.userDetails.isVerified : false;
 
