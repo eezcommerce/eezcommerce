@@ -90,19 +90,26 @@
 	</div>
 
 	<div class="row">
-		<form action="/change-password" novalidate class="needs-validation col-md-12 mt-3">
+		<form action="/changePassword" novalidate class="needs-validation col-md-12 mt-3">
 			<label for="originalPassword">Current Password:</label>
 			<input name="originalPassword" class="form-control mb-4" type="password" required
 				autocomplete="new-password">
 
 			<label for="newPassword">New Password:</label>
-			<input name="newPassword" class="confirmablePassword form-control mb-4" type="password"
-				autocomplete="new-password" required>
+			<input 
+				pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+				name="newPassword" 
+				class="confirmablePassword checkPatternWhenTyping form-control mb-4" 
+				type="password"
+				autocomplete="new-password" required
+			>
 
 			<label for="newConfirmPassword">Confirm New Password:</label>
 			<input name="newConfirmPassword"
 				class="form-control confirmablePasswordDestination checkPatternWhenTyping mb-4" type="password"
 				autocomplete="new-password" required>
+
+			<span class="text-danger server-response"></span>
 
 			<button class="btn btn-primary rounded-pill float-right mt-5 mb-2" type="submit">
 				Change Password
