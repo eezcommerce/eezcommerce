@@ -1,74 +1,71 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 splash d-flex justify-content-center align-items-center bg-primary">
+			<h1 class="p-2">Shop</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="offset-2 p-2 col-3">
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 splash d-flex justify-content-center align-items-center bg-primary">
-				<h1 class="p-2">Shop</h1>
+			<div class="input-group">
+				<input type="search" placeholder="Search..." class="form-control searchbox-input">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button">
+						<span class="fas fa-search"></span>
+					</button>
+				</span>
 			</div>
 		</div>
-		<div class="row">
-			<div class="offset-2 p-2 col-3">
 
-				<div class="input-group">
-              <input type="search" placeholder="Search..." class="form-control searchbox-input">
-              <span class="input-group-btn">
-              <button class="btn btn-default" type="button">
-              <span class="fas fa-search"></span>
-             </button>
-             </span>
-             </div>
-			</div>
-			
 
-		</div>
+	</div>
 
-		<div class="row" style="margin-top:-30px">
-			<div class="col-lg-8 offset-lg-2 mt-4 mb-4">
-				<div class="row text-center">			
-<div class="card-deck">
-				{{#isTruthy prods}}
+	<div class="row" style="margin-top:-30px">
+		<div class="col-lg-8 offset-lg-2 mt-4 mb-4">
+			<div class="row text-center">
+				<div class="card-deck w-100 d-flex justify-content-center flex-wrap">
+					{{#isTruthy prods}}
 					{{#each prods}}
 
-				<div class="card shadow-sm m-3 hover" style="min-width:14rem; max-width:14rem" >
-				 <img class="card-img" src='{{img}}' alt="Card image cap" style="height:12vw; object-fit: cover">
-				<div class="card-body">
-					<h5 class="card-title">{{name}}</h5>
-					 <p class="card-text float-right mb-0">${{toFixed price 2}}</p><br>
-					{{#gt quantity '1'}}
-					<p class="card-text float-right mb-0">{{quantity}} In Stock</p>
-					{{else}}
-					<p class="card-text float-right mb-0" style="color:red">Sold Out</p>
-					{{/gt}}
-					
-     <a href="/addToCart/{{this._id}}" role="button" class="btn btn-primary w-25 float-left"><i class="left fas fa-cart-plus"></i></a>
-      <p class="card-text"><small class="text-muted">{{qty}}</small></p>
-				</div>
-				
-			</div>
+					<div class="card shadow-sm m-3" style="min-width:14rem; max-width:14rem">
+						<img class="card-img" src='{{img}}' alt="Card image cap" style="height:200px; object-fit: cover">
+						<div class="card-body">
+							<h5 class="card-title">{{name}}</h5>
+							<p class="card-text float-right mb-0">${{toFixed price 2}}</p><br>
+							{{#gt quantity '1'}}
+							<p class="card-text float-right mb-0">{{quantity}} In Stock</p>
+							{{else}}
+							<p class="card-text float-right mb-0" style="color:red">Sold Out</p>
+							{{/gt}}
+
+							<a href="/addToCart/{{this._id}}" role="button" class="btn btn-secondary w-25 float-left"><i
+									class="left fas fa-cart-plus"></i></a>
+							<p class="card-text"><small class="text-muted">{{qty}}</small></p>
+						</div>
+
+					</div>
 					{{/each}}
-				{{/isTruthy}}
-				{{#isFalsey prods}}
+					{{/isTruthy}}
+					{{#isFalsey prods}}
 					<div class="col-12 py-5">
 						<h4>No products yet, check back soon.</h4>
 					</div>
-				{{/isFalsey}}
+					{{/isFalsey}}
 				</div>
 
-				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
 
 
-	<footer class="bg-light text-center pt-5 pb-5">
-		&copy; {{siteData.businessName}}, <a href="/">eEz Commerce 2020</a>
-	</footer>
+<footer class="bg-light text-center pt-5 pb-5">
+	&copy; {{siteData.businessName}}, <a href="/">eEz Commerce 2020</a>
+</footer>
 <script>
-	$('.searchbox-input').keyup( function () {
-    $('.card').show();
-    var filter = $(this).val(); // get the value of the input, which we filter on
-    $('.container-fluid').find(".card-title:not(:contains(" + filter + "))").parent().parent().css('display','none');
-});</script>
-
-
-
+	$('.searchbox-input').keyup(function () {
+		$('.card').show();
+		var filter = $(this).val(); // get the value of the input, which we filter on
+		$('.container-fluid').find(".card-title:not(:contains(" + filter + "))").parent().parent().css('display', 'none');
+	});</script>

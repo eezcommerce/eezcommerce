@@ -1,5 +1,6 @@
 const CustomizationModel = require("./Models/CustomizationModel");
-
+const sass = require("sass");
+const fs = require("fs");
 /**
  * @param {String} id the user id for the website to initialize
  */
@@ -31,7 +32,41 @@ module.exports.edit = (id, customization) => {
 			if (err) {
 				reject(err);
 			} else {
-				resolve(resp);
+				let customSass = sass.renderSync({
+					data: `
+						@import "node_modules/bootstrap/scss/_functions";
+						
+						
+						$theme-colors: (
+							"primary": #${customization.primaryColor},
+							"secondary": #${customization.secondaryColor}
+						);
+		
+						.hover:hover {
+							opacity: 0.5;
+							transition: 0.5s ease;
+							box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+						}
+		
+						@import "node_modules/bootstrap/scss/bootstrap";
+		
+						.bg-secondary{
+							color: color-yiq(#${customization.secondaryColor}, #111111, #ffffff);
+						}
+		
+						.bg-primary{
+							color: color-yiq(#${customization.primaryColor}, #111111, #ffffff);
+						}
+		
+					`
+				});
+
+				try {
+					fs.writeFileSync(__dirname + "/../public/siteData/" + id + "/theme.css", customSass.css);
+					resolve();
+				} catch (err) {
+					reject(err);
+				}
 			}
 		});
 	});

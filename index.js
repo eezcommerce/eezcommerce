@@ -894,45 +894,16 @@ app.post("/edit-user", (req, res) => {
 // k.post.customize
 app.post("/customize", async (req, res) => {
 	if (req.auth.isLoggedIn) {
-		await customizationService.edit(req.auth.userDetails._id, {
-			primaryColor: req.body.primaryColor,
-			secondaryColor: req.body.secondaryColor
-		});
-
-		let customSass = sass.renderSync({
-			data: `
-				@import "node_modules/bootstrap/scss/_functions";
-				
-				
-				$theme-colors: (
-					"primary": #${req.body.primaryColor},
-					"secondary": #${req.body.secondaryColor}
-				);
-
-				.hover:hover {
-					opacity: 0.5;
-					transition: 0.5s ease;
-					box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-				}
-
-				@import "node_modules/bootstrap/scss/bootstrap";
-
-				.bg-secondary{
-					color: color-yiq(#${req.body.secondaryColor}, #111111, #ffffff);
-				}
-
-				.bg-primary{
-					color: color-yiq(#${req.body.primaryColor}, #111111, #ffffff);
-				}
-
-			`
-		});
-
 		try {
-			fs.writeFileSync(__dirname + "/public/siteData/" + req.auth.userDetails._id + "/theme.css", customSass.css);
+			await customizationService.edit(req.auth.userDetails._id, {
+				primaryColor: req.body.primaryColor,
+				secondaryColor: req.body.secondaryColor
+			});
 			res.json({ redirectUrl: "/dashboard/customize" });
-		} catch (err) {
-			res.json({ error: err });
+		} catch (error) {
+			console.log(error);
+
+			res.json({ error: error });
 		}
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
