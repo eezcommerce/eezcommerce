@@ -95,7 +95,6 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 
 module.exports.sendReceipt = (email, order) => {
 	return new Promise((resolve, reject) => {
-		let productList = order.productList;
 		var mailOptions = {
 			from: process.env.EMAIL_USER,
 			to: email,
