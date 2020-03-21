@@ -32,7 +32,7 @@
 						<div class="card-body">
 							<h5 class="card-title">{{name}}</h5>
 							<p class="card-text float-right mb-0">${{toFixed price 2}}</p><br>
-							{{#gt quantity '1'}}
+							{{#gt quantity '0'}}
 							<p class="card-text float-right mb-0">{{quantity}} In Stock</p>
 							{{else}}
 							<p class="card-text float-right mb-0" style="color:red">Sold Out</p>

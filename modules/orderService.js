@@ -20,6 +20,7 @@ function parseResponse(response) {
 module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {
 		Orders.find({ SellerID: sID }, (err, ords) => {
+			console.log(ords);
 			var parsedProds = parseResponse(ords);
 			if (!err) {
 				resolve(parsedProds);
@@ -63,14 +64,14 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
 	});
 };
 
-module.exports.addOrder = (newSID, newAdd, newStatus, newTotal) => {
+module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, pList) => {
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
 			SellerID: newSID,
 			destAddress: newAdd,
 			status: newStatus,
 			total: newTotal,
-			ProductList: []
+			ProductList: pList
 		});
 		Order1.save(function(err, Order) {
 			if (err) {

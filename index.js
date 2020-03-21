@@ -318,11 +318,12 @@ app.get("/dashboard/settings/resendVerification", (req, res) => {
 app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
 		.getAllOrders(req.auth.userDetails._id)
-		.then(prods => {
+		.then(orders => {
+			console.log(orders);
 			res.render("orders", {
 				layout: "dashboard",
 				pagename: "orders",
-				orders: prods,
+				orders: orders,
 				userDetails: req.auth.userDetails
 			});
 		})
@@ -613,14 +614,41 @@ app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 		});
 });
 app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
-	console.log("hello!");
-	var validate = true; //validate credit card
+	var productList = req.shoppingCart.cart.items;
+	var grandTotal = req.shoppingCart.cart.totalPrice * 1.13 + 5;
+	
 	var firstname = req.body.firstName;
 	var lastname = req.body.lastName;
-	console.log(firstname);
+	//send receipt
+	var email = req.body.email;
+	//create shipping information
+	var address = req.body.address;
+	var address2 = req.body.address2;
+	var country = req.body.country;
+	var province = req.body.province;
+	var zip = req.body.zip;
+	//Credit card verification
+	var ccName = req.body.ccName;
+	var ccNum = req.body.ccNum;
+	var ccExpiry = req.body.ccExpiry;
+	var cvv = req.body.ccCVV;
+	var validate = true; //validate credit card
+	//reference to ownerID of website
+	var shopID;
+
+	var parsedProductList = [];
 	if (validate) {
-		res.json({ success: true });
+		for (let [key, value] of Object.entries(productList)) {
+			console.log(`${key}: ${value}`);
+			shopID = value.item.owner;
+			var productEntry = { ProductID: key, Qty: value.qty };
+			parsedProductList.push(productEntry);
+		}
+
 		//create order
+		orderService.addOrder(shopID, address, "Placed", grandTotal, parsedProductList).then(order => {
+			res.redirect("/sites/" + req.params.id + "/store");
+		});
 
 		//remove product
 	}
