@@ -616,7 +616,7 @@ app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 	var productList = req.shoppingCart.cart.items;
 	var grandTotal = req.shoppingCart.cart.totalPrice * 1.13 + 5;
-	
+
 	var firstname = req.body.firstName;
 	var lastname = req.body.lastName;
 	//send receipt
@@ -639,7 +639,6 @@ app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 	var parsedProductList = [];
 	if (validate) {
 		for (let [key, value] of Object.entries(productList)) {
-			console.log(`${key}: ${value}`);
 			shopID = value.item.owner;
 			var productEntry = { ProductID: key, Qty: value.qty };
 			parsedProductList.push(productEntry);
@@ -647,7 +646,9 @@ app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 
 		//create order
 		orderService.addOrder(shopID, address, "Placed", grandTotal, parsedProductList).then(order => {
-			res.redirect("/sites/" + req.params.id + "/store");
+			mailService.sendReceipt(email, order).then(() => {
+				res.redirect("/sites/" + req.params.id + "/store");
+			});
 		});
 
 		//remove product

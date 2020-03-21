@@ -92,3 +92,29 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 		});
 	});
 };
+
+module.exports.sendReceipt = (email, order) => {
+	return new Promise((resolve, reject) => {
+		var mailOptions = {
+			from: process.env.EMAIL_USER,
+			to: email,
+			subject: `Receipt for Order #${order._id}`,
+			html: `
+					<div>
+						<h1 style="color: #43ba9e">Thank you for your purchase with eEz Commerce!</h1>
+	
+
+					</div>
+					`
+		};
+
+		transporter.sendMail(mailOptions, function(err, info) {
+			//callback function
+			if (err) {
+				reject(err);
+			} else {
+				resolve(info);
+			}
+		});
+	});
+};
