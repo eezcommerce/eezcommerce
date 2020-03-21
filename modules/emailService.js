@@ -95,22 +95,22 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 
 module.exports.sendReceipt = (email, order) => {
 	return new Promise((resolve, reject) => {
+		let productList = order.productList;
 		var mailOptions = {
 			from: process.env.EMAIL_USER,
 			to: email,
 			subject: `Receipt for Order #${order._id}`,
 			html: `
 					<div>
-						<h1 style="color: #43ba9e">Thank you for your purchase with eEz Commerce!</h1>
+						<h1 style="background-color: #43ba9e; color:white;text-align: center">Thank you for your purchase with eEz Commerce!</h1>
 					</div>
 
 				<div>
-					<table>
+					<table style="border-style:bold">
 				<tr>
 					<th>Item</th>
 					<th>Qty.</th>
 				</tr>
-
 				<tr>
 					<td>${order.ProductList[0].ProductName}</td>
 					<td>${order.ProductList[0].Qty}</td>
