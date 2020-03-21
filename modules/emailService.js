@@ -102,9 +102,21 @@ module.exports.sendReceipt = (email, order) => {
 			html: `
 					<div>
 						<h1 style="color: #43ba9e">Thank you for your purchase with eEz Commerce!</h1>
-	
-
 					</div>
+
+				<div>
+					<table>
+				<tr>
+					<th>Item</th>
+					<th>Qty.</th>
+				</tr>
+
+				<tr>
+					<td>${order.ProductList[0].ProductName}</td>
+					<td>${order.ProductList[0].Qty}</td>
+				</tr>
+					</table>
+				</div>
 					`
 		};
 

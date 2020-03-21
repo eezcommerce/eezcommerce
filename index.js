@@ -640,7 +640,7 @@ app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 	if (validate) {
 		for (let [key, value] of Object.entries(productList)) {
 			shopID = value.item.owner;
-			var productEntry = { ProductID: key, Qty: value.qty };
+			var productEntry = { ProductID: key, ProductName: value.name, Qty: value.qty };
 			parsedProductList.push(productEntry);
 		}
 
