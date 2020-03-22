@@ -318,11 +318,12 @@ app.get("/dashboard/settings/resendVerification", (req, res) => {
 app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
 		.getAllOrders(req.auth.userDetails._id)
-		.then(prods => {
+		.then(orders => {
+			console.log(orders);
 			res.render("orders", {
 				layout: "dashboard",
 				pagename: "orders",
-				orders: prods,
+				orders: orders,
 				userDetails: req.auth.userDetails
 			});
 		})
@@ -555,11 +556,15 @@ app.get("/sites/:id/shoppingCart", (req, res) => {
 			site.baseUrl = "/sites/" + site._id;
 
 			if (!req.shoppingCart.cart) {
-				res.render("siteViews/shoppingCart", { layout: false, siteData: site, cart: shoppingCart });
+				res.render("siteViews/shoppingCart", {
+					layout: __dirname + "/views/siteViews/layouts/nav",
+					siteData: site,
+					cart: shoppingCart
+				});
 			}
 			var cart = new Cart(req.shoppingCart.cart);
 			res.render("siteViews/shoppingCart", {
-				layout: false,
+				layout: __dirname + "/views/siteViews/layouts/nav",
 				cart: shoppingCart,
 				siteData: site,
 				products: cart.generateArray(),
@@ -572,6 +577,83 @@ app.get("/sites/:id/shoppingCart", (req, res) => {
 		});
 });
 
+app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
+	if (!req.shoppingCart.cart) {
+		return res.render("siteViews/shoppingCart", {
+			layout: __dirname + "/views/siteViews/layouts/nav",
+			siteData: site,
+			cart: shoppingCart
+		});
+	}
+	let id = req.params.id;
+	let shoppingCart = req.shoppingCart.cart;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			site.baseUrl = "/sites/" + site._id;
+
+			if (!req.shoppingCart.cart) {
+				res.render("siteViews/checkout", {
+					layout: __dirname + "/views/siteViews/layouts/nav",
+					siteData: site,
+					cart: shoppingCart
+				});
+			}
+			var cart = new Cart(req.shoppingCart.cart);
+			res.render("siteViews/checkout", {
+				layout: __dirname + "/views/siteViews/layouts/nav",
+				cart: shoppingCart,
+				siteData: site,
+				products: cart.generateArray(),
+				totalPrice: cart.totalPrice,
+				totalQty: cart.totalQty
+			});
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
+	var productList = req.shoppingCart.cart.items;
+	var grandTotal = req.shoppingCart.cart.totalPrice * 1.13 + 5;
+
+	var firstname = req.body.firstName;
+	var lastname = req.body.lastName;
+	//send receipt
+	var email = req.body.email;
+	//create shipping information
+	var address = req.body.address;
+	var address2 = req.body.address2;
+	var country = req.body.country;
+	var province = req.body.province;
+	var zip = req.body.zip;
+	//Credit card verification
+	var ccName = req.body.ccName;
+	var ccNum = req.body.ccNum;
+	var ccExpiry = req.body.ccExpiry;
+	var cvv = req.body.ccCVV;
+	var validate = true; //validate credit card
+	//reference to ownerID of website
+	var shopID;
+
+	var parsedProductList = [];
+	if (validate) {
+		for (let [key, value] of Object.entries(productList)) {
+			shopID = value.item.owner;
+			var productEntry = { ProductID: key, ProductName: value.name, Qty: value.qty };
+			parsedProductList.push(productEntry);
+		}
+
+		//create order
+		orderService.addOrder(shopID, address, "Placed", grandTotal, parsedProductList).then(order => {
+			mailService.sendReceipt(email, order).then(() => {
+				res.redirect("/sites/" + req.params.id + "/store");
+			});
+		});
+
+		//remove product
+	}
+});
 app.get("/sites/:id/:route", (req, res) => {
 	let id = req.params.id;
 	let shoppingCart = req.shoppingCart.cart;
