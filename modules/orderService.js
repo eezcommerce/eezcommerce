@@ -64,24 +64,6 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
 	});
 };
 
-module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, pList) => {
-	return new Promise((resolve, reject) => {
-		var Order1 = new Orders({
-			SellerID: newSID,
-			destAddress: newAdd,
-			status: newStatus,
-			total: newTotal,
-			ProductList: pList
-		});
-		Order1.save(function(err, Order) {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(Order);
-			}
-		});
-	});
-};
 
 /**
  * @function getOrdersWithSort gets orders for a specified site with a sort object being passed

@@ -613,9 +613,48 @@ app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 			res.redirect("/404");
 		});
 });
+
+app.get("/sites/:id/:route", (req, res) => {
+	let id = req.params.id;
+	let shoppingCart = req.shoppingCart.cart;
+
+	const route = req.params.route;
+	userService
+		.getWebsiteDataById(id)
+		.then(site => {
+			productService.getAllProducts(id).then(prods => {
+				site.baseUrl = "/sites/" + site._id;
+				res.render("siteViews/" + route, {
+					layout: __dirname + "/views/siteViews/layouts/nav",
+					siteData: site,
+					prods: prods,
+					cart: shoppingCart
+				});
+			});
+		})
+		.catch(err => {
+			res.redirect("/404");
+		});
+});
+
+/* 
+
+
+
+
+
+	ROUTES k.post 
+		->	POST 	Place all POST routes here
+
+
+
+
+
+*/
+
 app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 	var productList = req.shoppingCart.cart.items;
-	var grandTotal = req.shoppingCart.cart.totalPrice * 1.13 + 5;
+	var grandTotal = (req.shoppingCart.cart.totalPrice * 1.13) + 5;
 
 	var firstname = req.body.firstName;
 	var lastname = req.body.lastName;
@@ -654,43 +693,6 @@ app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 		//remove product
 	}
 });
-app.get("/sites/:id/:route", (req, res) => {
-	let id = req.params.id;
-	let shoppingCart = req.shoppingCart.cart;
-
-	const route = req.params.route;
-	userService
-		.getWebsiteDataById(id)
-		.then(site => {
-			productService.getAllProducts(id).then(prods => {
-				site.baseUrl = "/sites/" + site._id;
-				res.render("siteViews/" + route, {
-					layout: __dirname + "/views/siteViews/layouts/nav",
-					siteData: site,
-					prods: prods,
-					cart: shoppingCart
-				});
-			});
-		})
-		.catch(err => {
-			res.redirect("/404");
-		});
-});
-
-/* 
-
-
-
-
-
-	ROUTES k.post 
-		->	POST 	Place all POST routes here
-
-
-
-
-
-*/
 
 app.post("/signup", (req, res) => {
 	userService
