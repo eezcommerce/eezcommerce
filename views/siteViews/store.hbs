@@ -1,3 +1,4 @@
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12 splash d-flex justify-content-center align-items-center bg-primary">
@@ -26,9 +27,11 @@
 				<div class="card-deck w-100 d-flex justify-content-center flex-wrap">
 					{{#isTruthy prods}}
 					{{#each prods}}
-
-					<div class="card shadow-sm m-3" style="min-width:14rem; max-width:14rem">
-						<img class="card-img" src='{{img}}' alt="Card image cap" style="height:200px; object-fit: cover">
+				
+						
+					<div class="card shadow-sm m-3" style="min-width:14rem; max-width:14rem" data-id ='{{_id}}'>
+						<a data-toggle="modal" data-target="#storeProductDetail">
+						<img class="card-img" src='{{img}}' alt="Card image cap" style="height:200px; object-fit: cover"></a>
 						<div class="card-body">
 							<h5 class="card-title">{{name}}</h5>
 							<p class="card-text float-right mb-0">${{toFixed price 2}}</p><br>
@@ -42,8 +45,8 @@
 									class="left fas fa-cart-plus"></i></a>
 							<p class="card-text"><small class="text-muted">{{qty}}</small></p>
 						</div>
-
 					</div>
+						
 					{{/each}}
 					{{/isTruthy}}
 					{{#isFalsey prods}}
@@ -59,6 +62,27 @@
 </div>
 
 <script>
+
+	$(".card").click((e) => {
+
+			$("#shopProductDetail").modal("show");
+			id = $(e.currentTarget).data("id");
+
+			$.get("/getProductDetail/" + id, (data) => {
+				console.log(data.product.name);
+				$('#shopProductDetail').find('#title').html(data.product.name);
+				$('#shopProductDetail').find('#descDetail').html(data.product.description);
+				$('#shopProductDetail').find('#priceDetail').html('$' + data.product.price);
+				$('#shopProductDetail').find('#imgDetail').attr('src', data.product.img);
+
+				if(data.product.quantity > 0){
+					$('#shopProductDetail').find('#inStockDetail').html('<p class="text-success">In Stock</p>');
+				}else{
+					$('#shopProductDetail').find('#inStockDetail').html('<p class="text-danger">Sold out</p>');
+				}		
+			})
+		
+	}) 
 	$('.searchbox-input').keyup(function () {
 		$('.card').show();
 		var filter = $(this).val(); // get the value of the input, which we filter on
