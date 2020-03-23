@@ -471,7 +471,6 @@ Website routes keyword: k.web k.site
 */
 app.get("/addToCart/:id", (req, res) => {
 	var productId = req.params.id;
-
 	var cart = new Cart(req.shoppingCart.cart ? req.shoppingCart.cart : {});
 	productService.getProductById(productId).then((prod, err) => {
 		if (err) {
@@ -479,6 +478,22 @@ app.get("/addToCart/:id", (req, res) => {
 			return res.redirect("*");
 		} else {
 			cart.add(prod, productId);
+			req.shoppingCart.cart = cart;
+			res.redirect("back");
+		}
+	});
+});
+app.post("/addToCart/:id", (req, res) => {
+	var productId = req.params.id;
+	var qty = req.body.number;
+
+	var cart = new Cart(req.shoppingCart.cart ? req.shoppingCart.cart : {});
+	productService.getProductById(productId).then((prod, err) => {
+		if (err) {
+			console.log(err);
+			return res.redirect("*");
+		} else {
+			cart.addMore(prod, productId, qty);
 			req.shoppingCart.cart = cart;
 			res.redirect("back");
 		}

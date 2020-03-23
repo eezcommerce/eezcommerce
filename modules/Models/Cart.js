@@ -21,6 +21,26 @@ module.exports = function Cart(oldCart) {
 		this.totalPrice += item.price;
 	};
 
+	this.addMore = function(item, id, quantity) {
+		var storedItem = this.items[id];
+		var parsedQty = parseInt(quantity, 10);
+		if (!storedItem) {
+			storedItem = this.items[id] = { item: item, qty: 0, price: 0, pricePer: 0 };
+		}
+
+		//If you want to store extra variable do it here and get a new cookie
+		storedItem.qty += parsedQty;
+		storedItem.id = id;
+		storedItem.name = storedItem.item.name;
+		storedItem.img = storedItem.item.img;
+		storedItem.category = storedItem.item.category;
+		storedItem.pricePer = storedItem.item.price;
+		storedItem.price = storedItem.item.price * storedItem.qty;
+
+		this.totalQty += parsedQty;
+		this.totalPrice += parsedQty * storedItem.pricePer;
+	};
+
 	this.remove = function(item, id) {
 		var storedItem = this.items[id];
 		if (storedItem) {
