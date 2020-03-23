@@ -654,7 +654,7 @@ app.get("/sites/:id/:route", (req, res) => {
 
 app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 	var productList = req.shoppingCart.cart.items;
-	var grandTotal = (req.shoppingCart.cart.totalPrice * 1.13) + 5;
+	var grandTotal = req.shoppingCart.cart.totalPrice * 1.13 + 5;
 
 	var firstname = req.body.firstName;
 	var lastname = req.body.lastName;

@@ -64,7 +64,6 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
 	});
 };
 
-
 /**
  * @function getOrdersWithSort gets orders for a specified site with a sort object being passed
  * @returns {Array} array of orders
