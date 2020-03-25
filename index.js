@@ -668,39 +668,26 @@ app.get("/sites/:id/:route", (req, res) => {
 
 app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 	var productList = req.shoppingCart.cart.items;
-	var grandTotal = req.shoppingCart.cart.totalPrice * 1.13 + 5;
-
-	var firstname = req.body.firstName;
-	var lastname = req.body.lastName;
-	//send receipt
-	var email = req.body.email;
-	//create shipping information
-	var address = req.body.address;
-	var address2 = req.body.address2;
-	var country = req.body.country;
-	var province = req.body.province;
-	var zip = req.body.zip;
-	//Credit card verification
-	var ccName = req.body.ccName;
-	var ccNum = req.body.ccNum;
-	var ccExpiry = req.body.ccExpiry;
-	var cvv = req.body.ccCVV;
 	var validate = true; //validate credit card
 	//reference to ownerID of website
 	var shopID = req.params.id;
-
 	var siteData = await userService.getWebsiteDataById(shopID);
+	let infoToPass = req.body;
 
 	var parsedProductList = [];
 	if (validate) {
-		let tempId;
 		for (let [key, value] of Object.entries(productList)) {
 			var productEntry = { ProductID: key, ProductName: value.name, Qty: value.qty };
 			parsedProductList.push(productEntry);
 		}
 
+		infoToPass.productList = parsedProductList;
+		infoToPass.sellerId = req.params.id;
+		infoToPass.subTotal = req.shoppingCart.cart.totalPrice;
+		infoToPass.total = ((req.shoppingCart.cart.totalPrice + 5) * 1.13).toFixed(2);
+
 		try {
-			let order = await orderService.addOrder(shopID, address, "Placed", grandTotal, parsedProductList);
+			let order = await orderService.addOrder(infoToPass);
 			await mailService.sendReceipt(email, order);
 			res.render("siteViews/thanks", {
 				layout: false,
