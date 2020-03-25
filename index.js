@@ -896,9 +896,7 @@ app.post("/editProduct/:id", uploadImg.single("newImg"), (req, res) => {
 	let prodSKU = req.body.skuDetail;
 	let file = req.file;
 
-	if (req.file == undefined) {
-		console.log("file undefined");
-	} else {
+	if (req.file) {
 		productService.getProductById(prodId).then(prod => {
 			fs.renameSync(
 				file.destination + file.filename,
