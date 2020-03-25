@@ -95,7 +95,6 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 
 module.exports.sendReceipt = (email, order) => {
 	return new Promise((resolve, reject) => {
-
 		let orderRows = "";
 
 		order.ProductList.forEach(line => {
@@ -104,10 +103,9 @@ module.exports.sendReceipt = (email, order) => {
                 <td>${line.ProductName}</td>
                 <td>${line.Qty}</td>
             </tr>
-			`
+			`;
 		});
 
-		
 		var mailOptions = {
 			from: process.env.EMAIL_USER,
 			to: email,
@@ -144,9 +142,6 @@ module.exports.sendReceipt = (email, order) => {
 		
 					`
 		};
-
-
-		
 
 		transporter.sendMail(mailOptions, function(err, info) {
 			//callback function
