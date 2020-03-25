@@ -1,0 +1,91 @@
+	<style>
+
+input#number {
+  text-align: center;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 40px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+</style>
+			
+			<div class="modal fade" id="shopProductDetail">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+
+							<div class="container p-3">
+								<div class="row pr-3">
+									<div class="offset-11 col-1 corner">
+												<button type="button" class="pl-2 pt-2 close" data-dismiss="modal">&times;</button>	
+									</div>			
+					</div>
+					<div class="row">
+						<div class="col-6 text-center">
+
+			<img style="object-fit:cover" height="400px" width="100%" id="imgDetail"/>
+						</div>
+
+						<div class="col-6">
+	
+
+
+  <div class="form-group mt-5">
+<h3><strong id="title"></strong></h3>
+<div id="priceDetail"></div>
+<div id="inStockDetail"></div>
+	<p class="text-left" id="descDetail"></p>
+
+  </div>
+
+		<div class="row">
+    <div class="col">
+		
+		<label for="qtyDetail"><strong>Quantity</strong></label>
+     <form>
+  <button class="btn btn-primary increase"  value="Increase Value"><i class="fas fa-plus"></i></button>
+  <input type="number" id="number" value="0" />
+	<button class="btn btn-primary decrease" value="Decrease Value"><i class="fas fa-minus"></i></button>
+  
+</form>
+
+    </div>
+		</div>
+
+
+						</div>	
+					</div>
+					<hr/>
+	<div class="text-right panel-body mt-3">
+											<button type="submit" class="btn btn-primary badge-pill btn-circle-xl m-1" disabled>
+												<i class="fas fa-plus"></i> Add to Cart
+											</button>
+										</div>
+			</div>
+				</div>
+						</div>
+								</div>
+
+<script>
+
+
+	$('.increase').click(function(){
+			$('#number').value($('#number').value() + 1);
+	})
+
+		$('.decrease').click(function(){
+			$('#number').html(function(i, val) { return val-1 });
+	})
+
+
+
+</script>
+
+			
