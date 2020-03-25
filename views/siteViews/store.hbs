@@ -74,6 +74,7 @@
 				$('#shopProductDetail').find('#descDetail').html(data.product.description);
 				$('#shopProductDetail').find('#priceDetail').html('$' + data.product.price);
 				$('#shopProductDetail').find('#imgDetail').attr('src', data.product.img);
+				$('#shopProductDetail').find('#addQty').attr('action', "/addToCart/"+id );
 
 				if(data.product.quantity > 0){
 					$('#shopProductDetail').find('#inStockDetail').html('<p class="text-success">In Stock</p>');
