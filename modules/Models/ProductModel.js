@@ -18,7 +18,8 @@ let productSchema = new mongoose.Schema({
 	},
 	quantity: {
 		type: Number,
-		default: 0
+		default: 0,
+		min: 0
 	},
 	price: {
 		type: Number,

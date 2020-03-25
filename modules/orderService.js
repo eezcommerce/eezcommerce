@@ -20,7 +20,6 @@ function parseResponse(response) {
 module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {
 		Orders.find({ SellerID: sID }, (err, ords) => {
-			console.log(ords);
 			var parsedProds = parseResponse(ords);
 			if (!err) {
 				resolve(parsedProds);
@@ -64,25 +63,6 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
 	});
 };
 
-module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, pList) => {
-	return new Promise((resolve, reject) => {
-		var Order1 = new Orders({
-			SellerID: newSID,
-			destAddress: newAdd,
-			status: newStatus,
-			total: newTotal,
-			ProductList: pList
-		});
-		Order1.save(function(err, Order) {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(Order);
-			}
-		});
-	});
-};
-
 /**
  * @function getOrdersWithSort gets orders for a specified site with a sort object being passed
  * @returns {Array} array of orders
@@ -90,7 +70,7 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, pList) => {
  * @param {Object} sort sort object in mongoose format ie: {date: -1}
  */
 
-module.exports.getOrdersWithSort = (id, sort = { date: -1 }) => {
+module.exports.getOrdersWithSort = (id, sort = { created_at: -1 }) => {
 	return new Promise((resolve, reject) => {
 		Orders.find({ SellerID: id }, null, { sort: sort, limit: 5 }, (err, result) => {
 			if (err) {

@@ -1,0 +1,31 @@
+<div style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
+	<h1>Thank you for your order!</h1>
+	<p>
+		Your order (<b>${order._id}</b>) was received and is being processed. Look out for an email letting you know when it
+		has shipped!
+	</p>
+
+	<br />
+	<h3>Your order:</h3>
+	<br />
+
+	<table style="width: 100%; text-align: center;">
+		<thead style="background-color: rgba(0,0,0,0.1);">
+			<tr>
+				<th>Item</th>
+				<th>Quantity</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Item</td>
+				<td>5</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td style="font-size: 25px; padding-top: 20px;" colspan="2">Total: <b>$${order.total}</b></td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
