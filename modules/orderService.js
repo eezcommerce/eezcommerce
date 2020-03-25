@@ -19,7 +19,7 @@ function parseResponse(response) {
 
 module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {
-		Orders.find({ SellerID: sID }, (err, ords) => {
+		Orders.find({ sellerId: sID }, (err, ords) => {
 			var parsedProds = parseResponse(ords);
 			if (!err) {
 				resolve(parsedProds);
@@ -44,14 +44,44 @@ module.exports.getOrderById = oneId => {
 	});
 };
 
-module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
+/**
+ * @function addOrder creates an order
+ * @param {Object} input an input object from req.body
+ */
+module.exports.addOrder = input => {
+	var {
+		firstName,
+		lastName,
+		email,
+		address1,
+		address2,
+		country,
+		province,
+		postalCode,
+		productList,
+		sellerId,
+		subTotal,
+		total,
+		province
+	} = input;
+
 	return new Promise((resolve, reject) => {
 		var Order1 = new Orders({
-			SellerID: newSID,
-			destAddress: newAdd,
-			status: newStatus,
-			total: newTotal,
-			ProductList: newPList
+			sellerId: sellerId,
+			firstName: firstName,
+			lastName: lastName,
+			address: {
+				lineOne: address1,
+				lineTwo: address2,
+				country: country,
+				postalCode: postalCode,
+				province: province
+			},
+			email: email,
+			status: "Placed",
+			subTotal: subTotal,
+			total: total,
+			productList: productList
 		});
 		Order1.save(function(err, Order) {
 			if (err) {
@@ -72,7 +102,7 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
 
 module.exports.getOrdersWithSort = (id, sort = { created_at: -1 }) => {
 	return new Promise((resolve, reject) => {
-		Orders.find({ SellerID: id }, null, { sort: sort, limit: 5 }, (err, result) => {
+		Orders.find({ sellerId: id }, null, { sort: sort, limit: 5 }, (err, result) => {
 			if (err) {
 				reject(err);
 			} else {

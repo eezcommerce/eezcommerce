@@ -12,11 +12,11 @@
 						<thead>
 							<tr>
 								<th>Order ID</th>
+								<th>Customer Name</th>
 								<th>Destination</th>
 								<th>Status</th>
 								<th>Total</th>
-								<th>Ordered</th>
-								<th>Updated</th>
+								<th>Date Ordered</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -24,11 +24,11 @@
 								<tr class="OrderRow" data-toggle="modal" data-id='{{_id}}' data-target="#orderDetail" aria-hidden="true">
 
 									<th scope="row">{{truncate _id 7}}</th>
-									<td>{{destAddress}}</td>
+									<td>{{firstName}} {{lastName}}</td>
+									<td>{{address.lineOne}}</td>
 									<td>{{status}}</td>
 									<td>{{toFixed total 2}}</td>
 									<td>{{moment this.created_at "YYYY-MM-DD"}}</td>
-									<td>{{moment this.updated_at "YYYY-MM-DD"}}</td>
 								</tr>
 							{{/each}}
 						</tbody>
@@ -55,20 +55,20 @@
 		
 	$.get("/getOrderDetail/"+ id, (data)=>{
 		$('#orderDetail').find('#title').html("Order #" + data.order._id);
-		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.destAddress + "</strong>");
+		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.address.lineOne + "</strong>");
 		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
 		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total);
 		$('#odStatus').val(data.order.status);
 		$('#orderDetail').find('#OrderDetailForm').attr('action','/editOrder/'+ id);
 		$('#orderDetail').find('#ProductsList').html("");
 		var j = 0;
-		for (i in data.order.ProductList){
+		for (i in data.order.productList){
 			
-			$.get("/getProductDetail/"+ data.order.ProductList[i].ProductID, (info) =>{
+			$.get("/getProductDetail/"+ data.order.productList[i].ProductID, (info) =>{
 			$('#orderDetail').find('#ProductsList').append("<tr><td>" 
 				+ info.product.SKU + "</td><td>" 
 				+ info.product.name + "</td><td>"
-				+ data.order.ProductList[j++].Qty +"</td><td>"
+				+ data.order.productList[j++].Qty +"</td><td>"
 				+ info.product.price.toFixed(2) + "</td></tr>");
 		})
 		}
