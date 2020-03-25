@@ -95,29 +95,58 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 
 module.exports.sendReceipt = (email, order) => {
 	return new Promise((resolve, reject) => {
+
+		let orderRows = "";
+
+		order.ProductList.forEach(line => {
+			orderRows += `
+			<tr>
+                <td>${line.ProductName}</td>
+                <td>${line.Qty}</td>
+            </tr>
+			`
+		});
+
+		
 		var mailOptions = {
 			from: process.env.EMAIL_USER,
 			to: email,
 			subject: `Receipt for Order #${order._id}`,
 			html: `
-					<div>
-						<h1 style="background-color: #43ba9e; color:white;text-align: center">Thank you for your purchase with eEz Commerce!</h1>
-					</div>
-
-				<div>
-					<table style="border-style:bold">
-				<tr>
-					<th>Item</th>
-					<th>Qty.</th>
-				</tr>
-				<tr>
-					<td>${order.ProductList[0].ProductName}</td>
-					<td>${order.ProductList[0].Qty}</td>
-				</tr>
-					</table>
-				</div>
+			<div style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
+				<h1>Thank you for your order!</h1>
+				<p>
+					Your order (<b>${order._id}</b>) was received and is being processed. Look out for an email letting you know when it
+					has shipped!
+				</p>
+				
+				<br>
+				<h3>Your order:</h3>
+				<br>
+				
+				<table style="width: 100%; text-align: center;">
+					<thead style="background-color: rgba(0,0,0,0.1);">
+						<tr>
+							<th>Item</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						${orderRows}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td style="font-size: 25px; padding-top: 20px;" colspan="2">Total: <b>$${parseFloat(order.total).toFixed(2)}</b></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		
 					`
 		};
+
+
+		
 
 		transporter.sendMail(mailOptions, function(err, info) {
 			//callback function

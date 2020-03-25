@@ -8,7 +8,8 @@
 
     <div class="col-md-12 order-md-1">
         <h4 class="mb-3">Billing Information</h4>
-        <form method="POST" action="{{siteData.baseUrl}}/shoppingCart/checkout" class="checkout-form was-validated">
+        <h3 class="text-center processing" style="display: none">PROCESSING...</h3>
+        <form method="POST" action="{{siteData.baseUrl}}/shoppingCart/checkout" class="checkout-form" novalidate>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="firstName">First name</label>
@@ -25,7 +26,7 @@
             <div class="mb-3">
                 <label for="email">Email</label>
                 <input type="email" name="email" class="form-control"
-                    pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                     required placeholder="you@example.com">
                 <div class="invalid-feedback"> Please enter a valid email address for shipping updates. </div>
             </div>
@@ -77,12 +78,12 @@
             </div>
             <hr class="mb-4">
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="sameAddress" class="custom-control-input" id="same-address">
+                <input type="checkbox" name="sameAddress" class="custom-control-input" checked disabled id="same-address">
                 <label class="custom-control-label" for="same-address">Shipping address is the same as my billing
                     address</label>
             </div>
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="saveInfo" class="custom-control-input" id="save-info">
+                <input type="checkbox" name="saveInfo" class="custom-control-input" id="save-info" disabled>
                 <label class="custom-control-label" for="save-info">Save this information for next time</label>
             </div>
             <hr class="mb-4">
@@ -114,20 +115,25 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="cc-number">Credit card number</label>
-                    <input placeholder="0000 0000 0000 0000" type="text" name="ccNum" class="form-control"
-                        id="cc-number" required>
-                    <ul class="card-type text-muted">
-                        <li id="type-visa">
-                            <i class="fab fa-cc-visa fa-2x"></i>
-                        </li>
-                        <li id="type-mc">
-                            <i class="fab fa-cc-mastercard fa-2x"></i>
-                        </li>
-                        <li id="type-amex">
-                            <i class="fab fa-cc-amex fa-2x"></i>
-                        </li>
-                    </ul>
-                    <div class="invalid-feedback text-center"> Credit card number is required </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input placeholder="0000 0000 0000 0000" autocomplete="off" type="text" name="ccNum" class="form-control"
+                                id="cc-number">
+                            <div class="invalid-feedback text-center">Valid credit card number required</div>
+                        </div>
+                        <ul class="card-type text-muted col-md-4">
+                            <li id="type-visa">
+                                <i class="fab fa-cc-visa fa-2x"></i>
+                            </li>
+                            <li id="type-mc">
+                                <i class="fab fa-cc-mastercard fa-2x"></i>
+                            </li>
+                            <li id="type-amex">
+                                <i class="fab fa-cc-amex fa-2x"></i>
+                            </li>
+                        </ul>
+
+                    </div>
                 </div>
             </div>
             <div class="row">

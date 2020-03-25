@@ -319,7 +319,6 @@ app.get("/dashboard/orders", (req, res) => {
 	var allorders = orderService
 		.getAllOrders(req.auth.userDetails._id)
 		.then(orders => {
-			console.log(orders);
 			res.render("orders", {
 				layout: "dashboard",
 				pagename: "orders",
@@ -652,7 +651,7 @@ app.get("/sites/:id/:route", (req, res) => {
 
 */
 
-app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
+app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 	var productList = req.shoppingCart.cart.items;
 	var grandTotal = req.shoppingCart.cart.totalPrice * 1.13 + 5;
 
@@ -673,24 +672,30 @@ app.post("/sites/:id/shoppingCart/checkout", (req, res) => {
 	var cvv = req.body.ccCVV;
 	var validate = true; //validate credit card
 	//reference to ownerID of website
-	var shopID;
+	var shopID = req.params.id;
+
+	var siteData = await userService.getWebsiteDataById(shopID);
 
 	var parsedProductList = [];
 	if (validate) {
+		let tempId;
 		for (let [key, value] of Object.entries(productList)) {
-			shopID = value.item.owner;
 			var productEntry = { ProductID: key, ProductName: value.name, Qty: value.qty };
 			parsedProductList.push(productEntry);
 		}
 
-		//create order
-		orderService.addOrder(shopID, address, "Placed", grandTotal, parsedProductList).then(order => {
-			mailService.sendReceipt(email, order).then(() => {
-				res.redirect("/sites/" + req.params.id + "/store");
+		try {
+			let order = await orderService.addOrder(shopID, address, "Placed", grandTotal, parsedProductList);
+			await mailService.sendReceipt(email, order);
+			res.render("siteViews/thanks", {
+				layout: false,
+				order: JSON.parse(JSON.stringify(order)),
+				siteData: siteData
 			});
-		});
-
-		//remove product
+		} catch (error) {
+			console.log(error);
+			res.json({ error: error });
+		}
 	}
 });
 

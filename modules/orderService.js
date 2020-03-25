@@ -20,7 +20,6 @@ function parseResponse(response) {
 module.exports.getAllOrders = sID => {
 	return new Promise((resolve, reject) => {
 		Orders.find({ SellerID: sID }, (err, ords) => {
-			console.log(ords);
 			var parsedProds = parseResponse(ords);
 			if (!err) {
 				resolve(parsedProds);
@@ -71,7 +70,7 @@ module.exports.addOrder = (newSID, newAdd, newStatus, newTotal, newPList) => {
  * @param {Object} sort sort object in mongoose format ie: {date: -1}
  */
 
-module.exports.getOrdersWithSort = (id, sort = { date: -1 }) => {
+module.exports.getOrdersWithSort = (id, sort = { created_at: -1 }) => {
 	return new Promise((resolve, reject) => {
 		Orders.find({ SellerID: id }, null, { sort: sort, limit: 5 }, (err, result) => {
 			if (err) {
