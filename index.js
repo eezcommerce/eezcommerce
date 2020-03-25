@@ -688,7 +688,7 @@ app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 
 		try {
 			let order = await orderService.addOrder(infoToPass);
-			// await mailService.sendReceipt(email, order);
+			await mailService.sendReceipt(email, order);
 			res.render("siteViews/thanks", {
 				layout: false,
 				order: JSON.parse(JSON.stringify(order)),
