@@ -27,7 +27,7 @@
 									<td>{{firstName}} {{lastName}}</td>
 									<td>{{address.lineOne}}</td>
 									<td>{{status}}</td>
-									<td>{{toFixed total 2}}</td>
+									<td>${{addCommas total}}</td>
 									<td>{{moment this.created_at "YYYY-MM-DD"}}</td>
 								</tr>
 							{{/each}}
@@ -57,7 +57,7 @@
 		$('#orderDetail').find('#title').html("Order #" + data.order._id);
 		$('#orderDetail').find('#DesAddress').html("<strong>" + data.order.address.lineOne + "</strong>");
 		$('#orderDetail').find('#oStatus').html("<strong>Status: </strong>" + data.order.status);
-		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total);
+		$('#orderDetail').find('#oTotal').html("<strong>Total:</strong> $ " + data.order.total.toLocaleString());
 		$('#odStatus').val(data.order.status);
 		$('#orderDetail').find('#OrderDetailForm').attr('action','/editOrder/'+ id);
 		$('#orderDetail').find('#ProductsList').html("");
