@@ -7,7 +7,6 @@ var sessions = require("client-sessions");
 var fs = require("fs");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
-var sass = require("sass");
 var hbHelpers = require("handlebars-helpers")();
 var path = require("path");
 var multer = require("multer");

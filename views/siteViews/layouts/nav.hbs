@@ -2,8 +2,9 @@
 <html lang="en">
 
 <head>
-	{{>websiteHeader}}
+	{{>site_header}}
 	<link rel="icon" type="image/jpg" href="/siteData/{{siteData._id}}/img/avatar/avatar.png" />
+	<link rel="stylesheet" href="/css/sites/siteCommon.css">
 	<title>{{siteData.businessName}} | eEz Commerce</title>
 	<style>
 		.splash {
@@ -13,66 +14,10 @@
 		.container-fluid {
 			min-height: 100vh;
 		}
-
-		.card {
-			transition: all 0.4s ease;
-			cursor: pointer;
-		}
-
-		.card:hover {
-			box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.2) !important;
-			transform: translateY(-5px);
-		}
-
-		.card-type {
-			list-style: none;
-			width: 100%;
-			margin: 0px;
-			padding: 0px;
-			text-align: center;
-		}
-
-		.card-type li {
-			transition: all 0.4s ease;
-		}
-
-		.card-type .text-dark {
-			transform: scale(1.2);
-			box-shadow: 0px 4px 0px var(--success);
-		}
-
-		.checkout-form .form-control::placeholder {
-			color: rgba(0, 0, 0, 0.3);
-		}
-
-		.checkout-form .form-control:focus::placeholder{
-			color: rgba(0, 0, 0, 0.1)
-		}
-
-		.invalid-feedback{
-			animation: pop 0.4s ease forwards;
-		}
-
-		@keyframes pop{
-			0%{
-				transform: translateX(-5px);
-				opacity: 0;
-			}
-
-			100%{
-				transform: translateX(0px);
-				opacity: 1;
-			}
-		}
-
-		.card-type li {
-			margin-right: 5px;
-			margin-top: 5px;
-			display: inline-block;
-		}
 	</style>
+
 </head>
-{{> shopProductDetail}}
+{{> site_productDetail}}
 <body>
 	<div class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
 		<div class="navbar-brand">
