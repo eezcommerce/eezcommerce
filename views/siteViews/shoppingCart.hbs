@@ -44,7 +44,7 @@
                     </div>
                   </div>
                 </th>
-                <td class="border-0 align-middle"><strong>${{pricePer}}</strong></td>
+                <td class="border-0 align-middle"><strong>${{addCommas pricePer}}</strong></td>
                 <td class="border-0 align-middle"><strong>{{qty}}</strong></td>
                 <td class="border-0 align-middle"><a href="/removeFromCart/{{this.id}}" class="text-dark"><i
                       class="fa fa-trash"></i></a></td>
@@ -92,7 +92,7 @@
             <li class="d-flex justify-content-between py-3 border-bottom"><strong
                 class="text-muted">Tax</strong><strong>${{toFixed (multiply cart.totalPrice 0.13) 2}}</strong></li>
             <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-              <h5 class="font-weight-bold">${{toFixed (plus (multiply cart.totalPrice 1.13) 5) 2}}</h5>
+              <h5 class="font-weight-bold">${{addCommas (toFixed (plus (multiply cart.totalPrice 1.13) 5) 2)}}</h5>
             </li>
           </ul><a href="{{siteData.baseUrl}}/shoppingCart/checkout"
             class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
