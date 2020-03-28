@@ -18,7 +18,7 @@ module.exports.initialize = id => {
 			if (err) {
 				reject(err);
 			} else {
-				this.edit(obj.owner, obj)
+				this.edit(obj.owner, obj);
 				resolve(obj);
 			}
 		});
@@ -35,7 +35,6 @@ module.exports.edit = (id, customization) => {
 			if (err) {
 				reject(err);
 			} else {
-
 				try {
 					let customSass = sass.renderSync({
 						data: `

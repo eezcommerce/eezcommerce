@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-mongoose.set("useFindAndModify", false)
+mongoose.set("useFindAndModify", false);
 
 module.exports = mongoose.model(
 	"Customization",

@@ -288,14 +288,12 @@ module.exports.getWebsiteDataById = id => {
 			if (err) {
 				reject(err);
 			} else {
-
 				try {
 					site.customization = await customizationService.get(id);
 					resolve(site);
 				} catch (error) {
-					reject(error)
+					reject(error);
 				}
-
 			}
 		});
 	});
