@@ -64,6 +64,12 @@ const UserModel = mongoose.model(
 		tokenExpiry: {
 			type: Number,
 			default: Date.now() + 1000 * 60 * 60 * 24
+		},
+		aboutBlurb: {
+			type: String,
+			default: " ",
+			maxlength: 512,
+			required: true
 		}
 	})
 );

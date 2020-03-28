@@ -9,18 +9,116 @@
 			<div class="row mx-0 text-center">
 				<form action="/customize" novalidate class="needs-validation mt-3 w-100">
 					<div class="row">
-						<div class="form-group col-md-6">
-							<label for="primaryColor">Primary Color:</label>
+						<div class="form-group col-12 mb-5">
+							<h4>Theme</h4>
+							<select class="custom-select" name="themeId">
+								<option 
+									{{#is customizations.themeId "default"}}
+										selected
+									{{/is}}
+									value="default"
+								>
+									Default
+								</option>
 
-							<input required value="#{{customizations.primaryColor}}" class="form-control jscolor text-center"
-								name="primaryColor">
-						</div>
-						<div class="form-group col-md-6">
-							<label for="secondaryColor">Secondary Color:</label>
+								<option 
+									{{#is customizations.themeId "dark"}}
+										selected
+									{{/is}}
+									value="dark"
+								>
+									Dark
+								</option>
 
-							<input required value="#{{customizations.secondaryColor}}" class="form-control jscolor text-center"
-								name="secondaryColor">
+								<option 
+									{{#is customizations.themeId "sideBarNav"}}
+										selected
+									{{/is}}
+									value="sideBarNav"
+								>
+									Side Navigation
+								</option>
+
+								<option 
+									{{#is customizations.themeId "sideBarNav_dark"}}
+										selected
+									{{/is}}
+									value="sideBarNav_dark"
+								>
+									Side Navigation (Dark)
+								</option>
+							</select>
+							
 						</div>
+
+						<div class="form-group col-md-6">
+							<label for="primaryColor">
+								Primary Color:
+							</label>
+							<input 
+								required 
+								value="#{{customizations.primaryColor}}"
+								class="form-control jscolor text-center" 
+								name="primaryColor"
+							>
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="secondaryColor">
+								Secondary Color:
+							</label>
+
+							<input 
+								required 
+								value="#{{customizations.secondaryColor}}"
+								class="form-control jscolor text-center" 
+								name="secondaryColor"
+							>
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="darkColor">
+								Dark Color:
+							</label>
+							<input 
+								required 
+								value="#{{customizations.darkColor}}"
+								class="form-control jscolor text-center" 
+								name="darkColor"
+							>
+						</div>
+
+						<div class="form-group col-md-6">
+							<label for="lightColor">
+								Light Color:
+							</label>
+
+							<input 
+								required 
+								value="#{{customizations.lightColor}}"
+								class="form-control jscolor text-center" 
+								name="lightColor"
+							>
+						</div>
+
+						<div class="form-group text-left col-md-12 mt-5">
+							<h5>Show "about" blurb on homepage?</h5>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="showAbout" id="showAbout1"
+									value="true" {{#isTruthy customizations.showAbout}} checked {{/isTruthy}}>
+								<label class="form-check-label" for="showAbout1">
+									Yes
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="showAbout" id="showAbout2"
+									value="false" {{#isFalsey customizations.showAbout}} checked {{/isFalsey}}>
+								<label class="form-check-label" for="showAbout2">
+									No
+								</label>
+							</div>
+						</div>
+
 					</div>
 
 					<div class="server-response text-danger"></div>

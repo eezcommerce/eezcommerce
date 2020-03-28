@@ -1,0 +1,34 @@
+@import "themes/default.scss";
+
+body {
+	grid-template:
+		"nav bod bod" auto
+		"nav bod bod" auto
+		"nav fot fot" 200px;
+	grid-template-columns: 150px;
+}
+
+.site-navbar {
+	height: 100vh;
+	width: 150px;
+	position: fixed;
+	flex-direction: column;
+}
+
+.site-navlinks {
+	display: flex;
+	flex-direction: column;
+}
+
+.site-navbar-right {
+	height: 60vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+}
+
+.site-navbar-logo {
+	margin-top: 20px;
+}
