@@ -633,6 +633,9 @@ app.get("/sites/:id/:route", (req, res) => {
 	let shoppingCart = req.shoppingCart.cart;
 
 	const route = req.params.route;
+	console.log("~~~~~~~~~~~~~~~~~~~~");
+	console.log(req.body);
+	console.log(shoppingCart.items);
 	userService
 		.getWebsiteDataById(id)
 		.then(site => {
