@@ -3,7 +3,7 @@
         <h2>Checkout</h2>
     </div>
     <h3 class="float-right">
-        Total: ${{multiply cart.totalQty 1.13}}
+        Total: ${{toFixed (plus (multiply cart.totalPrice 1.13) 5) 2}}
     </h3>
 
     <div class="col-md-12 order-md-1">
