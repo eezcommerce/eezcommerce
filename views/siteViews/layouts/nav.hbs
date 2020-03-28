@@ -22,7 +22,11 @@
 	<div class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
 		<div class="navbar-brand">
 			<a class="text-light" href="{{siteData.baseUrl}}">
-				<img src="/siteData/{{siteData._id}}/img/avatar/avatar.png" style="width: auto;height:50px;">
+				{{#if userDetails.avatarExists}}
+					<img src="/siteData/{{userDetails._id}}/img/avatar/avatar.png" alt="logo">
+					{{else}}
+					eEz Commerce{{!--  In the future this may want to be adjusted to reflect businessName --}}
+					{{/if}}
 			</a>
 		</div>
 
