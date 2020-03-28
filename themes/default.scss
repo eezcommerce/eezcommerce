@@ -8,19 +8,18 @@ body {
 		"fot fot fot" 200px;
 }
 
-
 // nav
 
 .site-navbar {
-    z-index: 10;
-    position: fixed;
-    height: 80px;
-    width: 100%;
+	z-index: 10;
+	position: fixed;
+	height: 80px;
+	width: 100%;
 	display: flex;
 	justify-content: space-between;
-    align-items: center;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    @extend .bg-light;
+	align-items: center;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	@extend .bg-light;
 }
 
 .site-navbar-right {
@@ -43,72 +42,61 @@ body {
 	box-shadow: 0px 5px 0px var(--secondary);
 }
 
-.site-cart-button{
-    transition: all 0.3s ease;
-    @extend .text-primary;
+.site-cart-button {
+	transition: all 0.3s ease;
+	@extend .text-primary;
 }
 
-a.site-cart-button:hover{
-    text-decoration: none;
+a.site-cart-button:hover {
+	text-decoration: none;
 }
-
-
-
 
 // body
-
 
 .site-body {
 	min-height: 100vh;
 }
 
-.site-shop-banner{
-    @extend .bg-secondary;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 150px;
+.site-shop-banner {
+	@extend .bg-secondary;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 150px;
 }
-
-
-
-
-
 
 // footer
-.site-footer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @extend .bg-secondary;
+.site-footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@extend .bg-secondary;
 }
 
-.site-footer a{
-    @extend .bg-secondary;
+.site-footer a {
+	@extend .bg-secondary;
 }
 
-.site-welcome{
-    font-size: 26px;
-    font-weight: bold;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @extend .bg-primary
+.site-welcome {
+	font-size: 26px;
+	font-weight: bold;
+	height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	@extend .bg-primary;
 }
-
 
 // override
 
-.btn{
-    @extend .rounded-pill;
+.btn {
+	@extend .rounded-pill;
 }
 
-
-.bg-dark{
-    color: var(--light);
+.bg-dark {
+	color: var(--light);
 }
 
-.bg-light{
-    color: var(--dark);
+.bg-light {
+	color: var(--dark);
 }
