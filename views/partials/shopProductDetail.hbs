@@ -64,7 +64,7 @@ input[type=number]::-webkit-outer-spin-button {
 					</div>
 					<hr/>
 	<div class="text-right panel-body mt-3">
-											<button type="submit" class="btn btn-primary badge-pill btn-circle-xl m-1">
+											<button type="submit" id="postQty" class="btn btn-primary badge-pill btn-circle-xl m-1">
 												<i class="fas fa-plus"></i> Add to Cart
 											</button>
 										</div>
@@ -75,6 +75,29 @@ input[type=number]::-webkit-outer-spin-button {
 								</div>
 
 <script>
+$('#postQty').click(e)
+=>{
+			e.preventDefault();
+			console.log("{{_id}}")
+
+		$.get("/addToCart/" + id, (data) => {
+			if(!data.success){
+			$('#outOfStock').removeAttr('hidden');
+
+			setTimeout(function(){
+				$('#outOfStock').fadeOut('slow')
+			},1000)
+			}else{
+				$('#shopProductDetail').modal('hide');
+			$('#addedItem').removeAttr('hidden');
+			setTimeout(function(){
+				$('#addedItem').fadeOut('slow')	
+			},1500)
+		
+			}
+		
+		})
+}	
 
 
 	$('.increase').click(()=>{
