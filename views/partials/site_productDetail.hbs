@@ -51,7 +51,7 @@ input[type=number]::-webkit-outer-spin-button {
 		<label for="qtyDetail"><strong>Quantity</strong></label>
      <form id="addQty" method="POST">
   <button type="button" class="btn btn-primary increase"  value="Increase Value"><i class="fas fa-plus"></i></button>
-  <input type="number" name="number" id="number" min="1" max="99" value="" />
+  <input type="number" name="number" id="number" min="1" max="99" default="1" value="1" />
 	<button type="button"  class="btn btn-primary decrease" value="Decrease Value"><i class="fas fa-minus"></i></button>
   
 
@@ -75,18 +75,21 @@ input[type=number]::-webkit-outer-spin-button {
 								</div>
 
 <script>
-$('#postQty').click(e)
-=>{
+$('#postQty').click((e) =>{
 			e.preventDefault();
-			console.log("{{_id}}")
+			var id  = $('#shopProductDetail').find('#addQty').attr('action').slice(11);
+			var qty = $('#addQty').find('number').val();
+		//pass as parameter
 
-		$.get("/addToCart/" + id, (data) => {
-			if(!data.success){
+		$.post("/addToCart/" + id, {number: qty}, (data) => {
+			console.log("Data:" + data);
+			if(data.success == false){
+				$("#shopProductDetail").modal("hide");
 			$('#outOfStock').removeAttr('hidden');
 
 			setTimeout(function(){
 				$('#outOfStock').fadeOut('slow')
-			},1000)
+			},1400)
 			}else{
 				$('#shopProductDetail').modal('hide');
 			$('#addedItem').removeAttr('hidden');
@@ -97,10 +100,10 @@ $('#postQty').click(e)
 			}
 		
 		})
-}	
+})	
 
 
-	$('.increase').click(()=>{
+	$('.increase').click(function(){
 		document.getElementById('number').stepUp();
 	})
 
