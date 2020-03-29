@@ -51,7 +51,7 @@ input[type=number]::-webkit-outer-spin-button {
 		<label for="qtyDetail"><strong>Quantity</strong></label>
      <form id="addQty" method="POST">
   <button type="button" class="btn btn-primary increase"  value="Increase Value"><i class="fas fa-plus"></i></button>
-  <input type="number" name="number" id="number" min="0" max="99" value="0" />
+  <input type="number" name="number" id="number" min="1" max="99" default="1" value="1" />
 	<button type="button"  class="btn btn-primary decrease" value="Decrease Value"><i class="fas fa-minus"></i></button>
   
 
@@ -64,7 +64,7 @@ input[type=number]::-webkit-outer-spin-button {
 					</div>
 					<hr/>
 	<div class="text-right panel-body mt-3">
-											<button type="submit" class="btn btn-primary badge-pill btn-circle-xl m-1">
+											<button type="submit" id="postQty" class="btn btn-primary badge-pill btn-circle-xl m-1">
 												<i class="fas fa-plus"></i> Add to Cart
 											</button>
 										</div>
@@ -75,9 +75,38 @@ input[type=number]::-webkit-outer-spin-button {
 								</div>
 
 <script>
+$('#postQty').click((e) =>{
+			e.preventDefault();
+			var id  = $('#shopProductDetail').find('#addQty').attr('action').slice(11);
+			var qty = $('#addQty').find('#number').val();
+		//pass as parameter
+
+		$.post("/addToCart/" + id, {number: qty}, (data) => {
+			console.log("Data:" + data);
+			if(data.success == false){
+				$("#shopProductDetail").modal("hide");
+			$('#outOfStock').removeAttr('hidden');
+
+			setTimeout(function(){
+				$('#outOfStock').fadeOut('slow')
+			},1400)
+			}else{
+				$('#shopProductDetail').modal('hide');
+			$('#addedItem').removeAttr('hidden');
+			setTimeout(function(){
+				$('#addedItem').fadeOut('slow')	
+			},1500)
+				setTimeout(function(){
+				location.reload();
+			},1000)
+		
+			}
+		
+		})
+})	
 
 
-	$('.increase').click(()=>{
+	$('.increase').click(function(){
 		document.getElementById('number').stepUp();
 	})
 
