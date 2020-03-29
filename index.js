@@ -175,6 +175,7 @@ app.get("/verify_email/:email/:token", (req, res) => {
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
+			log(error);
 			res.json(error);
 		});
 });
@@ -194,7 +195,7 @@ app.get("/reset_password/:email/:token", (req, res) => {
 });
 
 app.get("/testimonials", (req, res) => {
-	res.render("testimonials", { layout: "Navbar" });
+	res.render("testimonials", { layout: "NavBar" });
 });
 
 app.get("/email-reset-sent", (req, res) => {
