@@ -175,7 +175,7 @@ app.get("/verify_email/:email/:token", (req, res) => {
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
-			log(error);
+			console.log(error);
 			res.json(error);
 		});
 });
