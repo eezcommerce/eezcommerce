@@ -15,8 +15,7 @@ const OrdersModel = mongoose.model(
 		},
 		status: { type: String },
 		subtotal: { type: Number },
-		total: { type: Number, 
-			multipleOf: 0.01 },
+		total: { type: Number, multipleOf: 0.01 },
 		ProductList: [{ ProductID: String, ProductName: String, Qty: Number }],
 		created_at: { type: Date, required: true, default: Date.now },
 		updated_at: { type: Date, required: true, default: Date.now }
