@@ -194,7 +194,7 @@ app.get("/reset_password/:email/:token", (req, res) => {
 });
 
 app.get("/testimonials", (req, res) => {
-	res.render("testimonials", { layout: "Navbar" });
+	res.render("testimonials", { layout: "NavBar" });
 });
 
 app.get("/email-reset-sent", (req, res) => {
