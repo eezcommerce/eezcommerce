@@ -37,7 +37,7 @@ module.exports.edit = (id, customization) => {
 			} else {
 				try {
 					console.log(customization.useThemeDefaults);
-					
+
 					let customSass = sass.renderSync({
 						data: `
 							@import "node_modules/bootstrap/scss/_functions";
