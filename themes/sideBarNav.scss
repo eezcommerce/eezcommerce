@@ -2,6 +2,10 @@
 
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans:400,700&display=swap");
 
+@if ($useDefault) {
+	$font-family-sans-serif: "Josefin Sans";
+}
+
 body {
 	grid-template:
 		"nav bod bod" auto

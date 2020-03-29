@@ -40,21 +40,23 @@ module.exports.edit = (id, customization) => {
 						data: `
 							@import "node_modules/bootstrap/scss/_functions";
 
+							// fonts stuff
+							$useDefault: ${customization.useThemeDefaults};
+							$font-family-sans-serif: Arial, Helvetica, sans-serif;
+
+
 							$primary: #${customization.primaryColor};
 							$secondary: #${customization.secondaryColor};
 							$light: #${customization.lightColor};
 							$dark: #${customization.darkColor};
 							
-							@if ${customization.useThemeDefaults}
+						
+							
+							@import "themes/${customization.themeId}.scss";
 
 							@import "node_modules/bootstrap/scss/bootstrap";
 
-							@import "themes/${customization.themeId}.scss";
 
-							
-			
-							
-			
 							
 	
 							.bg-secondary{
