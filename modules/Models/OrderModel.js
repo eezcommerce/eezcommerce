@@ -6,25 +6,20 @@ const OrdersModel = mongoose.model(
 		SellerID: { type: String },
 		CustName: { type: String },
 		destAddress: { type: String },
-		CustEmail: {			
+		CustEmail: {
 			type: String,
 			maxlength: 256,
 			minlength: 4,
 			required: true,
-			unique: true 
+			unique: true
 		},
 		status: { type: String },
-		subtotal: {type: Number },
+		subtotal: { type: Number },
 		total: { type: Number, 
-			multipleOf: 0.01
-		},
+			multipleOf: 0.01 },
 		ProductList: [{ ProductID: String, ProductName: String, Qty: Number }],
 		created_at: { type: Date, required: true, default: Date.now },
-		updated_at: { type: Date, required: true, default: Date.now },
-		specInstr: {
-			type: String,
-			maxlength: 256
-		}
+		updated_at: { type: Date, required: true, default: Date.now }
 	})
 );
 

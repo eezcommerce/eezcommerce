@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 const Orders = require("./Models/OrderModel");
+const mailService = require("./emailService.js");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -87,13 +88,17 @@ module.exports.getOrdersWithSort = (id, sort = { created_at: -1 }) => {
  * @param {Object} updated
  */
 
-module.exports.editOrder = (OrdId, newStatus) => {
+module.exports.editOrder = (OrdId, newStatus, cusEmail) => {
 	return new Promise((resolve, reject) => {
 		Orders.updateOne({ _id: OrdId }, { status: newStatus, updated_at: Date.now() }, (err, result) => {
 			if (err) {
 				reject(err);
 			} else {
 				resolve(result);
+				//send email to customer on file to show changes to the order
+				mailService.sendUpdate(cusEmail, result);
+				
+
 			}
 		});
 	});

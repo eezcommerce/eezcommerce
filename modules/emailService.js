@@ -153,3 +153,63 @@ module.exports.sendReceipt = (email, order) => {
 		});
 	});
 };
+
+module.exports.sendUpdate = (email, order) => {
+	return new Promise((resolve, reject) => {
+		let orderRows = "";
+
+		order.ProductList.forEach(line => {
+			orderRows += `
+			<tr>
+                <td>${line.ProductName}</td>
+                <td>${line.Qty}</td>
+            </tr>
+			`;
+		});
+
+		var mailOptions = {
+			from: process.env.EMAIL_USER,
+			to: email,
+			subject: `Update for Order #${order._id}`,
+			html: `
+			<div style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
+				<h1>Thank you for your order!</h1>
+				<p>
+					Your order (<b>${order._id}</b>) was updated to: (<b>${order.status}</b>)
+				</p>
+				
+				<br>
+				<h3>Your order:</h3>
+				<br>
+				
+				<table style="width: 100%; text-align: center;">
+					<thead style="background-color: rgba(0,0,0,0.1);">
+						<tr>
+							<th>Item</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						${orderRows}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td style="font-size: 25px; padding-top: 20px;" colspan="2">Total: <b>$${parseFloat(order.total).toFixed(2)}</b></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		
+					`
+		};
+
+		transporter.sendMail(mailOptions, function(err, info) {
+			//callback function
+			if (err) {
+				reject(err);
+			} else {
+				resolve(info);
+			}
+		});
+	});
+};
