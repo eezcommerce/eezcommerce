@@ -36,6 +36,8 @@ module.exports.edit = (id, customization) => {
 				reject(err);
 			} else {
 				try {
+					console.log(customization.useThemeDefaults);
+					
 					let customSass = sass.renderSync({
 						data: `
 							@import "node_modules/bootstrap/scss/_functions";
@@ -45,9 +47,10 @@ module.exports.edit = (id, customization) => {
 							$light: #${customization.lightColor};
 							$dark: #${customization.darkColor};
 							
+
 							@import "themes/${customization.themeId}.scss";
 
-							
+							@include useThemeDefaults(${customization.useThemeDefaults});
 			
 							@import "node_modules/bootstrap/scss/bootstrap";
 			

@@ -17,6 +17,11 @@ module.exports = mongoose.model(
 			type: Boolean,
 			default: false,
 			required: true
+		},
+		useThemeDefaults: {
+			type: Boolean,
+			default: true,
+			required: true
 		}
 	})
 );

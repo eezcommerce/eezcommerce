@@ -1,5 +1,13 @@
 @import "themes/default.scss";
 
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,700&display=swap');
+@mixin useThemeDefaults($bool) {
+	@if $bool {
+		$font-family-sans-serif: "Josefin Sans";
+	}	
+}
+
+
 body {
 	grid-template:
 		"nav bod bod" auto

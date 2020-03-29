@@ -51,6 +51,42 @@
 							
 						</div>
 
+						<div class="form-group text-left col-md-6 mb-5">
+							<h5>Show "about" blurb on homepage?</h5>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="showAbout" id="showAbout1"
+									value="true" {{#isTruthy customizations.showAbout}} checked {{/isTruthy}}>
+								<label class="form-check-label" for="showAbout1">
+									Yes
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="showAbout" id="showAbout2"
+									value="false" {{#isFalsey customizations.showAbout}} checked {{/isFalsey}}>
+								<label class="form-check-label" for="showAbout2">
+									No
+								</label>
+							</div>
+						</div>
+
+						<div class="form-group text-left col-md-6 mb-5">
+							<h5>Use theme-suggested fonts & colours?</h5>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="useThemeDefaults" id="useThemeDefaults1"
+									value="true" {{#isTruthy customizations.useThemeDefaults}} checked {{/isTruthy}}>
+								<label class="form-check-label" for="useThemeDefaults1">
+									Yes
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="useThemeDefaults" id="useThemeDefaults2"
+									value="false" {{#isFalsey customizations.useThemeDefaults}} checked {{/isFalsey}}>
+								<label class="form-check-label" for="useThemeDefaults2">
+									No
+								</label>
+							</div>
+						</div>
+
 						<div class="form-group col-md-6">
 							<label for="primaryColor">
 								Primary Color:
@@ -58,6 +94,7 @@
 							<input 
 								required 
 								value="#{{customizations.primaryColor}}"
+								data-jscolor="{width:500, height:300}"
 								class="form-control jscolor text-center" 
 								name="primaryColor"
 							>
@@ -101,23 +138,7 @@
 							>
 						</div>
 
-						<div class="form-group text-left col-md-12 mt-5">
-							<h5>Show "about" blurb on homepage?</h5>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="showAbout" id="showAbout1"
-									value="true" {{#isTruthy customizations.showAbout}} checked {{/isTruthy}}>
-								<label class="form-check-label" for="showAbout1">
-									Yes
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="showAbout" id="showAbout2"
-									value="false" {{#isFalsey customizations.showAbout}} checked {{/isFalsey}}>
-								<label class="form-check-label" for="showAbout2">
-									No
-								</label>
-							</div>
-						</div>
+						
 
 					</div>
 
