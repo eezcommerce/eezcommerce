@@ -2,8 +2,15 @@
 
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans:400,700&display=swap");
 
-@if ($useDefault) {
+@if ($useDefaultFont) {
 	$font-family-sans-serif: "Josefin Sans";
+}
+
+@if ($useDefaultColours) {
+	$primary: #584c9f;
+	$secondary: #7582b0;
+	$light: #effffe;
+	$dark: #242429;
 }
 
 body {

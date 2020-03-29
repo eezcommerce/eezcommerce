@@ -18,7 +18,12 @@ module.exports = mongoose.model(
 			default: false,
 			required: true
 		},
-		useThemeDefaults: {
+		useThemeFont: {
+			type: Boolean,
+			default: true,
+			required: true
+		},
+		useThemeColour: {
 			type: Boolean,
 			default: true,
 			required: true

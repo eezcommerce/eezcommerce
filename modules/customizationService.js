@@ -40,10 +40,11 @@ module.exports.edit = (id, customization) => {
 						data: `
 							@import "node_modules/bootstrap/scss/_functions";
 
-							// fonts stuff
-							$useDefault: ${customization.useThemeDefaults};
+							
+							$useDefaultFont: ${customization.useThemeFont};
 							$font-family-sans-serif: Arial, Helvetica, sans-serif;
 
+							$useDefaultColours: ${customization.useThemeColour};
 
 							$primary: #${customization.primaryColor};
 							$secondary: #${customization.secondaryColor};

@@ -12,92 +12,103 @@
 						<div class="form-group col-12 mb-5">
 							<h4>Theme</h4>
 							<select class="custom-select" name="themeId">
-								<option 
-									{{#is customizations.themeId "default"}}
-										selected
-									{{/is}}
-									value="default"
-								>
+								<option {{#is customizations.themeId "default"}} selected {{/is}} value="default">
 									Default
 								</option>
 
-								<option 
-									{{#is customizations.themeId "dark"}}
-										selected
-									{{/is}}
-									value="dark"
-								>
+								<option {{#is customizations.themeId "dark"}} selected {{/is}} value="dark">
 									Dark
 								</option>
 
-								<option 
-									{{#is customizations.themeId "sideBarNav"}}
-										selected
-									{{/is}}
-									value="sideBarNav"
-								>
+								<option {{#is customizations.themeId "sideBarNav"}} selected {{/is}} value="sideBarNav">
 									Side Navigation
 								</option>
 
-								<option 
-									{{#is customizations.themeId "sideBarNav_dark"}}
-										selected
-									{{/is}}
-									value="sideBarNav_dark"
-								>
+								<option {{#is customizations.themeId "sideBarNav_dark"}} selected {{/is}}
+									value="sideBarNav_dark">
 									Side Navigation (Dark)
 								</option>
 							</select>
-							
+
 						</div>
 
-						<div class="form-group text-left col-md-6 mb-5">
+						<div class="form-group col-md-4 mb-5">
 							<h5>Show "about" blurb on homepage?</h5>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="showAbout" id="showAbout1"
-									value="true" {{#isTruthy customizations.showAbout}} checked {{/isTruthy}}>
-								<label class="form-check-label" for="showAbout1">
-									Yes
-								</label>
+							<div class="row">
+								<div class="form-check col-6 ">
+									<input class="form-check-input" type="radio" name="showAbout" id="showAbout1"
+										value="true" {{#isTruthy customizations.showAbout}} checked {{/isTruthy}}>
+									<label class="form-check-label" for="showAbout1">
+										Yes
+									</label>
+								</div>
+								<div class="form-check col-6 ">
+									<input class="form-check-input" type="radio" name="showAbout" id="showAbout2"
+										value="false" {{#isFalsey customizations.showAbout}} checked {{/isFalsey}}>
+									<label class="form-check-label" for="showAbout2">
+										No
+									</label>
+								</div>
 							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="showAbout" id="showAbout2"
-									value="false" {{#isFalsey customizations.showAbout}} checked {{/isFalsey}}>
-								<label class="form-check-label" for="showAbout2">
-									No
-								</label>
-							</div>
+
 						</div>
 
-						<div class="form-group text-left col-md-6 mb-5">
+						<div class="form-group col-md-4 mb-5">
 							<h5>Use theme-suggested font?</h5>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="useThemeDefaults" id="useThemeDefaults1"
-									value="true" {{#isTruthy customizations.useThemeDefaults}} checked {{/isTruthy}}>
-								<label class="form-check-label" for="useThemeDefaults1">
-									Yes
-								</label>
+							<div class="row">
+								<div class="form-check col-6 ">
+									<input class="form-check-input" type="radio" name="useThemeFont"
+										id="useThemeFont1" value="true"
+										{{#isTruthy customizations.useThemeFont}} checked {{/isTruthy}}>
+									<label class="form-check-label" for="useThemeFont1">
+										Yes
+									</label>
+								</div>
+								<div class="form-check col-6 ">
+									<input class="form-check-input" type="radio" name="useThemeFont"
+										id="useThemeFont2" value="false"
+										{{#isFalsey customizations.useThemeFont}} checked {{/isFalsey}}>
+									<label class="form-check-label" for="useThemeFont2">
+										No
+									</label>
+								</div>
 							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="useThemeDefaults" id="useThemeDefaults2"
-									value="false" {{#isFalsey customizations.useThemeDefaults}} checked {{/isFalsey}}>
-								<label class="form-check-label" for="useThemeDefaults2">
-									No
-								</label>
-							</div>
+
 						</div>
+
+
+						<div class="form-group col-md-4 mb-5">
+							<h5>Use theme-suggested colours?</h5>
+							<div class="row">
+								<div class="form-check col-6 ">
+									<input class="form-check-input" type="radio" name="useThemeColour"
+										id="useThemeColour1" value="true"
+										{{#isTruthy customizations.useThemeColour}} checked {{/isTruthy}}>
+									<label class="form-check-label" for="useThemeColour1">
+										Yes
+									</label>
+								</div>
+								<div class="form-check col-6 ">
+									<input class="form-check-input" type="radio" name="useThemeColour"
+										id="useThemeColour2" value="false"
+										{{#isFalsey customizations.useThemeColour}} checked {{/isFalsey}}>
+									<label class="form-check-label" for="useThemeColour2">
+										No
+									</label>
+								</div>
+							</div>
+
+						</div>
+
+
 
 						<div class="form-group col-md-6">
 							<label for="primaryColor">
 								Primary Color:
 							</label>
-							<input 
-								required 
-								value="#{{customizations.primaryColor}}"
-								data-jscolor="{width:500, height:300}"
-								class="form-control jscolor text-center" 
-								name="primaryColor"
-							>
+							<input required value="#{{customizations.primaryColor}}"
+								data-jscolor="{width:500, height:300}" class="form-control jscolor text-center"
+								name="primaryColor">
 						</div>
 
 						<div class="form-group col-md-6">
@@ -105,26 +116,17 @@
 								Secondary Color:
 							</label>
 
-							<input 
-								required 
-								data-jscolor="{width:500, height:300}"
-								value="#{{customizations.secondaryColor}}"
-								class="form-control jscolor text-center" 
-								name="secondaryColor"
-							>
+							<input required data-jscolor="{width:500, height:300}"
+								value="#{{customizations.secondaryColor}}" class="form-control jscolor text-center"
+								name="secondaryColor">
 						</div>
 
 						<div class="form-group col-md-6">
 							<label for="darkColor">
 								Dark Color:
 							</label>
-							<input 
-								required 
-								data-jscolor="{width:500, height:300}"
-								value="#{{customizations.darkColor}}"
-								class="form-control jscolor text-center" 
-								name="darkColor"
-							>
+							<input required data-jscolor="{width:500, height:300}" value="#{{customizations.darkColor}}"
+								class="form-control jscolor text-center" name="darkColor">
 						</div>
 
 						<div class="form-group col-md-6">
@@ -132,16 +134,12 @@
 								Light Color:
 							</label>
 
-							<input 
-								required 
-								data-jscolor="{width:500, height:300}"
-								value="#{{customizations.lightColor}}"
-								class="form-control jscolor text-center" 
-								name="lightColor"
-							>
+							<input required data-jscolor="{width:500, height:300}"
+								value="#{{customizations.lightColor}}" class="form-control jscolor text-center"
+								name="lightColor">
 						</div>
 
-						
+
 
 					</div>
 
