@@ -45,7 +45,7 @@
 						</thead>
 						{{#each latestOrders}}
 						<tr>
-							<td>{{destAddress}}</td>
+							<td>{{address.lineOne}}</td>
 							<td>{{status}}</td>
 							<td>{{moment this.created_at "MMMM Do YYYY, h:mm:ss a"}}</td>
 						</tr>

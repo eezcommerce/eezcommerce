@@ -31,20 +31,20 @@
                 <div class="invalid-feedback"> Please enter a valid email address for shipping updates. </div>
             </div>
             <div class="mb-3">
-                <label for="address">Address</label>
-                <input type="text" name="address" class="form-control" id="address" placeholder="1234 Main St"
+                <label for="address1">Address</label>
+                <input type="text" name="address1" class="form-control" placeholder="1234 Main St"
                     required="">
                 <div class="invalid-feedback"> Please enter your shipping address. </div>
             </div>
             <div class="mb-3">
                 <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                <input type="text" name="address2" class="form-control" id="address2" placeholder="Apartment or suite">
+                <input type="text" name="address2" class="form-control" placeholder="Apartment or suite">
             </div>
             <div class="row">
                 <div class="col-md-5 mb-3">
                     <label for="country">Country</label>
                     <select name="country" class="custom-select d-block w-100" id="country">
-                        <option value="">Canada</option>
+                        <option selected value="Canada">Canada</option>
                     </select>
                     <div class="invalid-feedback"> Please select a valid country. </div>
                 </div>
@@ -70,8 +70,8 @@
                     <div class="invalid-feedback"> Please select your province. </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="zip">Postal Code</label>
-                    <input type="text" name="zip" class="form-control" id="postal" placeholder=""
+                    <label for="postalCode">Postal Code</label>
+                    <input type="text" name="postalCode" class="form-control" id="postal" placeholder="A1A 1A1"
                         pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]" required="">
                     <div class="invalid-feedback"> Postal code must be in the format: <br> A1A 1A1. </div>
                 </div>
