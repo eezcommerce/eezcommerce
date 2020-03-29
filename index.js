@@ -488,7 +488,6 @@ app.get("/addToCart/:id", (req, res) => {
 app.post("/addToCart/:id", (req, res) => {
 	var productId = req.params.id;
 	var qty = req.body.number;
-	console.log("qty:" + qty);
 
 	var cart = new Cart(req.shoppingCart.cart ? req.shoppingCart.cart : {});
 	productService.getProductById(productId).then((prod, err) => {

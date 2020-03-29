@@ -78,7 +78,7 @@ input[type=number]::-webkit-outer-spin-button {
 $('#postQty').click((e) =>{
 			e.preventDefault();
 			var id  = $('#shopProductDetail').find('#addQty').attr('action').slice(11);
-			var qty = $('#addQty').find('number').val();
+			var qty = $('#addQty').find('#number').val();
 		//pass as parameter
 
 		$.post("/addToCart/" + id, {number: qty}, (data) => {
@@ -96,6 +96,9 @@ $('#postQty').click((e) =>{
 			setTimeout(function(){
 				$('#addedItem').fadeOut('slow')	
 			},1500)
+				setTimeout(function(){
+				location.reload();
+			},1000)
 		
 			}
 		

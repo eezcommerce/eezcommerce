@@ -11,7 +11,6 @@ module.exports = function Cart(oldCart) {
 		if (storedItem.item.quantity >= storedItem.qty + qty) {
 			return true;
 		} else {
-			this.remove(item, id);
 			return false;
 		}
 	};
