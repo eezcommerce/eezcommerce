@@ -693,7 +693,7 @@ app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 		infoToPass.sellerId = req.params.id;
 		infoToPass.subTotal = req.shoppingCart.cart.totalPrice;
 		infoToPass.total = ((req.shoppingCart.cart.totalPrice + 5) * 1.13).toFixed(2);
-
+		infoToPass.email = req.body.email;
 		try {
 			let order = await orderService.addOrder(infoToPass);
 			await mailService.sendReceipt(req.body.email, order);

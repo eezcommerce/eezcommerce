@@ -108,7 +108,7 @@ module.exports.sendReceipt = (email, order) => {
 
 		var mailOptions = {
 			from: process.env.EMAIL_USER,
-			to: email,
+			to: 'jhhuynh42@gmail.com',
 			subject: `Receipt for Order #${order._id}`,
 			html: `
 			<div style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
