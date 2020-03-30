@@ -154,7 +154,7 @@ module.exports.sendReceipt = (email, order) => {
 	});
 };
 
-module.exports.sendUpdate = (order) => {
+module.exports.sendUpdate = order => {
 	return new Promise((resolve, reject) => {
 		let orderRows = "";
 		let email = order.CustEmail;
@@ -170,7 +170,7 @@ module.exports.sendUpdate = (order) => {
 		var mailOptions = {
 			from: process.env.EMAIL_USER,
 			to: email,
-			subject: `Receipt for Order #${order._id}`,
+			subject: `Update for Order #${order._id}`,
 			html: `
 			<div style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
 				<h1>Thank you for your order!</h1>
