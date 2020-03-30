@@ -8,6 +8,8 @@ body {
 		"fot fot fot" 200px;
 }
 
+$body-color: #212529;
+
 // nav
 
 .site-navbar {
@@ -20,6 +22,11 @@ body {
 	align-items: center;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 	@extend .bg-light;
+}
+
+.site-navlinks a:hover,
+.site-navlinks a {
+	color: $body-color;
 }
 
 .site-navbar-right {
@@ -100,4 +107,20 @@ a.site-cart-button:hover {
 
 .bg-light {
 	color: var(--dark);
+}
+
+.site-about {
+	text-align: center;
+	@extend .mt-5;
+	@extend .row;
+}
+
+.site-about h2 {
+	@extend .col-12;
+	@extend .mb-3;
+}
+
+.site-about p {
+	@extend .col-md-6;
+	@extend .offset-md-3;
 }

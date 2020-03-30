@@ -1,3 +1,9 @@
+$white: $dark;
+
+$body-bg: $dark;
+
+$body-color: $light;
+
 .card {
 	background: rgba($color: #ffffff, $alpha: 0.05) !important;
 }
@@ -5,12 +11,7 @@
 	@extend .bg-dark;
 }
 
+.site-navlinks a:hover,
 .site-navlinks a {
-	@extend .bg-dark;
+	color: $body-color;
 }
-
-$white: $dark;
-
-$body-bg: $dark;
-
-$body-color: $light;
