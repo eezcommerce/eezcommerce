@@ -126,7 +126,7 @@ module.exports.editOrder = (OrdId, newStatus, cusEmail) => {
 			} else {
 				resolve(result);
 				//send email to customer on file to show changes to the order
-				//mailService.sendUpdate(result);
+				mailService.sendUpdate(result);
 			}
 		});
 	});

@@ -17,7 +17,6 @@ const OrdersModel = mongoose.model(
 			required: true,
 			unique: true
 		},
-		status: { type: String },
 		subtotal: { type: Number },
 		total: { type: Number, multipleOf: 0.01 },
 		ProductList: [{ ProductID: String, ProductName: String, Qty: Number }],
