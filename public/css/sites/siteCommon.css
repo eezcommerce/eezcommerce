@@ -3,6 +3,23 @@
 *:focus {
 	outline: none;
 }
+
+body {
+	display: grid;
+}
+
+.site-navbar {
+	grid-area: nav;
+}
+
+.site-body {
+	grid-area: bod;
+}
+
+.site-footer {
+	grid-area: fot;
+}
+
 .card {
 	transition: all 0.4s ease;
 	cursor: pointer;

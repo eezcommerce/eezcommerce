@@ -393,6 +393,10 @@ app.get("/dashboard/wizard/two", async (req, res) => {
 	});
 });
 
+app.get("/dashboard/wizard/four", (req, res) => {
+	res.render("wizardSteps/four", { layout: "wizard" });
+});
+
 app.get("/dashboard/wizard/three", async (req, res) => {
 	try {
 		await userService.directEdit({ _id: req.auth.userDetails._id, industry_id: req.query.industry });
@@ -408,10 +412,10 @@ app.get("/dashboard/wizard/three", async (req, res) => {
 	});
 });
 
-app.get("/dashboard/wizard/four", async (req, res) => {
+app.get("/dashboard/wizard/final", async (req, res) => {
 	await userService.directEdit({ _id: req.auth.userDetails._id, didCompleteWizard: true });
 
-	res.render("wizardSteps/four", {
+	res.render("wizardSteps/final", {
 		layout: "wizard"
 	});
 });
@@ -992,10 +996,7 @@ app.post("/edit-user", (req, res) => {
 app.post("/customize", async (req, res) => {
 	if (req.auth.isLoggedIn) {
 		try {
-			await customizationService.edit(req.auth.userDetails._id, {
-				primaryColor: req.body.primaryColor,
-				secondaryColor: req.body.secondaryColor
-			});
+			await customizationService.edit(req.auth.userDetails._id, req.body);
 			res.json({ redirectUrl: "/dashboard/customize" });
 		} catch (error) {
 			console.log(error);
@@ -1007,7 +1008,7 @@ app.post("/customize", async (req, res) => {
 	}
 });
 
-app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), (req, res) => {
+app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), async (req, res) => {
 	if (req.auth.isLoggedIn) {
 		jimp
 			.read(`${__dirname}/public/siteData/${req.auth.userDetails._id}/img/avatar/avatar`)
@@ -1020,6 +1021,25 @@ app.post("/uploadAvatar", uploadAvatar.single("avatarImg"), (req, res) => {
 			.catch(err => {
 				console.log(err);
 				res.redirect("dashboard");
+			});
+	} else {
+		res.json({ error: "Unauthorized. Please log in." });
+	}
+});
+
+app.post("/about_blurb", (req, res) => {
+	if (req.auth.isLoggedIn) {
+		userService
+			.directEdit({
+				_id: req.auth.userDetails._id,
+				aboutBlurb: req.body.about
+			})
+			.then(result => {
+				res.json({ success: true });
+			})
+			.catch(err => {
+				console.log(err);
+				res.json({ error: err });
 			});
 	} else {
 		res.json({ error: "Unauthorized. Please log in." });
