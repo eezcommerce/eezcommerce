@@ -204,6 +204,7 @@ module.exports.edit = passed => {
 			{
 				businessName: passed.businessName,
 				email: passed.email,
+				aboutBlurb: passed.about,
 				$set: {
 					securityAnswers: [
 						{
@@ -285,11 +286,16 @@ module.exports.verifyEmail = (token, inputEmail) => {
  */
 module.exports.getWebsiteDataById = id => {
 	return new Promise((resolve, reject) => {
-		UserModel.findById(id, "businessName", { lean: true }, (err, site) => {
+		UserModel.findById(id, "businessName aboutBlurb", { lean: true }, async (err, site) => {
 			if (err) {
 				reject(err);
 			} else {
-				resolve(site);
+				try {
+					site.customization = await customizationService.get(id);
+					resolve(site);
+				} catch (error) {
+					reject(error);
+				}
 			}
 		});
 	});

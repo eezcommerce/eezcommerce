@@ -55,6 +55,15 @@ $(function() {
 		barba.go($(e.target).data("href") + query);
 	});
 
+	$(document).on("click", ".s-4-done", e => {
+		$.post("/about_blurb", { about: $("#wizard-about").val() }, data => {
+			if (data.error) {
+				alert("Sorry, something went wrong. You can keep going for now and try again later from the settings menu.");
+			}
+			barba.go("/dashboard/wizard/final");
+		});
+	});
+
 	function createListeners() {
 		$("body")
 			.find(".wizard-avatar")
@@ -78,6 +87,15 @@ $(function() {
 						}
 					});
 				}
+			});
+
+		$("body")
+			.find("wizard-about")
+			.submit(e => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				$();
 			});
 	}
 

@@ -1,5 +1,6 @@
 <div class="container-fluid">
 	<div class="row">
+
 		<div class="col-md-12 splash d-flex justify-content-center align-items-center bg-primary">
 			<h1 id="shopHeading" class="p-2">Shop</h1>
 		</div>
@@ -13,7 +14,6 @@
 	</div>
 	<div class="row">
 		<div class="offset-2 p-2 col-3">
-
 			<div class="input-group">
 				<input type="search" placeholder="Search..." class="form-control searchbox-input">
 				<span class="input-group-btn">
@@ -23,8 +23,6 @@
 				</span>
 			</div>
 		</div>
-
-
 	</div>
 
 	<div class="row" style="margin-top:-30px">
@@ -45,17 +43,17 @@
 							{{#gt quantity '0'}}
 							<p class="card-text float-right mb-0">{{quantity}} In Stock</p>
 							{{else}}
-							<p class="card-text float-right mb-0" style="color:red">Sold Out</p>
+							<p class="card-text float-right mb-0 text-danger">Sold Out</p>
 							{{/gt}}
+
 
 							<a role="button" class="btn btn-secondary w-25 float-left addOneToCart"><i
 									class="left fas fa-cart-plus addOneToCart"></i></a>
 							<p class="card-text"><small class="text-muted">{{qty}}</small></p>
+							</a>
 						</div>
 
 					</div>
-
-
 
 					{{/each}}
 
@@ -117,8 +115,8 @@
 					</div>
 					{{/isFalsey}}
 				</div>
-
 			</div>
 		</div>
 	</div>
 </div>
+

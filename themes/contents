@@ -1,7 +1,0 @@
-This folder will contain scss files for the theme selection
-
-we should be able to apply each theme using just css / scss using css grid for the layout / structure of the page
-
-note that scss just needs to be the file extension, it accepts css syntax
-
-we just need to use sass to compile into a theme.css file for the user (see the customization functionality)

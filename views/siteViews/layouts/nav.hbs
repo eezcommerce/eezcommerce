@@ -6,45 +6,41 @@
 	<link rel="icon" type="image/jpg" href="/siteData/{{siteData._id}}/img/avatar/avatar.png" />
 	<link rel="stylesheet" href="/css/sites/siteCommon.css">
 	<title>{{siteData.businessName}} | eEz Commerce</title>
-	<style>
-		.splash {
-			min-height: 400px;
-		}
-
-		.container-fluid {
-			min-height: 100vh;
-		}
-	</style>
-
 </head>
 {{> site_productDetail}}
+
 <body>
-	<div class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
-		<div class="navbar-brand">
-			<a class="text-light" href="{{siteData.baseUrl}}">
-				<img src="/siteData/{{siteData._id}}/img/avatar/avatar.png" style="width: auto;height:50px;">
+	<div class="site-navbar">
+		<div class="site-navbar-logo">
+			<a href="{{siteData.baseUrl}}">
+				<img src="/siteData/{{siteData._id}}/img/avatar/avatar.png" alt="{{siteData.businessName}}" style="width: auto; height:50px;">
 			</a>
 		</div>
 
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-				<a class="nav-item nav-link active" href="{{siteData.baseUrl}}">Home</a>
-				<a class="nav-item nav-link active" href="{{siteData.baseUrl}}/store">Shop</a>
+		<div class="site-navbar-right">
+			<div class="site-navlinks">
+				<a href="{{siteData.baseUrl}}">Home</a>
+				<a href="{{siteData.baseUrl}}/store">Shop</a>
+				<a href="{{siteData.baseUrl}}/about">About</a>
 			</div>
 		</div>
 		<div class="float-right">
 			<a href="{{siteData.baseUrl}}/shoppingCart" class="text-light">
 				<i class="fas fa-shopping-cart fa-lg"></i><span class="badge badge-light">{{cart.totalQty}}</span>
+
 			</a>
 		</div>
 	</div>
-	{{{body}}}
+
+	<div class="site-body">
+		{{{body}}}
+	</div>
+	
+
+	<footer class="site-footer">
+		&copy; {{siteData.businessName}}, &nbsp; <a href="/">eEz Commerce 2020</a>
+	</footer>
 </body>
-<footer class="bg-light text-center pt-5 pb-5">
-	&copy; {{siteData.businessName}}, <a href="/">eEz Commerce 2020</a>
-</footer>
+
 
 </html>
