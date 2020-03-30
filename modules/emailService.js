@@ -154,11 +154,11 @@ module.exports.sendReceipt = (email, order) => {
 	});
 };
 
-module.exports.sendUpdate = (email, order) => {
+module.exports.sendUpdate = (order) => {
 	return new Promise((resolve, reject) => {
 		let orderRows = "";
-
-		order.ProductList.forEach(line => {
+		let email = order.CustEmail;
+		order.productList.forEach(line => {
 			orderRows += `
 			<tr>
                 <td>${line.ProductName}</td>
@@ -170,12 +170,12 @@ module.exports.sendUpdate = (email, order) => {
 		var mailOptions = {
 			from: process.env.EMAIL_USER,
 			to: email,
-			subject: `Update for Order #${order._id}`,
+			subject: `Receipt for Order #${order._id}`,
 			html: `
 			<div style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
 				<h1>Thank you for your order!</h1>
 				<p>
-					Your order (<b>${order._id}</b>) was updated to: (<b>${order.status}</b>)
+					Your order (<b>${order._id}</b>) was updated to: <b>${order.status}</b>
 				</p>
 				
 				<br>
@@ -194,7 +194,7 @@ module.exports.sendUpdate = (email, order) => {
 					</tbody>
 					<tfoot>
 						<tr>
-							<td style="font-size: 25px; padding-top: 20px;" colspan="2">Total: <b>$${parseFloat(order.total).toFixed(2)}</b></td>
+							<td style="font-size: 25px; padding-top: 20px;" colspan="2">Total: <b>$${order.total.toLocaleString()}</b></td>
 						</tr>
 					</tfoot>
 				</table>
