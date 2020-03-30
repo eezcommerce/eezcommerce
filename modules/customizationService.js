@@ -8,14 +8,17 @@ module.exports.initialize = id => {
 	return new Promise((resolve, reject) => {
 		let cust = new CustomizationModel({
 			owner: id,
-			primaryColor: "#0022ff",
-			secondaryColor: "#efeff"
+			primaryColor: "007bff",
+			secondaryColor: "6c757d",
+			darkColor: "343a40",
+			lightColor: "f8f9fa"
 		});
 
 		cust.save((err, obj) => {
 			if (err) {
 				reject(err);
 			} else {
+				this.edit(obj.owner, obj);
 				resolve(obj);
 			}
 		});
@@ -28,40 +31,46 @@ module.exports.initialize = id => {
  */
 module.exports.edit = (id, customization) => {
 	return new Promise((resolve, reject) => {
-		CustomizationModel.updateOne({ owner: id }, customization, (err, resp) => {
+		CustomizationModel.findOneAndUpdate({ owner: id }, customization, (err, resp) => {
 			if (err) {
 				reject(err);
 			} else {
-				let customSass = sass.renderSync({
-					data: `
-						@import "node_modules/bootstrap/scss/_functions";
-						
-						
-						$theme-colors: (
-							"primary": #${customization.primaryColor},
-							"secondary": #${customization.secondaryColor}
-						);
-		
-						.hover:hover {
-							opacity: 0.5;
-							transition: 0.5s ease;
-							box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-						}
-		
-						@import "node_modules/bootstrap/scss/bootstrap";
-		
-						.bg-secondary{
-							color: color-yiq(#${customization.secondaryColor}, #111111, #ffffff);
-						}
-		
-						.bg-primary{
-							color: color-yiq(#${customization.primaryColor}, #111111, #ffffff);
-						}
-		
-					`
-				});
-
 				try {
+					let customSass = sass.renderSync({
+						data: `
+							@import "node_modules/bootstrap/scss/_functions";
+
+							
+							$useDefaultFont: ${customization.useThemeFont};
+							$font-family-sans-serif: Arial, Helvetica, sans-serif;
+
+							$useDefaultColours: ${customization.useThemeColour};
+
+							$primary: #${customization.primaryColor};
+							$secondary: #${customization.secondaryColor};
+							$light: #${customization.lightColor};
+							$dark: #${customization.darkColor};
+							
+						
+							
+							@import "themes/${customization.themeId}.scss";
+
+							@import "node_modules/bootstrap/scss/bootstrap";
+
+
+							
+	
+							.bg-secondary{
+								color: color-yiq(#${customization.secondaryColor}, #222222, #ffffff);
+							}
+			
+							.bg-primary{
+								color: color-yiq(#${customization.primaryColor}, #222222, #ffffff);
+							}
+	
+			
+						`
+					});
 					fs.writeFileSync(__dirname + "/../public/siteData/" + id + "/theme.css", customSass.css);
 					resolve();
 				} catch (err) {
