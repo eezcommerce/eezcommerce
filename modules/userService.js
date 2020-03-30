@@ -265,6 +265,8 @@ module.exports.verifyEmail = (token, inputEmail) => {
 				if (user.token == token) {
 					UserModel.updateOne({ email: inputEmail }, { isVerified: true }, (err, user) => {
 						if (err) {
+							console.log("Inside userservice: " + err);
+
 							reject({ error: err });
 						} else {
 							resolve(user);
