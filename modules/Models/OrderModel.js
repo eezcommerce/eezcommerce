@@ -10,6 +10,10 @@ const OrdersModel = mongoose.model(
 			type: String,
 			maxlength: 256,
 			minlength: 4,
+			required: true
+		},
+		status: {
+			type: String,
 			required: true,
 			unique: true
 		},

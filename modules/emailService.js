@@ -97,7 +97,7 @@ module.exports.sendReceipt = (email, order) => {
 	return new Promise((resolve, reject) => {
 		let orderRows = "";
 
-		order.ProductList.forEach(line => {
+		order.productList.forEach(line => {
 			orderRows += `
 			<tr>
                 <td>${line.ProductName}</td>
@@ -134,7 +134,7 @@ module.exports.sendReceipt = (email, order) => {
 					</tbody>
 					<tfoot>
 						<tr>
-							<td style="font-size: 25px; padding-top: 20px;" colspan="2">Total: <b>$${parseFloat(order.total).toFixed(2)}</b></td>
+							<td style="font-size: 25px; padding-top: 20px;" colspan="2">Total: <b>$${order.total.toLocaleString()}</b></td>
 						</tr>
 					</tfoot>
 				</table>

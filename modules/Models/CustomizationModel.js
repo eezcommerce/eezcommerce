@@ -5,6 +5,8 @@ module.exports = mongoose.model(
 	new mongoose.Schema({
 		owner: String,
 		primaryColor: String,
-		secondaryColor: String
+		secondaryColor: String,
+		themeId: String,
+		strings: [String]
 	})
 );
