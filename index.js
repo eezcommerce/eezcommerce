@@ -175,6 +175,7 @@ app.get("/verify_email/:email/:token", (req, res) => {
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
+			console.log(error);
 			res.json(error);
 		});
 });
@@ -194,7 +195,7 @@ app.get("/reset_password/:email/:token", (req, res) => {
 });
 
 app.get("/testimonials", (req, res) => {
-	res.render("testimonials", { layout: "Navbar" });
+	res.render("testimonials", { layout: "NavBar" });
 });
 
 app.get("/email-reset-sent", (req, res) => {
@@ -479,9 +480,13 @@ app.get("/addToCart/:id", (req, res) => {
 			console.log(err);
 			return res.redirect("*");
 		} else {
-			cart.add(prod, productId);
-			req.shoppingCart.cart = cart;
-			res.redirect("back");
+			if (cart.checkQty(prod, productId, 1)) {
+				cart.add(prod, productId);
+				req.shoppingCart.cart = cart;
+				res.json({ success: true });
+			} else {
+				res.json({ success: false });
+			}
 		}
 	});
 });
@@ -495,9 +500,13 @@ app.post("/addToCart/:id", (req, res) => {
 			console.log(err);
 			return res.redirect("*");
 		} else {
-			cart.addMore(prod, productId, qty);
-			req.shoppingCart.cart = cart;
-			res.redirect("back");
+			if (cart.checkQty(prod, productId, qty)) {
+				cart.addMore(prod, productId, qty);
+				req.shoppingCart.cart = cart;
+				res.json({ success: true });
+			} else {
+				res.json({ success: false });
+			}
 		}
 	});
 });
@@ -634,8 +643,8 @@ app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 app.get("/sites/:id/:route", (req, res) => {
 	let id = req.params.id;
 	let shoppingCart = req.shoppingCart.cart;
-
 	const route = req.params.route;
+
 	userService
 		.getWebsiteDataById(id)
 		.then(site => {
@@ -886,9 +895,7 @@ app.post("/editProduct/:id", uploadImg.single("newImg"), (req, res) => {
 	let prodSKU = req.body.skuDetail;
 	let file = req.file;
 
-	if (req.file == undefined) {
-		console.log("file undefined");
-	} else {
+	if (req.file) {
 		productService.getProductById(prodId).then(prod => {
 			fs.renameSync(
 				file.destination + file.filename,

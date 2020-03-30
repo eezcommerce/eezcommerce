@@ -1,11 +1,19 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-12 site-shop-banner">
-			<h1 class="p-2">Shop</h1>
+
+		<div class="col-md-12 splash d-flex justify-content-center align-items-center bg-primary">
+			<h1 id="shopHeading" class="p-2">Shop</h1>
 		</div>
 	</div>
-	<div class="row justify-content-center">
-		<div class="p-2 col-12 col-md-6">
+	<div id="outOfStock" class="row bg-danger pt-1" hidden>
+		<h5 class="offset-4 col-4 text-center">Sorry! We are out of stock for that product. Please check again later.
+		</h5>
+	</div>
+	<div id="addedItem" class="row bg-success pt-1" hidden>
+		<h5 class="offset-4 col-4 text-center">Item successfully added to cart!</h5>
+	</div>
+	<div class="row">
+		<div class="offset-2 p-2 col-3">
 			<div class="input-group">
 				<input type="search" placeholder="Search..." class="form-control searchbox-input">
 				<span class="input-group-btn">
@@ -38,14 +46,68 @@
 							<p class="card-text float-right mb-0 text-danger">Sold Out</p>
 							{{/gt}}
 
-							<a href="/addToCart/{{this._id}}" role="button" class="btn btn-secondary w-25 float-left">
-								<i class="left fas fa-cart-plus"></i></a>
+
+							<a role="button" class="btn btn-secondary w-25 float-left addOneToCart"><i
+									class="left fas fa-cart-plus addOneToCart"></i></a>
 							<p class="card-text"><small class="text-muted">{{qty}}</small></p>
 							</a>
 						</div>
+
 					</div>
 
 					{{/each}}
+
+					<script>
+
+
+						$(".card").click((e) => {
+							id = $(e.currentTarget).data("id");
+							let icart = $(e.currentTarget).data("qty");
+
+							if ($(e.target).hasClass("addOneToCart")) {
+
+								$.get("/addToCart/" + id, (data) => {
+									if (!data.success) {
+										$('#outOfStock').removeAttr('hidden');
+
+										setTimeout(function () {
+											$('#outOfStock').fadeOut('slow')
+										}, 1000)
+									} else {
+										$('#addedItem').removeAttr('hidden');
+										setTimeout(function () {
+											$('#addedItem').fadeOut('slow')
+											location.reload()
+										}, 1500)
+
+									}
+
+								})
+
+							} else {
+								$("#shopProductDetail").modal("show");
+
+
+								$.get("/getProductDetail/" + id, (data) => {
+									$('#shopProductDetail').find('#title').html(data.product.name);
+									$('#shopProductDetail').find('#descDetail').html(data.product.description);
+									$('#shopProductDetail').find('#priceDetail').html('$' + data.product.price);
+									$('#shopProductDetail').find('#imgDetail').attr('src', data.product.img);
+									$('#shopProductDetail').find('#addQty').attr('action', "/addToCart/" + id);
+
+									if (data.product.quantity > 0) {
+										$('#shopProductDetail').find('#inStockDetail').html('<p class="text-success">In Stock</p>');
+									} else {
+										$('#shopProductDetail').find('#inStockDetail').html('<p class="text-danger">Sold out</p>');
+									}
+								})
+							}
+						})
+						$('.searchbox-input').keyup(function () {
+							$('.card').show();
+							var filter = $(this).val(); // get the value of the input, which we filter on
+							$('.container-fluid').find(".card-title:not(:contains(" + filter + "))").parent().parent().css('display', 'none');
+						});</script>
 					{{/isTruthy}}
 					{{#isFalsey prods}}
 					<div class="col-12 py-5">
@@ -58,31 +120,3 @@
 	</div>
 </div>
 
-<script>
-
-	$(".card").click((e) => {
-
-		$("#shopProductDetail").modal("show");
-		id = $(e.currentTarget).data("id");
-
-		$.get("/getProductDetail/" + id, (data) => {
-			console.log(data.product.name);
-			$('#shopProductDetail').find('#title').html(data.product.name);
-			$('#shopProductDetail').find('#descDetail').html(data.product.description);
-			$('#shopProductDetail').find('#priceDetail').html('$' + data.product.price);
-			$('#shopProductDetail').find('#imgDetail').attr('src', data.product.img);
-			$('#shopProductDetail').find('#addQty').attr('action', "/addToCart/" + id);
-
-			if (data.product.quantity > 0) {
-				$('#shopProductDetail').find('#inStockDetail').html('<p class="text-success">In Stock</p>');
-			} else {
-				$('#shopProductDetail').find('#inStockDetail').html('<p class="text-danger">Sold out</p>');
-			}
-		})
-
-	})
-	$('.searchbox-input').keyup(function () {
-		$('.card').show();
-		var filter = $(this).val(); // get the value of the input, which we filter on
-		$('.container-fluid').find(".card-title:not(:contains(" + filter + "))").parent().parent().css('display', 'none');
-	});</script>
