@@ -10,6 +10,7 @@ $(() => {
 			$(window).scrollTop(0);
 			$(".checkout-form").css("filter", "blur(3px)");
 			$("button[type=submit]")[0].disabled = true;
+			createStripeToken();
 			retVal = true;
 		} else {
 			check_luhn();
@@ -18,11 +19,11 @@ $(() => {
 		return retVal;
 	});
 
-	$(".checkout-form input").focus(function() {
+	$(".checkout-form input").focus(function () {
 		this.placeholder = "";
 	});
 
-	$("#cc-number").keyup(function() {
+	$("#cc-number").keyup(function () {
 		check_luhn();
 	});
 
@@ -89,5 +90,43 @@ function check_luhn() {
 		input[0].setCustomValidity("Invalid card number");
 		input.removeClass("is-valid");
 		input.addClass("is-invalid");
+	}
+}
+
+/*
+Validation for Stripe
+*/
+function createStripeToken() {
+	Stripe.setPublishableKey('pk_test_mQ9uHoIakoSM0VNVxlFXKgDV00Kj6dDTa9');
+	$('#charge-error').removeClass('hidden');
+	//credit card number must have no spaces
+	Stripe.card.createToken({
+		number: $('#cc-number').val().split(' ').join(''),
+		cvc: $('#cc-cvv').val(),
+		exp: $('#cc-expiration').val(),
+		name: $('#cc-name').val()
+	}, stripeResponseHandler);
+
+}
+
+
+function stripeResponseHandler(status, response) {
+	if (response.error) { // Problem!
+		// Show the errors on the form
+		$('#charge-error').text(response.error.message);
+		$('#charge-error').removeClass('hidden');
+		//$form.find('button').prop('disabled', false); // Re-enable submission
+		console.log("failed to create token")
+	} else { // Token was created!
+
+		// Get the token ID:
+		var token = response.id;
+		console.log("Created Token! " + token);
+		// Insert the token into the form so it gets submitted to the server:
+		var $form = $('#checkout-form');
+
+		$form.append($('<input type="hidden" name="stripeToken" />').val(token));
+		$('#checkoutForm').submit();
+
 	}
 }

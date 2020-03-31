@@ -9,7 +9,7 @@
     <div class="col-md-12 order-md-1">
         <h4 class="mb-3">Billing Information</h4>
         <h3 class="text-center processing" style="display: none">PROCESSING...</h3>
-        <form method="POST" action="{{siteData.baseUrl}}/shoppingCart/checkout" class="checkout-form" novalidate>
+        <form method="POST" action="{{siteData.baseUrl}}/shoppingCart/checkout" id="checkout-form" class="checkout-form" novalidate>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="firstName">First name</label>
@@ -88,6 +88,9 @@
             </div>
             <hr class="mb-4">
             <h4 class="mb-3">Payment</h4>
+            <div id="charge-error" class="alert alert-danger {{#if noErrors}}hidden{{/if}}">
+                    {{errMsg}}
+            </div>
             <div class="d-block my-3">
                 <div class="custom-control custom-radio">
                     <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" required=""
@@ -117,7 +120,7 @@
                     <label for="cc-number">Credit card number</label>
                     <div class="row">
                         <div class="col-md-8">
-                            <input placeholder="0000 0000 0000 0000" autocomplete="off" type="text" name="ccNum" class="form-control"
+                            <input id= "cc-number" placeholder="0000 0000 0000 0000" autocomplete="off" type="text" name="ccNum" class="form-control"
                                 id="cc-number">
                             <div class="invalid-feedback text-center">Valid credit card number required</div>
                         </div>
@@ -145,7 +148,7 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="cc-cvv">CVV</label>
-                    <input type="text" name="ccCVV" class="form-control" required minlength="3" maxlength="4">
+                    <input type="text" id="cc-cvv" name="ccCVV" class="form-control" required minlength="3" maxlength="4">
                     <div class="invalid-feedback"> Security code required </div>
                 </div>
             </div>
@@ -154,5 +157,6 @@
         </form>
     </div>
 </div>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.5.8/cleave.min.js"></script>
 <script src="/js/checkout.js"></script>
