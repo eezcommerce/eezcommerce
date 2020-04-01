@@ -2,9 +2,10 @@
 	<div class="row mt-4">
 		<h1>Hello, {{userDetails.businessName}}</h1>
 	</div>
-	<div class="row mt-3">
+	<div class="row my-3">
 		<h2>General Settings</h2>
 	</div>
+	<p>Need a quick setup? Run the <a href="/dashboard/wizard">wizard</a></p>
 	<div class="row">
 
 		<form action="/edit-user" novalidate class="needs-validation col-md-12 mt-3">
@@ -26,7 +27,7 @@
 				{{else}}
 				<span class="text-danger">
 					Your email has not been verified.
-					<a class="text-danger" href="#">
+					<a class="text-danger" href="/dashboard/settings/resendVerification">
 						<u>Request</u>
 					</a> a new verification?
 				</span>
@@ -34,45 +35,55 @@
 			</div>
 
 			<div class="form-group">
+				<label for="about">About:</label>
+				<textarea class="form-control" required name="about" cols="75" rows="10">{{userDetails.aboutBlurb}}</textarea>
+			</div>
+
+			<button type="button" class="btn btn-light text-dark rounded-pill" data-toggle="collapse" href="#secQuestionsGroup">
+				Show / Hide Security Questions <i class="fas fa-chevron-down"></i>
+			</button>
+
+			{{#isFalsey userDetails.securityAnswers.0.answer}}
+			<div class="text-danger mt-2">
+				You must set your security questions.
+			</div>
+			{{/isFalsey}}
+
+			<div class="form-group collapse pt-3" id="secQuestionsGroup">
 				<label for="questionOne">Question 1:</label>
 				<select class="form-control mb-4" name="questionOne">
-					<option value="1">
-						What street did you grow up on?
+					{{#each securityQuestions}}
+					<option {{#eq ../userDetails.securityAnswers.0.index @index}}selected="selected" {{/eq}}
+						value="{{this.id}}">
+						{{this.question}}
 					</option>
-					<option value="2">
-						What is your mother's maiden name?
-					</option>
-					<option value="3">
-						What elementary school did you got to?
-					</option>
+					{{/each}}
 
 					<input class="form-control mt-2 mb-4" placeholder="Answer" name="answerOne" type="text" required
-						minlength="4" autocomplete="off">
+						minlength="2" maxlength="64" autocomplete="off"
+						value="{{userDetails.securityAnswers.0.answer}}">
 				</select>
 
 				<label for="questionTwo">Question 2:</label>
 				<select autocomplete="off" class="form-control" name="questionTwo">
-					<option value="2">
-						What is your mother's maiden name?
+					{{#each securityQuestions}}
+					<option {{#eq ../userDetails.securityAnswers.1.index @index}}selected="selected" {{/eq}}
+						value="{{this.id}}">
+						{{this.question}}
 					</option>
-					<option value="1">
-						What street did you grow up on?
-					</option>
-					<option value="3">
-						What elementary school did you got to?
-					</option>
+					{{/each}}
 
-					<input class="form-control mt-2" placeholder="Answer" name="answerTwo" type="text" required
-						minlength="4" autocomplete="off">
+					<input class="form-control mt-2" placeholder="Answer" name="answerTwo" type="text" required required
+						minlength="2" maxlength="64" autocomplete="off"
+						value="{{userDetails.securityAnswers.1.answer}}">
 				</select>
 
 
-				<button class="btn btn-primary rounded-pill float-right mt-5" type="submit">
-					Save General Settings
-				</button>
-
-
 			</div>
+
+			<button class="btn btn-primary rounded-pill float-right mt-5" type="submit">
+				Save General Settings
+			</button>
 
 			<div class="server-response text-danger"></div>
 
@@ -84,23 +95,38 @@
 	</div>
 
 	<div class="row">
-		<form action="/change-password" novalidate class="needs-validation col-md-12 mt-3">
+		<form action="/changePassword" novalidate class="needs-validation col-md-12 mt-3">
 			<label for="originalPassword">Current Password:</label>
 			<input name="originalPassword" class="form-control mb-4" type="password" required
 				autocomplete="new-password">
 
 			<label for="newPassword">New Password:</label>
-			<input name="newPassword" class="confirmablePassword form-control mb-4" type="password"
-				autocomplete="new-password" required>
+			<input 
+				pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+				name="newPassword" 
+				class="confirmablePassword checkPatternWhenTyping form-control mb-4" 
+				type="password"
+				autocomplete="new-password" required
+			>
 
 			<label for="newConfirmPassword">Confirm New Password:</label>
 			<input name="newConfirmPassword"
 				class="form-control confirmablePasswordDestination checkPatternWhenTyping mb-4" type="password"
 				autocomplete="new-password" required>
 
+			<span class="text-danger server-response"></span>
+
 			<button class="btn btn-primary rounded-pill float-right mt-5 mb-2" type="submit">
 				Change Password
 			</button>
 		</form>
+	</div>
+
+	<div class="row mt-3">
+		<h2>Billing</h2>
+	</div>
+	<div class="mt-3">
+		<label>Membership Type: </label><span class="text-muted p-3 mb-2">{{membershipType}}</span>
+		<button class="btn btn-primary float-right"><i class="fas fa-crown yellow"></i> Upgrade to Premium</button>
 	</div>
 </div>

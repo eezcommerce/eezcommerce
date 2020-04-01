@@ -9,6 +9,7 @@
 {{> pricingModal}}
 {{> signupModal}}
 {{> termsModal}}
+{{> cancelConfirm}}
 <body>
 
 			<nav class="navbar fixed-top navbar-light bg-white shadow-sm">
@@ -43,13 +44,19 @@
 				</ul>
 			</span>
 		</nav>
-		<div class="dynamic">
+		<div>
 			{{{body}}}
 		</div>
 	</div>
 
 
 <script src="/js/landingPage.js"></script>
+<script>
+$(document).on("click", '[data-toggle="lightbox"]', function(event) {
+  event.preventDefault();
+  $(this).ekkoLightbox();
+});
+</script>
 </body>
 
 </html>

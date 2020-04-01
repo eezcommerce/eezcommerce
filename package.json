@@ -7,7 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "node index.js",
 		"postinstall": "sass public/css/theme.scss public/css/theme.css",
-		"fix": "node_modules/.bin/prettier --write \"./**/*.{html,css,js}\""
+		"fix": "node_modules/.bin/prettier --write \"./**/*.{html,css,scss,js}\""
 	},
 	"repository": {
 		"type": "git",
@@ -28,11 +28,14 @@
 		"express": "^4.17.1",
 		"express-handlebars": "^3.1.0",
 		"handlebars": "^4.7.3",
-		"mongoose": "^5.8.10",
-		"nodemailer": "^6.4.2",
+		"handlebars-helpers": "^0.10.0",
+		"jimp": "^0.9.6",
+		"mongoose": "^5.9.5",
+		"multer": "^1.4.2",
+		"nodemailer": "^6.4.5",
 		"pre-commit": "^1.2.2",
 		"prettier": "^1.19.1",
-		"sass": "^1.25.0"
+		"sass": "^1.26.3"
 	},
 	"prettier": {
 		"tabWidth": 2,

@@ -1,0 +1,17 @@
+$white: $dark;
+
+$body-bg: $dark;
+
+$body-color: $light;
+
+.card {
+	background: rgba($color: #ffffff, $alpha: 0.05) !important;
+}
+.site-navbar {
+	@extend .bg-dark;
+}
+
+.site-navlinks a:hover,
+.site-navlinks a {
+	color: $body-color;
+}

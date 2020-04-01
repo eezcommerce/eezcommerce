@@ -1,0 +1,126 @@
+/*
+    Body: grid template helps us change the structure of a site without changing the html
+*/
+body {
+	grid-template:
+		"nav nav nav" 80px
+		"bod bod bod" auto
+		"fot fot fot" 200px;
+}
+
+$body-color: #212529;
+
+// nav
+
+.site-navbar {
+	z-index: 10;
+	position: fixed;
+	height: 80px;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	@extend .bg-light;
+}
+
+.site-navlinks a:hover,
+.site-navlinks a {
+	color: $body-color;
+}
+
+.site-navbar-right {
+	display: flex;
+	padding: 10px;
+}
+
+.site-navbar-logo {
+	text-align: center;
+	padding: 10px;
+}
+
+.site-navlinks a {
+	padding: 5px;
+	margin: 5px;
+	transition: all 0.4s ease;
+	text-decoration: none !important;
+}
+
+.site-navlinks a:hover {
+	box-shadow: 0px 5px 0px var(--secondary);
+}
+
+.site-cart-button {
+	transition: all 0.3s ease;
+	@extend .text-primary;
+}
+
+a.site-cart-button:hover {
+	text-decoration: none;
+}
+
+// body
+
+.site-body {
+	min-height: 100vh;
+}
+
+.site-shop-banner {
+	@extend .bg-secondary;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 150px;
+}
+
+// footer
+.site-footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@extend .bg-secondary;
+}
+
+.site-footer a {
+	@extend .bg-secondary;
+}
+
+.site-welcome {
+	font-size: 26px;
+	font-weight: bold;
+	height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	@extend .bg-primary;
+}
+
+// override
+
+.btn {
+	@extend .rounded-pill;
+}
+
+.bg-dark {
+	color: var(--light);
+}
+
+.bg-light {
+	color: var(--dark);
+}
+
+.site-about {
+	text-align: center;
+	@extend .mt-5;
+	@extend .row;
+}
+
+.site-about h2 {
+	@extend .col-12;
+	@extend .mb-3;
+}
+
+.site-about p {
+	@extend .col-md-6;
+	@extend .offset-md-3;
+}

@@ -22,9 +22,10 @@ var transporter = nodemailer.createTransport({
 	}
 });
 
-// sends a verification email to the provided email containing a secret, random token
-// TODO: store the token in the user in the database
-// Returns a promise, resolving with an error or the email provided
+/**
+ * @param {String} email the user email
+ * @param {String} mailType allowed: "signup", "reset"
+ */
 module.exports.sendVerificationEmail = (email, mailType) => {
 	return new Promise((resolve, reject) => {
 		// generate secure random bytes of data
@@ -73,7 +74,7 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 						<p> You recently requested to reset your password for ${email} account.</p>
 						<p>Please click the link below to reset your password. 
 						<strong>This password reset is only valid for the next 24 hours.</strong></p>
-						<a href="${process.env.SERVER_PUBLIC_URL}/verify_email/${email}/${token}">Reset Password</a>
+						<a href="${process.env.SERVER_PUBLIC_URL}/reset_password/${email}/${token}">Reset Password</a>
 					</div>
 					`
 					};
@@ -88,6 +89,67 @@ module.exports.sendVerificationEmail = (email, mailType) => {
 					resolve(email);
 				}
 			});
+		});
+	});
+};
+
+module.exports.sendReceipt = (email, order) => {
+	return new Promise((resolve, reject) => {
+		let orderRows = "";
+
+		order.productList.forEach(line => {
+			orderRows += `
+			<tr>
+                <td>${line.ProductName}</td>
+                <td>${line.Qty}</td>
+            </tr>
+			`;
+		});
+
+		var mailOptions = {
+			from: process.env.EMAIL_USER,
+			to: email,
+			subject: `Receipt for Order #${order._id}`,
+			html: `
+			<div style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
+				<h1>Thank you for your order!</h1>
+				<p>
+					Your order (<b>${order._id}</b>) was received and is being processed. Look out for an email letting you know when it
+					has shipped!
+				</p>
+				
+				<br>
+				<h3>Your order:</h3>
+				<br>
+				
+				<table style="width: 100%; text-align: center;">
+					<thead style="background-color: rgba(0,0,0,0.1);">
+						<tr>
+							<th>Item</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						${orderRows}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td style="font-size: 25px; padding-top: 20px;" colspan="2">Total: <b>$${order.total.toLocaleString()}</b></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		
+					`
+		};
+
+		transporter.sendMail(mailOptions, function(err, info) {
+			//callback function
+			if (err) {
+				reject(err);
+			} else {
+				resolve(info);
+			}
 		});
 	});
 };

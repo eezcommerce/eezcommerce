@@ -23,20 +23,56 @@ $(() => {
 		// the [0] after form is to access the raw DOM element since it was wrapped in jquery before (same result as just e.target)
 		// if the form is valid (so checkvalidity is true) we can do our posting of data (submit the form to the "action" attribute url)
 		if (form[0].checkValidity()) {
-			$.post(form.attr("action"), form.serialize(), data => {
-				// if theres an error, put it in the element with the class "server-response" and show that element
-				if (data.error) {
-					form.removeClass("was-validated");
-					$("#emailReset").addClass("is-invalid");
-					form
-						.find(".server-response")
-						.html(data.error)
-						.addClass("d-block");
-				} else {
-					// the server will respond with a redirect url. if everything goes well, we should go there
-					window.location = data.redirectUrl;
-				}
-			});
+			var loader = $(".loader-block");
+			loader.addClass("d-flex");
+
+			if (form.find(":file").length === 1) {
+				let formdata = new FormData(form[0]);
+
+				$.ajax({
+					url: form.attr("action"),
+					contentType: false,
+					processData: false,
+					enctype: "multipart/form-data",
+					data: formdata,
+					method: "POST",
+					success: data => {
+						// if theres an error, put it in the element with the class "server-response" and show that element
+						if (data.error) {
+							form.removeClass("was-validated");
+							form
+								.find(".server-response")
+								.html(data.error)
+								.addClass("d-block");
+							loader.removeClass("d-flex");
+						} else {
+							$("#categoryAdd").removeClass("is-invalid");
+							// the server will respond with a redirect url. if everything goes well, we should go there
+							window.location = data.redirectUrl;
+						}
+					}
+				});
+			} else {
+				$.post(form.attr("action"), form.serialize(), data => {
+					// if theres an error, put it in the element with the class "server-response" and show that element
+					if (data.error) {
+						form.removeClass("was-validated");
+						//specific for seperate
+						$("#emailReset").addClass("is-invalid");
+						$("#productSKU").addClass("is-invalid");
+						$("#categoryAdd").addClass("is-invalid");
+						form
+							.find(".server-response")
+							.html(data.error)
+							.addClass("d-block");
+						loader.removeClass("d-flex");
+					} else {
+						$("#categoryAdd").removeClass("is-invalid");
+						// the server will respond with a redirect url. if everything goes well, we should go there
+						window.location = data.redirectUrl;
+					}
+				});
+			}
 		}
 	});
 
@@ -71,5 +107,16 @@ $(() => {
 			.find("input")
 			.removeClass("is-invalid")
 			.removeClass("is-valid");
+		$(this)
+			.find("#avatar")
+			.attr("src", "/img/default_profile.jpg");
+	});
+
+	$("#dashboardMenuToggle").click(() => {
+		if (!$(".sidebar").hasClass("sidebarOpen")) {
+			$(".sidebar").addClass("sidebarOpen");
+		} else {
+			$(".sidebar").removeClass("sidebarOpen");
+		}
 	});
 });

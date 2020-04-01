@@ -1,6 +1,5 @@
 var mongoose = require("mongoose");
-var bcrypt = require("bcryptjs");
-var ObjectId = require("mongodb").ObjectId;
+const Products = require("./Models/ProductModel");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -12,45 +11,15 @@ async function doConnect() {
 
 doConnect();
 
-const Products = mongoose.model(
-	"Products",
-	new mongoose.Schema({
-		SKU: {
-			type: String,
-			maxlength: 4,
-			minlength: 1,
-			required: true,
-			unique: true
-		},
-		name: {
-			type: String,
-			minlength: 2
-		},
-		quantity: {
-			type: Number,
-			default: 0
-		},
-		price: {
-			type: Number,
-			required: true,
-			default: false
-		},
-		purchased: {
-			type: Number,
-			required: true,
-			default: 0
-		}
-	})
-);
 function parseResponse(response) {
 	var json = JSON.stringify(response);
 	var parsed = JSON.parse(json);
 	return parsed;
 }
 
-module.exports.getAllProducts = () => {
+module.exports.getAllProducts = ownerId => {
 	return new Promise((resolve, reject) => {
-		Products.find({}, (err, prods) => {
+		Products.find({ owner: ownerId }, (err, prods) => {
 			var parsedProds = parseResponse(prods);
 			if (!err) {
 				resolve(parsedProds);
@@ -62,17 +31,138 @@ module.exports.getAllProducts = () => {
 	});
 };
 
-module.exports.addProduct = (prodSku, prodName, prodQty, prodPrice) => {
+module.exports.productsWithCategory = (ownerId, category) => {
 	return new Promise((resolve, reject) => {
-		var prod1 = new Products({ SKU: prodSku, name: prodName, quantity: prodQty, price: prodPrice, purchased: 0 });
+		Products.countDocuments({ owner: ownerId, category: category }, (err, count) => {
+			if (!err) {
+				resolve(count);
+			} else {
+				console.log("error:" + err);
+				reject(err);
+			}
+		});
+	});
+};
 
-		prod1.save(function(err, product) {
+module.exports.getProductById = id => {
+	return new Promise((resolve, reject) => {
+		Products.findOne({ _id: id }, (err, prod) => {
+			var parsedProd = parseResponse(prod);
+			if (!err) {
+				resolve(parsedProd);
+			} else {
+				console.log("error:" + err);
+				reject(err);
+			}
+		});
+	});
+};
+
+/**
+ * @function getTopSellers returns the top selling products for a given userId
+ * @param id the userId to search products by
+ */
+module.exports.getTopSellers = id => {
+	return new Promise((resolve, reject) => {
+		Products.find({ owner: id }, null, { limit: 5, sort: { purchased: -1 } }, (err, result) => {
 			if (err) {
 				reject(err);
 			} else {
+				resolve(result);
+			}
+		}).lean();
+	});
+};
+
+module.exports.getTopCategories = id => {
+	return new Promise((resolve, reject) => {
+		Products.aggregate(
+			[{ $match: { owner: id } }, { $group: { _id: "$category", count: { $sum: { $add: ["$purchased"] } } } }],
+			(err, res) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(res);
+				}
+			}
+		);
+	});
+};
+
+module.exports.addProduct = (ownerId, prodSku, prodName, prodQty, prodPrice, prodDesc, prodCat, prodPath) => {
+	return new Promise((resolve, reject) => {
+		var prod1 = new Products({
+			owner: ownerId,
+			SKU: prodSku,
+			name: prodName,
+			quantity: prodQty,
+			price: prodPrice,
+			purchased: 0,
+			description: prodDesc,
+			category: prodCat,
+			img: prodPath
+		});
+
+		prod1.save(function(err, product) {
+			if (err) {
+				if (err.code != 11000) {
+					console.log(err);
+				}
+				reject(err);
+			} else {
 				resolve(product);
-				console.log(product.name + " saved to products collection.");
 			}
 		});
+	});
+};
+/**
+ * @param {String} id the id to delete
+ */
+module.exports.deleteProduct = id => {
+	return new Promise((resolve, reject) => {
+		Products.deleteOne({ _id: id }, (err, deleteResult) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(deleteResult);
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} updated product
+ * @param {Object} updated product object
+ */
+module.exports.editProduct = (prodId, qty, prodPrice, desc, sold) => {
+	return new Promise((resolve, reject) => {
+		Products.updateOne(
+			{ _id: prodId },
+			{ quantity: qty, price: prodPrice, description: desc, purchased: sold },
+			(err, result) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			}
+		);
+	});
+};
+
+module.exports.isDuplicate = (ownerId, testValue) => {
+	return new Promise((resolve, reject) => {
+		this.getAllProducts(ownerId)
+			.then(prods => {
+				prods.forEach(prod => {
+					if (prod.SKU == testValue) {
+						resolve("true");
+					}
+				});
+				resolve("false");
+			})
+			.catch(err => {
+				resolve(err);
+			});
 	});
 };

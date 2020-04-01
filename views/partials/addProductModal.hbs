@@ -1,67 +1,69 @@
-	{{!-- This modal is only used to manually input data(it is not recommended!) --}}
-	<div class="modal fade" id="addProductModal" >
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-body">
-						<button type="button" class="close" data-dismiss="modal">
-							<span>&times;</span>
-						</button>
-						<h1>Add Product</h1>
+{{!-- This modal is only used to manually input data(it is not recommended!) --}}
+<div class="modal fade" id="addProductModal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+				<h1>Add Product</h1>
 
-						<form id="addProduct" class="needs-validation" novalidate action="/addProduct">
-						
-								<div class="form-group row">
-									<div class="col-sm-12">	
-									
-										<label for="productName">Product Name</label>
-									<input
-										name="productName"
-										class="form-control"
-										placeholder="Masks"
-										required
-									/>
-									</div>
-									
-									<div class="form-group row pl-3 pt-2 pr-3">		
-										<div class="col-sm-3">
-										<label for="productSKU">SKU</label>
-										<input
-										type="number"
-										min="1"
-										name="productSKU"
-										class="form-control"
-										placeholder= "0000"
-										required
-									/></div>
-										<div class="col-sm-3">
-										<label for="productInventory">Qty</label>
-										<input
-										type="number"
-										min="0"
-										name="productInventory"
-										class="form-control"
-										placeholder= "0"
-										required
-									/>
-									</div>
-									<div class="col-sm-6">
-										<label for="productPrice">Price</label>
-										<input
-										min= "0"
-										name="productPrice"
-										class="form-control"
-										placeholder= "0.00"
-										required
-									/>
-									</div>
-									</div>
+				<form method="POST" id="addProduct" enctype="multipart/form-data" class="needs-validation" novalidate
+					action="/addProduct">
+
+					<div class="form-group row">
+						<div class="col-sm-12">
+
+							<label for="productName">Product Name</label>
+							<input name="productName" class="form-control" placeholder="Product" required />
+						</div>
+						<div class="col-sm-12">
+
+							<label for="imgFile">Upload Image</label>
+							<input required type="file" name="imgFile" class="form-control-file" />
+							<div class="invalid-feedback">Product image is required</div>
+						</div>
+
+						<div class="form-group row pl-3 pt-2 pr-3">
+							<div class="col-sm-3">
+								<label for="productSKU">SKU</label>
+								<input type="number" min="1" name="productSKU" id="productSKU" class="form-control"
+									placeholder="0000" required /></div>
+							<div class="col-sm-3">
+								<label for="productInventory">Qty</label>
+								<input type="number" min="0" name="productInventory" class="form-control"
+									placeholder="0"  />
 							</div>
-								<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit">
-								Add
-							</button>
-						</form>
+							<div class="col-sm-6">
+								<label for="productPrice">Price</label>
+								<input type="number" step="0.01" min="0" max="100000" name="productPrice" class="form-control"
+									placeholder="0.00" required />
+							</div>
+						</div>
+
+						<div class="form-group row ml-3 mt-2">
+							<label for="productCategory">Category</label>
+							<select name="productCategory" class="form-control" placeholder="Select a Category"
+								required>
+								{{#each categories}}
+								<option>{{name}}</option>
+								{{/each}}
+							</select>
+						</div>
+						<div class="col-sm-12">
+							<label for="productDesc">Description</label>
+
+							<textarea name="productDesc" class="form-control" style="resize:none" maxlength="256"
+								id="descriptionTextArea" rows="3"></textarea>
+						</div>
+
 					</div>
-				</div>
+					<div class="text-danger server-response"></div>
+					<button id="submitBtn" class="btn badge-pill btn-outline-primary btn-sm float-right" type="submit">
+						Add
+					</button>
+				</form>
 			</div>
 		</div>
-
+	</div>
+</div>

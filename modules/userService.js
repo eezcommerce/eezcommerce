@@ -1,5 +1,9 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
+var fs = require("fs");
+const UserModel = require("./Models/UserModel");
+const categoryService = require("./categoryService.js");
+var customizationService = require("./customizationService.js");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -11,43 +15,28 @@ async function doConnect() {
 
 doConnect();
 
-const UserModel = mongoose.model(
-	"user",
-	new mongoose.Schema({
-		email: {
-			type: String,
-			maxlength: 256,
-			minlength: 4,
-			required: true,
-			unique: true
-		},
-		password: {
-			type: String,
-			minlength: 8
-		},
-		token: {
-			type: String,
-			default: ""
-		},
-		isVerified: {
-			type: Boolean,
-			required: true,
-			default: false
-		},
-		isActive: {
-			type: Boolean,
-			required: true,
-			default: false
-		},
-		businessName: {
-			type: String,
-			minlength: 2,
-			maxlength: 64,
-			required: true,
-			default: "eEz Commerce Business"
-		}
-	})
-);
+module.exports.SecurityQuestions = [
+	{
+		id: 0,
+		question: "What is your first pet's name?"
+	},
+	{
+		id: 1,
+		question: "What is your Mother's Maiden name?"
+	},
+	{
+		id: 2,
+		question: "What city were you born in?"
+	},
+	{
+		id: 3,
+		question: "Where was your first date?"
+	},
+	{
+		id: 4,
+		question: "What street did you grow up on?"
+	}
+];
 
 /**
  * @param {object} passed email & password
@@ -64,7 +53,28 @@ module.exports.create = (passed = { email: "email", password: "password" }) => {
 				userObj
 					.save()
 					.then(result => {
-						resolve(result);
+						try {
+							fs.mkdirSync("public/siteData/" + result._id + "/img", { recursive: true });
+						} catch (err) {
+							reject("Error creating user directory. Please retry.");
+						}
+
+						customizationService
+							.initialize(result._id)
+							.then(obj => {
+								//adding default category
+								categoryService
+									.addCategory(result._id, "General")
+									.then(obj => {
+										resolve(result);
+									})
+									.catch(err => {
+										reject(err);
+									});
+							})
+							.catch(err => {
+								reject(err);
+							});
 					})
 					.catch(err => {
 						reject(err);
@@ -151,10 +161,10 @@ module.exports.findMatchingEmail = inputEmail => {
  * @param {String} inputEmail email used as identifier to update token value.
  * */
 
-module.exports.setToken = (token, inputEmail) => {
+module.exports.setToken = (token, inputEmail, tokenExpiry = Date.now() + 1000 * 60 * 60 * 24) => {
 	return new Promise(function(resolve, reject) {
 		try {
-			UserModel.updateOne({ email: inputEmail }, { token: token }, function(err, res) {
+			UserModel.updateOne({ email: inputEmail }, { token: token, tokenExpiry: tokenExpiry }, function(err, res) {
 				if (res.modifiedCount == 1) {
 					resolve(res);
 				}
@@ -167,16 +177,53 @@ module.exports.setToken = (token, inputEmail) => {
 
 /**
  * @returns {Object} updated user
+ * @param {Object} passed user object
+ */
+module.exports.directEdit = passed => {
+	return new Promise((resolve, reject) => {
+		UserModel.updateOne({ _id: passed._id }, passed, (err, result) => {
+			if (err) {
+				console.log(err);
+
+				reject("Error saving: check input for requirements");
+			} else {
+				resolve(result);
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} updated user
  * @param {Object} updated user object
  */
 module.exports.edit = passed => {
 	return new Promise((resolve, reject) => {
 		UserModel.updateOne(
 			{ _id: passed._id },
-			{ businessName: passed.businessName, email: passed.email },
+			{
+				businessName: passed.businessName,
+				email: passed.email,
+				aboutBlurb: passed.about,
+				$set: {
+					securityAnswers: [
+						{
+							index: parseInt(passed.questionOne),
+							answer: passed.answerOne
+						},
+						{
+							index: parseInt(passed.questionTwo),
+							answer: passed.answerTwo
+						}
+					]
+				}
+			},
+			{
+				runValidators: true
+			},
 			(err, result) => {
 				if (err) {
-					reject(err);
+					reject("Error saving: check input for requirements");
 				} else {
 					resolve(result);
 				}
@@ -186,12 +233,30 @@ module.exports.edit = passed => {
 };
 
 /**
+ * @returns {Boolean} is the token valid for the entered email?
+ * @param {String} token token to validate
+ * @param {String} email email to validate
+ */
+
+module.exports.validateToken = (token, email) => {
+	return new Promise(function(resolve, reject) {
+		UserModel.findOne({ email: email, token: token }, function(err, user) {
+			if (!err && user.tokenExpiry > Date.now()) {
+				resolve(true);
+			} else {
+				reject(err);
+			}
+		});
+	});
+};
+
+/**
  * @returns {Object} a user object
  * @param {String} token token to validate
  * @param {String} inputEmail email to validate
  */
 
-module.exports.validateToken = (token, inputEmail) => {
+module.exports.verifyEmail = (token, inputEmail) => {
 	return new Promise(function(resolve, reject) {
 		UserModel.findOne({ email: inputEmail }, function(err, user) {
 			if (err) {
@@ -200,6 +265,8 @@ module.exports.validateToken = (token, inputEmail) => {
 				if (user.token == token) {
 					UserModel.updateOne({ email: inputEmail }, { isVerified: true }, (err, user) => {
 						if (err) {
+							console.log("Inside userservice: " + err);
+
 							reject({ error: err });
 						} else {
 							resolve(user);
@@ -208,6 +275,108 @@ module.exports.validateToken = (token, inputEmail) => {
 				} else {
 					reject({ error: "Token not valid." });
 				}
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} data pertaining to the rendering of a site
+ * @param {String} id
+ */
+module.exports.getWebsiteDataById = id => {
+	return new Promise((resolve, reject) => {
+		UserModel.findById(id, "businessName aboutBlurb", { lean: true }, async (err, site) => {
+			if (err) {
+				reject(err);
+			} else {
+				try {
+					site.customization = await customizationService.get(id);
+					resolve(site);
+				} catch (error) {
+					reject(error);
+				}
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} a user object sanitized for session variable
+ * @param {String} id a user id
+ */
+
+module.exports.getUserDataForSession = id => {
+	return new Promise((resolve, reject) => {
+		UserModel.findOne({ _id: id }, (err, user) => {
+			if (err) {
+				reject(err);
+			} else {
+				user.password = undefined;
+				user.token = undefined;
+				resolve(user);
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} a user object
+ * @param {String} id a user id
+ * @param {String} oldPass old (current) password
+ * @param {String} newPass new password to update to
+ */
+module.exports.changePassword = (id, oldPass, newPass) => {
+	return new Promise((resolve, reject) => {
+		UserModel.findById(id, (err, user) => {
+			if (!err) {
+				bcrypt.compare(oldPass, user.password, (err, result) => {
+					if (!err && result) {
+						bcrypt.genSalt(10, (err, salt) => {
+							bcrypt.hash(newPass, salt, (err, hash) => {
+								UserModel.updateOne({ _id: id }, { password: hash }, (err, result) => {
+									if (!err) {
+										resolve(result);
+									} else {
+										reject(err);
+									}
+								});
+							});
+						});
+					} else {
+						reject("Old password incorrect");
+					}
+				});
+			} else {
+				reject("Something went wrong, try logging out and logging back in.");
+			}
+		});
+	});
+};
+
+/**
+ * @returns {Object} a user object
+ * @param {String} email user email
+ * @param {String} token token to verify
+ * @param {String} newPass new password to update to
+ */
+module.exports.changePasswordWithToken = (email, token, newPass) => {
+	return new Promise((resolve, reject) => {
+		UserModel.findOne({ email: email, token: token }, (err, result) => {
+			if (!err && result) {
+				bcrypt.genSalt(10, (err, salt) => {
+					bcrypt.hash(newPass, salt, (err, hash) => {
+						UserModel.updateOne({ email: email }, { password: hash }, (err, result) => {
+							if (!err) {
+								resolve(result);
+							} else {
+								reject(err);
+							}
+						});
+					});
+				});
+			} else {
+				reject("Token invalid");
 			}
 		});
 	});

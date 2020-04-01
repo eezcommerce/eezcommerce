@@ -1,50 +1,115 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12 mt-4 mb-5">
-            <h1>Overview</h1>
+	<div class="row">
+		<div class="col-12 mt-4 mb-2">
+			<h1>Overview</h1>
+		</div>
+	</div>
+ <div class="row mb-5">
+        <div class="col-12">
+            <a target="_blank" href="/sites/{{userDetails._id}}">
+                <button class="btn btn-primary">View Site</button>
+            </a>
         </div>
     </div>
-    <div class="row text-primary mt-1">
-        <div class="col-sm-4 d-flex mt-2 justify-content-center align-items-center">
-            <div class="overview-circles rounded-circle d-flex justify-content-center align-items-center border border-primary border-1">
-                <span>100 orders</span>
-            </div>
-        </div>
-        <div class="col-sm-4 d-flex mt-2 justify-content-center align-items-center">
-            <div class="overview-circles rounded-circle d-flex justify-content-center align-items-center border border-primary border-1">
-                <span>200 visits</span>
-            </div>
-        </div>
-        <div class="col-sm-4 d-flex mt-2 justify-content-center align-items-center">
-            <div class="overview-circles rounded-circle d-flex justify-content-center align-items-center border border-primary border-1">
-                <span>300 messages</span>
-            </div>
-        </div>
-    </div>
-    <br><br><br><br><br>
-    <div class="row mt-5">
-        <div class="col-12 mt-4 mb-5">
-            <h1>Recent Orders</h1>
-        </div>
+	<div class="row">
+		<div class="col-12">
+			<div class="row">
+				<div class="col-md-6">
+					<h4>Top Selling Products</h4>
+					<table class="table table-striped mt-4">
+						<thead class="table-">
+							<tr>
+								<th>Product</th>
+								<th># of Purchases</th>
+							</tr>
 
-            <div class="col-sm-5">
-           <table class="table table-striped table-hover">
-<tr>
-    <th>Order #</th>
-    <th>Date</th>
-    <th>Status</th>
-</tr>
-<tr>
-    <td>555</td>
-    <td>2020/10/12</td>
-    <td>Shipped</td>
-</tr>
+						</thead>
+						{{#each topSellers}}
+						<tr>
+							<td>{{name}}</td>
+							<td>{{purchased}}</td>
+						</tr>
+						{{/each}}
+					</table>
+				</div>
+				<div class="col-md-6">
+					<h4>Latest Orders</h4>
+					<table class="table table-striped mt-4">
+						<thead>
+							<tr>
+								<th>Address</th>
+								<th>Status</th>
+								<th>Date</th>
+							</tr>
 
-</table> 
-        </div>
+						</thead>
+						{{#each latestOrders}}
+						<tr>
+							<td>{{address.lineOne}}</td>
+							<td>{{status}}</td>
+							<td>{{moment this.created_at "MMMM Do YYYY, h:mm:ss a"}}</td>
+						</tr>
+						{{/each}}
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 text-center mt-5">
+					<h4><b>Sales by Category</b></h4>
+					<h5 id="no-sales"></h5>
+				</div>
+				<div class="col-12 my-5">
+					<canvas id="myChart" height="100px">
 
-
-
-
-    </div>
+					</canvas>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+
+
+
+	$.get("/salesByCategory", (data) => {
+		let catLabels = [];
+		let catVals = [];
+		data.forEach(cat => {
+			catLabels.push(cat._id)
+			catVals.push(cat.count)
+		});
+
+		if(data.length < 1){
+			$("#no-sales").text("No sales yet")
+		}
+
+
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var chart = new Chart(ctx, {
+			// The type of chart we want to create
+			type: 'pie',
+
+			// The data for our dataset
+			data: {
+				labels: catLabels,
+				datasets: [{
+					label: 'Sales',
+					backgroundColor: ["#55C0A7", "#ECF8F5", "#7BCEBB", "#C6EAE1", "#A1DCCE", "#B3E3D8", "#8ED5C4", "#D9F1EB", "#68C7B1"],
+					data: catVals
+				}]
+			},
+
+			// Configuration options go here
+			options: {
+				responsive: true,
+				title: {
+					text: "Sales by Category"
+				},
+				legend: {
+					display: false
+				}
+			}
+		});
+	})
+</script>

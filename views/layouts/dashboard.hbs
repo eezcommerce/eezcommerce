@@ -4,54 +4,83 @@
 <head>
 	{{>header}}
 	<script src="/js/dashboard.js"></script>
+	<script src="/js/jscolor.js"></script>
 </head>
 
 <body>
+	<div class="loader-block position-fixed d-none align-items-center justify-content-center w-100 h-100" style="z-index: 200; background: rgba(0,0,0,0.4)">
+		<h1 class="text-white">loading...</h1>
+	</div>
 
 	<div class="dashboardGrid">
-		<div class="sidebar bg-secondary">
+		<div class="dashboardHeader navbar bg-light shadow">
+			<i class="fas fa-bars pl-2 fa-2x" id="dashboardMenuToggle"></i>
+		</div>
+		<div class="sidebar sidebarClosed bg-dark">
 
 
 
 			<div class="d-flex flex-column align-items-center justify-content-center">
-				<div class="sidebarImg mt-5 bg-white">
-					<img src="/img/default_profile.jpg" alt="">
+				<div class="sidebarImg mt-5 bg-white">	
+					<a href="" class="overlay"  data-toggle="modal" data-target="#avatarModal">
+						Change<br/>
+						Picture
+					</a>
+					{{#if userDetails.avatarExists}}
+					<img src="/siteData/{{userDetails._id}}/img/avatar/avatar.png" alt="logo">
+					{{else}}
+					<img src='/img/default_profile.jpg' alt="logo">				
+					{{/if}}
+				
+				
 				</div>
-				<p class="text-muted text-center text-break p-2">{{userDetails.businessName}}</p>
+				<a target="_blank" href="/sites/{{userDetails._id}}">
+					<p class="text-white text-center text-break p-2">{{userDetails.businessName}} &nbsp;<i class="fas fa-external-link-alt"></i></p>
+				</a>
 			</div>
 
 
 			<div class="sidebarMenu">
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "overview" pagename}}">
-					<a class="text-muted" href="/dashboard/overview">Overview</a>
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "overview" pagename}}active{{/eq}}">
+					<a class="text-white" href="/dashboard/overview">Overview</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "orders" pagename}}">
-					<a class="text-muted" href="/dashboard/orders">Orders</a>
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "orders" pagename}}active{{/eq}}">
+					<a class="text-white" href="/dashboard/orders">Orders</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "categories" pagename}}">
-					<a class="text-muted" href="/dashboard/categories">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "categories" pagename}}active{{/eq}}">
+					<a class="text-white" href="/dashboard/categories">
 						Categories
 					</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "products" pagename}}">
-					<a class="text-muted" href="/dashboard/products">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "products" pagename}}active{{/eq}}">
+					<a class="text-white" href="/dashboard/products">
 						Products
 					</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "customize" pagename}}">
-					<a class="text-muted" href="/dashboard/customize">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "customize" pagename}}active{{/eq}}">
+					<a class="text-white" href="/dashboard/customize">
 						Customize
 					</a>
 				</div>
-				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{activeLink "report" pagename}}">
-					<a class="text-muted" href="/dashboard/report">
+				<div class="sidebarMenuItem pt-2 pb-2 w-100 text-center {{#eq "report" pagename}}active{{/eq}}">
+					<a class="text-white" href="/dashboard/report">
 						Report
 					</a>
 				</div>
 				<div></div>
 			</div>
 			<div class="sidebarFooter mb-5">
-				<a class="pr-3 {{#unless userDetails.isVerified}}notification-badge{{/unless}}" href="/dashboard/settings">
+				<a 
+					class="pr-3 
+						{{#unless userDetails.isVerified}}
+							notification-badge
+						{{/unless}} 
+						{{#isFalsey userDetails.securityAnswers.0.answer}}
+							notification-badge
+						{{/isFalsey}}" 
+					href="/dashboard/settings"
+					style="outline: none;"
+				>
 					<i id="dashboard-settings" class="fas fa-cog fa-2x text-muted"></i>
 				</a>
 				<a href="/logout">
@@ -67,10 +96,11 @@
 		</div>
 	</div>
 </body>
+{{> cancelConfirm}}
+{{> avatarModal}}
 {{> addCategoryModal}}
 {{> ordersDetail}}
-{{> cancelConfirm}}
-{{> addOrderModal}}
 {{> addProductModal}}
+{{> productDetail}}
 
 </html>
