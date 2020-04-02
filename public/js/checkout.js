@@ -1,5 +1,5 @@
 $(() => {
-	$(".checkout-form").submit(e => {
+	$(".checkout-form").submit(async e => {
 		let retVal = false;
 		$(e.target).removeClass("was-validated");
 		$(e.target).addClass("was-validated");
@@ -10,7 +10,7 @@ $(() => {
 			$(window).scrollTop(0);
 			$(".checkout-form").css("filter", "blur(3px)");
 			$("button[type=submit]")[0].disabled = true;
-			createStripeToken();
+			await createStripeToken();
 			retVal = true;
 		} else {
 			check_luhn();
@@ -97,46 +97,43 @@ function check_luhn() {
 Validation for Stripe
 */
 function createStripeToken() {
-	Stripe.setPublishableKey("pk_test_mQ9uHoIakoSM0VNVxlFXKgDV00Kj6dDTa9");
-	$("#charge-error").removeClass("hidden");
-	//credit card number must have no spaces
-	Stripe.card.createToken(
-		{
-			number: $("#cc-number")
-				.val()
-				.split(" ")
-				.join(""),
-			cvc: $("#cc-cvv").val(),
-			exp: $("#cc-expiration").val(),
-			name: $("#cc-name").val()
-		},
-		stripeResponseHandler
-	);
-}
-
-function stripeResponseHandler(status, response) {
-	if (response.error) {
-		// Problem!
-		// Show the errors on the form
-		$("#charge-error").text(response.error.message);
+	return new Promise((resolve, reject) => {
+		Stripe.setPublishableKey("pk_test_mQ9uHoIakoSM0VNVxlFXKgDV00Kj6dDTa9");
 		$("#charge-error").removeClass("hidden");
-		//$form.find('button').prop('disabled', false); // Re-enable submission
-		console.log("failed to create token");
-	} else {
-		// Token was created!
+		//credit card number must have no spaces
+		Stripe.card.createToken(
+			{
+				number: $("#cc-number")
+					.val()
+					.split(" ")
+					.join(""),
+				cvc: $("#cc-cvv").val(),
+				exp: $("#cc-expiration").val(),
+				name: $("#cc-name").val()
+			},
+			(status, response) => {
+				if (response.error) {
+					// Problem!
+					// Show the errors on the form
+					$("#charge-error").text(response.error.message);
+					$("#charge-error").removeClass("hidden");
+					//$form.find('button').prop('disabled', false); // Re-enable submission
+					console.log("failed to create token");
+				} else {
+					// Token was created!
 
-		// Get the token ID:
-		var token = response.id;
-		console.log("Created Token! " + token);
-		// Insert the token into the form so it gets submitted to the server:
-		// var $form = $("#checkout-form");
-		// $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+					// Get the token ID:
+					var token = response.id;
 
-		var input = $("<input>")
-			.attr("type", "hidden")
-			.attr("name", "stripeToken")
-			.val(token);
+					console.log("Created Token! " + token);
+					// Insert the token into the form so it gets submitted to the server:
+					// var $form = $("#checkout-form");
+					// $form.append($('<input type="hidden" name="stripeToken" />').val(token));
 
-		$("#checkoutForm").append(input);
-	}
+					$("#stripeToken").val(token);
+					resolve();
+				}
+			}
+		);
+	});
 }
