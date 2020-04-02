@@ -31,22 +31,22 @@ if (process.env.DEV_MODE !== "true") {
 // express middlewares & setup
 
 const imageStorage = multer.diskStorage({
-	destination: function (req, file, cb) {
+	destination: function(req, file, cb) {
 		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/");
 	},
-	filename: function (req, file, cb) {
+	filename: function(req, file, cb) {
 		cb(null, "Image" + path.extname(file.originalname));
 	}
 });
 const avatarStorage = multer.diskStorage({
-	destination: function (req, file, cb) {
+	destination: function(req, file, cb) {
 		var dir = "public/siteData/" + req.auth.userDetails._id + "/img/avatar";
 		if (!fs.existsSync(dir)) {
 			fs.mkdirSync(dir);
 		}
 		cb(null, "public/siteData/" + req.auth.userDetails._id + "/img/avatar/");
 	},
-	filename: function (req, file, cb) {
+	filename: function(req, file, cb) {
 		cb(null, "avatar");
 	}
 });
@@ -54,7 +54,7 @@ const avatarStorage = multer.diskStorage({
 const uploadImg = new multer({
 	storage: imageStorage,
 	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
-	fileFilter: function (req, file, callback) {
+	fileFilter: function(req, file, callback) {
 		var ext = path.extname(file.originalname);
 		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
 			return callback(new Error("Only images are allowed"));
@@ -66,7 +66,7 @@ const uploadImg = new multer({
 var uploadAvatar = new multer({
 	storage: avatarStorage,
 	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
-	fileFilter: function (req, file, callback) {
+	fileFilter: function(req, file, callback) {
 		var ext = path.extname(file.originalname);
 		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
 			return callback(new Error("Only images are allowed"));
@@ -626,7 +626,7 @@ app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 				});
 			}
 			var cart = new Cart(req.shoppingCart.cart);
-			var errMsg = "Something went wrong with credit card validation"
+			var errMsg = "Something went wrong with credit card validation";
 			res.render("siteViews/checkout", {
 				layout: __dirname + "/views/siteViews/layouts/nav",
 				cart: shoppingCart,
@@ -701,24 +701,24 @@ app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 		infoToPass.subTotal = req.shoppingCart.cart.totalPrice;
 		infoToPass.total = ((req.shoppingCart.cart.totalPrice + 5) * 1.13).toFixed(2);
 
-		var stripe = require("stripe")(
-			"sk_test_28qAisNXpS3GeDEIcJ5J4Mst009xCAs61e"
-		)
+		var stripe = require("stripe")("sk_test_28qAisNXpS3GeDEIcJ5J4Mst009xCAs61e");
 
-		await stripe.charges.create({
-			amount: infoToPass.total,
-			currency: "cad",
-			source: req.body.stripeToken,
-			description: "Charge from eEz Business ID: " + shopID
-		}, function (err, charge) {
-			if (err) {
-				console.log(err.message);
-			} else {
-				console.log("Successfully bought product!");
-				req.cart = null;
+		stripe.charges.create(
+			{
+				amount: infoToPass.total,
+				currency: "cad",
+				source: req.body.stripeToken,
+				description: "Charge from eEz Business ID: " + shopID
+			},
+			function(err, charge) {
+				if (err) {
+					console.log(err.message);
+				} else {
+					console.log("Successfully bought product!");
+					req.cart = null;
+				}
 			}
-
-		})
+		);
 
 		try {
 			let order = await orderService.addOrder(infoToPass);
@@ -777,10 +777,10 @@ app.post("/signup", (req, res) => {
 		});
 });
 
-app.post("/resetPassword", function (req, res) {
+app.post("/resetPassword", function(req, res) {
 	const email = req.body.email;
 
-	userService.findMatchingEmail(email).then(function (user) {
+	userService.findMatchingEmail(email).then(function(user) {
 		if (user) {
 			mailService
 				.sendVerificationEmail(req.body.email, "reset")
@@ -880,7 +880,7 @@ app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 			fs.rename(
 				file.destination + file.filename,
 				file.destination + prodSKU + path.extname(file.originalname),
-				function (err) {
+				function(err) {
 					if (err) throw err;
 					//temporary
 					console.log("renamed complete");
@@ -922,7 +922,7 @@ app.post("/editProduct/:id", uploadImg.single("newImg"), (req, res) => {
 			fs.renameSync(
 				file.destination + file.filename,
 				file.destination + prod.SKU + path.extname(file.originalname),
-				function (err) {
+				function(err) {
 					if (err) throw err;
 					//temporary
 					console.log("renamed complete");
