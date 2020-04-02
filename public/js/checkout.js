@@ -19,11 +19,11 @@ $(() => {
 		return retVal;
 	});
 
-	$(".checkout-form input").focus(function () {
+	$(".checkout-form input").focus(function() {
 		this.placeholder = "";
 	});
 
-	$("#cc-number").keyup(function () {
+	$("#cc-number").keyup(function() {
 		check_luhn();
 	});
 
@@ -134,12 +134,9 @@ function stripeResponseHandler(status, response) {
 
 		var input = $("<input>")
 			.attr("type", "hidden")
-			.attr("name", "stripeToken").val(token);
+			.attr("name", "stripeToken")
+			.val(token);
 
 		$("#checkoutForm").append(input);
-
-
-
-
 	}
 }
