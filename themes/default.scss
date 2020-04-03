@@ -55,6 +55,14 @@ $body-color: #212529;
 	@extend .text-primary;
 }
 
+.site-cart-button {
+	margin-right: 10px;
+}
+
+.site-cart-button .badge {
+	margin-left: 2px;
+}
+
 a.site-cart-button:hover {
 	text-decoration: none;
 }

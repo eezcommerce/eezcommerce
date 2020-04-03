@@ -7,10 +7,10 @@
 }
 
 @if ($useDefaultColours) {
-	$primary: #584c9f;
-	$secondary: #7582b0;
-	$light: #effffe;
-	$dark: #242429;
+	$primary: #461b5a;
+	$secondary: #56475f;
+	$light: #f5f5f5;
+	$dark: #18171d;
 }
 
 body {
@@ -31,6 +31,10 @@ body {
 .site-navlinks {
 	display: flex;
 	flex-direction: column;
+}
+
+.site-cart-button i {
+	margin-bottom: 10px;
 }
 
 .site-navbar-right {
