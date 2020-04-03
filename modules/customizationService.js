@@ -61,12 +61,26 @@ module.exports.edit = (id, customization) => {
 							
 	
 							.bg-secondary{
-								color: color-yiq(#${customization.secondaryColor}, #222222, #ffffff);
+								color: color-yiq(#${customization.secondaryColor}, #222222, #ffffff) !important;
+							}
+
+							.btn-secondary{
+								color: color-yiq(#${customization.secondaryColor}, #222222, #ffffff) !important;
 							}
 			
 							.bg-primary{
-								color: color-yiq(#${customization.primaryColor}, #222222, #ffffff);
+								color: color-yiq(#${customization.primaryColor}, #222222, #ffffff) !important;
 							}
+
+							.bg-dark{
+								color: color-yiq(#${customization.darkColor}, #222222, #ffffff) !important;
+							}
+
+							.bg-white{
+								color: #222222;
+							}
+
+
 	
 			
 						`

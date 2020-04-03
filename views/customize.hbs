@@ -117,7 +117,13 @@
 
 						</div>
 
-
+						{{#isTruthy customizations.useThemeColour}}
+						<div class="col-12 bg-secondary p-4 mb-5">
+							<strong>NOTE: </strong>
+							<br>
+							Colours can't be customized when "theme-suggested colours" are enabled.
+						</div>
+						{{/isTruthy}}
 
 						<div class="form-group col-md-6">
 							<label for="primaryColor">
