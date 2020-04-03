@@ -51,6 +51,20 @@ const avatarStorage = multer.diskStorage({
 	}
 });
 
+const featureStorage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		var dir = "public/siteData/" + req.auth.userDetails._id + "/img/feature";
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
+		}
+		cb(null, dir);
+	},
+	filename: function(req, file, cb) {
+		req.hadFile = true;
+		cb(null, "feature");
+	}
+});
+
 const uploadImg = new multer({
 	storage: imageStorage,
 	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
@@ -70,6 +84,18 @@ var uploadAvatar = new multer({
 		var ext = path.extname(file.originalname);
 		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
 			return callback(new Error("Only images are allowed"));
+		}
+		callback(null, true);
+	}
+});
+
+const uploadFeatureImage = new multer({
+	storage: featureStorage,
+	limits: { fileSize: 1 * 4096 * 4096 }, // 16mb max file size
+	fileFilter: function(req, file, callback) {
+		var ext = path.extname(file.originalname);
+		if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+			req.imgError = "Only .png, .jpg & .gif are allowed.";
 		}
 		callback(null, true);
 	}
@@ -992,9 +1018,31 @@ app.post("/edit-user", (req, res) => {
 	}
 });
 
-// k.post.customize
-app.post("/customize", async (req, res) => {
+// k.customize
+app.post("/customize", uploadFeatureImage.single("feature"), async (req, res) => {
 	if (req.auth.isLoggedIn) {
+		if (req.hadFile && req.imgError == undefined) {
+			await jimp
+				.read(`${__dirname}/public/siteData/${req.auth.userDetails._id}/img/feature/feature`)
+				.then(img => {
+					img
+						.resize(1920, jimp.AUTO)
+						.quality(60)
+						.write(`${__dirname}/public/siteData/${req.auth.userDetails._id}/img/feature/feature.jpg`);
+
+					req.body.hasFeatureImage = true;
+				})
+				.catch(err => {
+					req.body.hasFeatureImage = false;
+					console.log(err);
+				});
+		}
+
+		if (req.imgError) {
+			res.json({ error: req.imgError });
+			return;
+		}
+
 		try {
 			await customizationService.edit(req.auth.userDetails._id, req.body);
 			res.json({ redirectUrl: "/dashboard/customize" });

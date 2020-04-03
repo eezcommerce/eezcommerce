@@ -7,7 +7,8 @@
 				</div>
 			</div>
 			<div class="row mx-0 text-center">
-				<form action="/customize" novalidate class="needs-validation mt-3 w-100">
+				<form action="/customize" novalidate method="POST" enctype="multipart/form-data"
+					class="needs-validation mt-3 w-100">
 					<div class="row">
 						<div class="form-group col-12 mb-5">
 							<h4>Theme</h4>
@@ -165,9 +166,34 @@
 
 
 					</div>
+					<div class="form-group col-12 mt-5">
+						<label>Featured Image:</label>
+						<div class="input-group">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" accept=".gif, .jpg, .png, .jpeg" name="feature" id="feature">
+								<label class="custom-file-label" for="feature" id="fileName">Choose file</label>
+							</div>
+						</div>
+						<p class="text-muted mb-3">
+							<em>
+								<small>
+									We suggest using an image at least 1000px wide with a landscape
+									orientation. 
+									<br>
+									Images will be scaled to preserve aspect ratio.
+								</small>
+							</em>
+						</p>
+					</div>
+
+					{{#isTruthy customizations.hasFeatureImage}}
+					<div class="col-12" style="max-height: 400px; overflow: hidden;">
+						<img src="/siteData/{{userDetails._id}}/img/feature/feature.jpg?v={{random 1 100}}"
+							style="width: 100%; height: auto;">
+					</div>
+					{{/isTruthy}}
 
 					<div class="server-response text-danger"></div>
-
 					<div class="row">
 						<div class="col-12 mt-4 mb-4">
 							<button class="btn btn-primary rounded-pill" type="submit">
@@ -175,7 +201,6 @@
 							</button>
 						</div>
 					</div>
-
 				</form>
 
 			</div>
@@ -186,3 +211,11 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+
+	$("#feature").change((e)=>{
+		$("#fileName").html($("#feature").val().replace(/C:\\fakepath\\/, ''))
+	})
+</script>
