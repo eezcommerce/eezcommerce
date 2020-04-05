@@ -27,6 +27,10 @@ module.exports = mongoose.model(
 			type: Boolean,
 			default: true,
 			required: true
+		},
+		hasFeatureImage: {
+			type: Boolean,
+			default: false
 		}
 	})
 );

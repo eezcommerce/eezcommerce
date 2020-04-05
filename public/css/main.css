@@ -231,6 +231,52 @@ h1 {
 	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
+.cust-tip {
+	cursor: pointer;
+	transition: all 0.2 ease;
+}
+
+.cust-tip:hover {
+	color: var(--dark);
+}
+
+.cust-tip:hover::after {
+	display: block;
+	font-family: Montserrat, sans-serif;
+	font-weight: normal;
+	font-size: 13px;
+	content: attr(data-msg);
+	position: absolute;
+	bottom: 80px;
+	z-index: 100;
+	padding: 10px;
+	box-sizing: border-box;
+	width: 200px;
+	margin-left: -100px;
+	background-color: var(--white);
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+	color: var(--muted);
+	height: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-height: 100px;
+	opacity: 0;
+	animation: showTip 0.7s ease 0.3s forwards;
+	border-radius: 3px;
+	transform-origin: bottom;
+}
+
+@keyframes showTip {
+	0% {
+		opacity: 0;
+		transform: translateY(30px) rotateX(90deg);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0px) rotateX(0deg);
+	}
+}
+
 .customize-half {
 	max-height: 100vh;
 	overflow-y: scroll;

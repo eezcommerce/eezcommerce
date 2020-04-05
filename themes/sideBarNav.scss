@@ -49,3 +49,38 @@ body {
 .site-navbar-logo {
 	margin-top: 20px;
 }
+
+@media only screen and (max-width: 768px) {
+	body {
+		grid-template:
+			"nav nav nav" 60px
+			"bod bod bod" auto
+			"fot fot fot" 200px;
+	}
+
+	.site-navbar-logo {
+		margin-top: 0px;
+	}
+
+	.site-cart-button i {
+		margin-bottom: 0px;
+	}
+
+	.site-navbar {
+		position: fixed;
+		width: 100%;
+		height: 60px;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: row;
+	}
+
+	.site-navbar-right {
+		height: 60px;
+		flex-direction: row;
+	}
+
+	.site-navlinks {
+		flex-direction: row;
+	}
+}
