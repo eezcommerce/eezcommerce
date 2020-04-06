@@ -1,5 +1,14 @@
 // document ready
 $(() => {
+	let tl = gsap.timeline();
+	let tl2 = new TimelineMax({ repeat: -1 });
+	tl.from(".tagline", { duration: 1, y: -50, opacity: 0 });
+	tl.from(".cta", { duration: 0.5, x: 20, opacity: 0 });
+	tl.from("#person", { duration: 2, x: -100, opacity: 0 }, "-=1");
+	tl2
+		.from(".scroll", { duration: 1, y: -20, opacity: 0 })
+		.to(".scroll", { duration: 1, y: 0 })
+		.to(".scroll", { duration: 1, y: 20, opacity: 0 });
 	// setting state of form
 	$("#agreeTerms").prop("checked", false);
 
@@ -82,3 +91,29 @@ $(() => {
 			.removeClass("is-valid");
 	});
 });
+
+inView.threshold(0.5);
+
+inView(".text-neumorph")
+	.on("enter", el => {
+		$(el).addClass("shadPop");
+	})
+	.on("exit", el => {
+		$(el).removeClass("shadPop");
+	});
+
+inView(".homepageFullpage")
+	.on("enter", el => {
+		let tl = gsap.timeline();
+		let els = $(el).find(".float-up");
+		if (els.length > 0) {
+			tl.set(els, { opacity: 0, y: 50 }).to(els, { duration: 1, opacity: 1, y: 0, stagger: 0.5 });
+		}
+	})
+	.on("exit", el => {
+		let tl = gsap.timeline();
+		let els = $(el).find(".float-up");
+		if (els.length > 0) {
+			tl.set(els, { opacity: 0, y: 50 });
+		}
+	});

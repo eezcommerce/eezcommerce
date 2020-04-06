@@ -16,14 +16,6 @@
 
 */
 
-.container-fullwidth {
-	height: 100vh;
-	width: 100vw;
-	position: fixed;
-	overflow-y: scroll;
-	scroll-snap-type: y proximity;
-}
-
 :root {
 	--bg: #fefefe;
 	--accent: #519e8a;
@@ -89,26 +81,78 @@ h1 {
 	background-position-x: -50px;
 }
 
-.text-neumorph-strong {
-	text-shadow: -15px -15px 30px rgba(255, 255, 255, 0.4), 15px 15px 30px rgba(0, 0, 0, 0.05),
-		-5px -5px 10px rgba(255, 255, 255, 0.6), 5px 5px 10px rgba(0, 0, 0, 0.05);
-	transition: text-shadow 0.5s ease-in-out;
+.homeAni img {
+	transform: translateY(0px);
+	transition: all 0.5s ease;
 }
 
-.text-neumorph-strong:hover {
-	text-shadow: 15px 15px 30px rgba(255, 255, 255, 0.4), -15px -15px 30px rgba(0, 0, 0, 0.05),
-		5px 5px 10px rgba(255, 255, 255, 0.6), -5px -5px 10px rgba(0, 0, 0, 0.05);
+.homeAni a:hover ~ img {
+	animation: bob 1s ease-in-out infinite;
+}
+
+@keyframes bob {
+	0% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(-10px);
+	}
+
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+.shadPop {
+	animation: shadSpin 2s linear 2;
+	opacity: 1 !important;
+	transform: translateY(0) !important;
+}
+
+@keyframes shadSpin {
+	0% {
+		text-shadow: 10px 10px 25px rgba(255, 255, 255, 0.05), -15px -15px 30px rgba(0, 0, 0, 0.05),
+			5px 5px 10px rgba(255, 255, 255, 0.05), -5px -5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	25% {
+		text-shadow: 10px -10px 25px rgba(255, 255, 255, 0.05), 15px -15px 30px rgba(0, 0, 0, 0.05),
+			5px -5px 10px rgba(255, 255, 255, 0.05), 5px -5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	50% {
+		text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05), 15px 15px 30px rgba(0, 0, 0, 0.05),
+			-5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	75% {
+		text-shadow: -10px 10px 25px rgba(255, 255, 255, 0.05), -15px 15px 30px rgba(0, 0, 0, 0.05),
+			-5px 5px 10px rgba(255, 255, 255, 0.05), -5px 5px 10px rgba(0, 0, 0, 0.05);
+	}
+
+	100% {
+		text-shadow: 10px 10px 25px rgba(255, 255, 255, 0.05), -15px -15px 30px rgba(0, 0, 0, 0.05),
+			5px 5px 10px rgba(255, 255, 255, 0.05), -5px -5px 10px rgba(0, 0, 0, 0.05);
+	}
 }
 
 .text-neumorph {
 	text-shadow: 10px 10px 25px rgba(255, 255, 255, 0.05), -15px -15px 30px rgba(0, 0, 0, 0.05),
 		5px 5px 10px rgba(255, 255, 255, 0.05), -5px -5px 10px rgba(0, 0, 0, 0.05);
-	transition: text-shadow 0.5s ease-in-out;
+	transition: all 1s ease-in-out;
+	opacity: 0;
+	transform: translateY(40px);
 }
 
-.text-neumorph:hover {
-	text-shadow: -10px -10px 25px rgba(255, 255, 255, 0.05), 15px 15px 30px rgba(0, 0, 0, 0.05),
-		-5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.05);
+.float-up {
+	opacity: 0;
+}
+
+.scrollIndicator {
+	position: absolute;
+	bottom: 5px;
+	opacity: 0.5;
 }
 
 /*
@@ -162,6 +206,23 @@ h1 {
 .sidebarImg img {
 	width: 100px;
 	height: 100px;
+}
+
+.invalid-feedback,
+.server-response {
+	animation: pop 0.4s ease forwards;
+}
+
+@keyframes pop {
+	0% {
+		transform: translateX(-5px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0px);
+		opacity: 1;
+	}
 }
 
 .overlay {
@@ -329,6 +390,14 @@ h1 {
 }
 
 @media only screen and (max-width: 768px) {
+	.tagline h1 {
+		font-size: 25px;
+	}
+
+	.tagline a {
+		width: 100%;
+	}
+
 	.bigIcon {
 		font-size: 50vw;
 	}
