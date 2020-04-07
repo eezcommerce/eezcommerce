@@ -1,8 +1,6 @@
-$white: $dark;
-
 $body-bg: $dark;
 
-$body-color: $light;
+$body-color: #ffffff;
 
 .card {
 	background: rgba($color: #ffffff, $alpha: 0.05) !important;
@@ -14,4 +12,12 @@ $body-color: $light;
 .site-navlinks a:hover,
 .site-navlinks a {
 	color: $body-color;
+}
+
+.text-white {
+	color: #ffffff !important;
+}
+
+.site-cart-button {
+	@extend .text-light;
 }

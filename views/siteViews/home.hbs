@@ -6,8 +6,14 @@
 			</span>
 		</div>
 
+		{{#isTruthy siteData.customization.hasFeatureImage}}
+		<div class="col-12 site-feature-img"
+			style="background-image: url('/siteData/{{siteData._id}}/img/feature/feature.jpg?v={{random 1 100}}')">
+		</div>
+		{{/isTruthy}}
+
 		{{#isTruthy siteData.customization.showAbout}}
-		<div class="col-md-12 site-about">
+		<div class="col-md-12 site-about mb-5">
 			<h2>About Us</h2>
 			<p>{{siteData.aboutBlurb}}</p>
 		</div>
