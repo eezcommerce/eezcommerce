@@ -35,7 +35,8 @@
 		"nodemailer": "^6.4.5",
 		"pre-commit": "^1.2.2",
 		"prettier": "^1.19.1",
-		"sass": "^1.26.3"
+		"sass": "^1.26.3",
+		"stripe": "^8.38.0"
 	},
 	"prettier": {
 		"tabWidth": 2,

@@ -652,13 +652,15 @@ app.get("/sites/:id/shoppingCart/checkout", (req, res) => {
 				});
 			}
 			var cart = new Cart(req.shoppingCart.cart);
+			var errMsg = "Something went wrong with credit card validation";
 			res.render("siteViews/checkout", {
 				layout: __dirname + "/views/siteViews/layouts/nav",
 				cart: shoppingCart,
 				siteData: site,
 				products: cart.generateArray(),
 				totalPrice: cart.totalPrice,
-				totalQty: cart.totalQty
+				totalQty: cart.totalQty,
+				errMsg: errMsg
 			});
 		})
 		.catch(err => {
@@ -711,6 +713,7 @@ app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 	var shopID = req.params.id;
 	var siteData = await userService.getWebsiteDataById(shopID);
 	let infoToPass = req.body;
+	console.log(req.body);
 
 	var parsedProductList = [];
 	if (validate) {
@@ -722,7 +725,25 @@ app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 		infoToPass.productList = parsedProductList;
 		infoToPass.sellerId = req.params.id;
 		infoToPass.subTotal = req.shoppingCart.cart.totalPrice;
-		infoToPass.total = ((req.shoppingCart.cart.totalPrice + 5) * 1.13).toFixed(2);
+		infoToPass.total = (req.shoppingCart.cart.totalPrice + 5).toFixed(2);
+		var stripe = require("stripe")("sk_test_28qAisNXpS3GeDEIcJ5J4Mst009xCAs61e");
+
+		stripe.charges.create(
+			{
+				amount: infoToPass.total * 100,
+				currency: "cad",
+				source: req.body.stripeToken,
+				description: "Charge from eEz Business ID: " + shopID
+			},
+			function(err, charge) {
+				if (err) {
+					console.log(err.message);
+				} else {
+					console.log("Successfully bought product!");
+					req.cart = null;
+				}
+			}
+		);
 
 		try {
 			let order = await orderService.addOrder(infoToPass);
