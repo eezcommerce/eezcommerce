@@ -886,8 +886,6 @@ app.post("/addProduct", uploadImg.single("imgFile"), (req, res) => {
 				file.destination + prodSKU + path.extname(file.originalname),
 				function(err) {
 					if (err) throw err;
-					//temporary
-					console.log("renamed complete");
 				}
 			);
 		}
@@ -928,8 +926,6 @@ app.post("/editProduct/:id", uploadImg.single("newImg"), (req, res) => {
 				file.destination + prod.SKU + path.extname(file.originalname),
 				function(err) {
 					if (err) throw err;
-					//temporary
-					console.log("renamed complete");
 				}
 			);
 		});
