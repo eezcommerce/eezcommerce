@@ -40,7 +40,7 @@ $body-color: #212529;
 }
 
 .site-navlinks a {
-	padding: 5px;
+	padding: 3px;
 	margin: 5px;
 	transition: all 0.4s ease;
 	text-decoration: none !important;
@@ -53,6 +53,14 @@ $body-color: #212529;
 .site-cart-button {
 	transition: all 0.3s ease;
 	@extend .text-primary;
+}
+
+.site-cart-button {
+	margin-right: 10px;
+}
+
+.site-cart-button .badge {
+	margin-left: 2px;
 }
 
 a.site-cart-button:hover {
@@ -71,6 +79,14 @@ a.site-cart-button:hover {
 	justify-content: center;
 	align-items: center;
 	min-height: 150px;
+}
+
+.site-feature-img {
+	box-shadow: inset 0px 0px 300px rgba(0, 0, 0, 0.3);
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+	height: 400px;
 }
 
 // footer

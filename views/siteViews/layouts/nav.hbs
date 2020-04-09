@@ -13,7 +13,7 @@
 	<div class="site-navbar">
 		<div class="site-navbar-logo">
 			<a href="{{siteData.baseUrl}}">
-				<img src="/siteData/{{siteData._id}}/img/avatar/avatar.png" alt="{{siteData.businessName}}" style="width: auto; height:50px;">
+				<img src="/siteData/{{siteData._id}}/img/avatar/avatar.png" alt="{{siteData.businessName}}" title="{{siteData.businessName}}" style="width: auto; height:50px;">
 			</a>
 		</div>
 
@@ -25,9 +25,9 @@
 			</div>
 		</div>
 		<div class="float-right">
-			<a href="{{siteData.baseUrl}}/shoppingCart" class="text-light">
-				<i class="fas fa-shopping-cart fa-lg"></i><span class="badge badge-light">{{cart.totalQty}}</span>
-
+			<a href="{{siteData.baseUrl}}/shoppingCart" class="site-cart-button">
+				<i class="fas fa-shopping-cart fa-lg"></i>
+				<span>{{cart.totalQty}}</span>
 			</a>
 		</div>
 	</div>
