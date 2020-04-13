@@ -1114,6 +1114,7 @@ app.post("/about_blurb", (req, res) => {
 				aboutBlurb: req.body.about
 			})
 			.then(result => {
+				req.auth.userDetails.aboutBlurb = req.body.about;
 				res.json({ success: true });
 			})
 			.catch(err => {

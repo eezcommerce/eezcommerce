@@ -1,120 +1,121 @@
-	<style>
+<style>
+	input#number {
+		text-align: center;
+		border: none;
+		border-top: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
+		margin: 0px;
+		width: 40px;
+		height: 40px;
+	}
 
-input#number {
-  text-align: center;
-  border: none;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  margin: 0px;
-  width: 40px;
-  height: 40px;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 </style>
-			
-			<div class="modal fade" id="shopProductDetail" data-backdrop="true">
-				<div class="modal-dialog modal-lg">
-					<div class="modal-content">
 
-							<div class="container p-3">
-								<div class="row pr-3">
-									<div class="offset-11 col-1 corner">
-												<button type="button" class="pl-2 pt-2 close" data-dismiss="modal">&times;</button>	
-									</div>			
+<div class="modal fade" id="shopProductDetail" data-backdrop="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<div class="container p-3">
+				<div class="row pr-3">
+					<div class="offset-11 col-1 corner">
+						<button type="button" class="pl-2 pt-2 close" data-dismiss="modal">&times;</button>
 					</div>
-					<div class="row">
-						<div class="col-6 text-center">
-
-			<img style="object-fit:cover" height="400px" width="100%" id="imgDetail"/>
-						</div>
-
-						<div class="col-6">
-	
-
-
-  <div class="form-group mt-5">
-<h3><strong id="title"></strong></h3>
-<div id="priceDetail"></div>
-<div id="inStockDetail"></div>
-	<p class="text-left" id="descDetail"></p>
-
-  </div>
-
-		<div class="row">
-    <div class="col">
-		
-		<label for="qtyDetail"><strong>Quantity</strong></label>
-     <form id="addQty" method="POST">
-  <button type="button" class="btn btn-primary increase"  value="Increase Value"><i class="fas fa-plus"></i></button>
-  <input type="number" name="number" id="number" min="1" max="99" default="1" value="1" />
-	<button type="button"  class="btn btn-primary decrease" value="Decrease Value"><i class="fas fa-minus"></i></button>
-  
-
-
-    </div>
-		</div>
-
-
-						</div>	
-					</div>
-					<hr/>
-	<div class="text-right panel-body mt-3">
-											<button type="submit" id="postQty" class="btn btn-primary badge-pill btn-circle-xl m-1">
-												<i class="fas fa-plus"></i> Add to Cart
-											</button>
-										</div>
-									
-			</div>	</form>
 				</div>
+				<div class="row">
+					<div class="col-6 text-center">
+
+						<img height="auto" width="100%" id="imgDetail" />
+					</div>
+
+					<div class="col-6">
+
+
+
+						<div class="form-group mt-5">
+							<h3><strong id="title"></strong></h3>
+							<div id="priceDetail"></div>
+							<div id="inStockDetail"></div>
+							<p class="text-left" id="descDetail"></p>
+
 						</div>
-								</div>
+
+						<div class="row">
+							<div class="col">
+
+								<label for="qtyDetail"><strong>Quantity</strong></label>
+								<form id="addQty" method="POST">
+									<button type="button" class="btn btn-primary increase" value="Increase Value"><i
+											class="fas fa-plus"></i></button>
+									<input type="number" name="number" id="number" min="1" max="99" default="1"
+										value="1" />
+									<button type="button" class="btn btn-primary decrease" value="Decrease Value"><i
+											class="fas fa-minus"></i></button>
+
+
+
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+				<hr />
+				<div class="text-right panel-body mt-3">
+					<button type="submit" id="postQty" class="btn btn-primary badge-pill btn-circle-xl m-1">
+						<i class="fas fa-plus"></i> Add to Cart
+					</button>
+				</div>
+
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 <script>
-$('#postQty').click((e) =>{
-			e.preventDefault();
-			var id  = $('#shopProductDetail').find('#addQty').attr('action').slice(11);
-			var qty = $('#addQty').find('#number').val();
+	$('#postQty').click((e) => {
+		e.preventDefault();
+		var id = $('#shopProductDetail').find('#addQty').attr('action').slice(11);
+		var qty = $('#addQty').find('#number').val();
 		//pass as parameter
 
-		$.post("/addToCart/" + id, {number: qty}, (data) => {
+		$.post("/addToCart/" + id, { number: qty }, (data) => {
 			console.log("Data:" + data);
-			if(data.success == false){
+			if (data.success == false) {
 				$("#shopProductDetail").modal("hide");
-			$('#outOfStock').removeAttr('hidden');
+				$('#outOfStock').removeAttr('hidden');
 
-			setTimeout(function(){
-				$('#outOfStock').fadeOut('slow')
-			},1400)
-			}else{
+				setTimeout(function () {
+					$('#outOfStock').fadeOut('slow')
+				}, 1400)
+			} else {
 				$('#shopProductDetail').modal('hide');
-			$('#addedItem').removeAttr('hidden');
-			setTimeout(function(){
-				$('#addedItem').fadeOut('slow')	
-			},1500)
-				setTimeout(function(){
-				location.reload();
-			},1000)
-		
+				$('#addedItem').removeAttr('hidden');
+				setTimeout(function () {
+					$('#addedItem').fadeOut('slow')
+				}, 1500)
+				setTimeout(function () {
+					location.reload();
+				}, 1000)
+
 			}
-		
+
 		})
-})	
+	})
 
 
-	$('.increase').click(function(){
+	$('.increase').click(function () {
 		document.getElementById('number').stepUp();
 	})
 
-		$('.decrease').click(function(){
-			document.getElementById('number').stepDown();
-	
+	$('.decrease').click(function () {
+		document.getElementById('number').stepDown();
+
 	})
 
 </script>
-
-			
