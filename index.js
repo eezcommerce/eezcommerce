@@ -208,7 +208,11 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	userService
 		.verifyEmail(token, email)
 		.then(() => {
-			req.auth.userDetails.isVerified = true;
+			try {
+				req.auth.userDetails.isVerified = true;
+			} catch (error) {
+				console.log(error);
+			}
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
