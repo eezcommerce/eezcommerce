@@ -1026,7 +1026,7 @@ app.post("/edit-user", (req, res) => {
 		}
 
 		passed._id = req.auth.userDetails._id;
-		passed.isVerified = req.auth.userDetails.email === passed.email;
+		passed.isVerified = req.auth.userDetails.email === passed.email ? req.auth.userDetails.isVerified : false;
 
 		userService
 			.edit(passed)
