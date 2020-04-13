@@ -190,13 +190,16 @@ app.get("/terms", (req, res) => {
 	res.render("terms", { layout: "NavBar" });
 });
 
-app.get("/all-sites", (req, res)=>{
-	userService.getAllBasic().then((result)=>{
-		res.json(result)
-	}).catch((err)=>{
-		res.json({error: err})
-	})
-})
+app.get("/all-sites", (req, res) => {
+	userService
+		.getAllBasic()
+		.then(result => {
+			res.json(result);
+		})
+		.catch(err => {
+			res.json({ error: err });
+		});
+});
 
 app.get("/verify_email/:email/:token", (req, res) => {
 	let token = req.params.token;

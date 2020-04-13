@@ -13,17 +13,17 @@ const IndustryModel = mongoose.model(
 );
 IndustryModel.insertMany(
 	[
-		{name: "Automotive"},
-		{name: "Kitchen"},
-		{name: "Tools"},
-		{name: "Hardware"},
-		{name: "Home Decor"},
-		{name: "Home Improvement"},
-		{name: "Art"},
-		{name: "Art Supplies"},
-		{name: "Crafts"},
-		{name: "Hobbies and Collectibles"},
-		{name: "Other"}
+		{ name: "Automotive" },
+		{ name: "Kitchen" },
+		{ name: "Tools" },
+		{ name: "Hardware" },
+		{ name: "Home Decor" },
+		{ name: "Home Improvement" },
+		{ name: "Art" },
+		{ name: "Art Supplies" },
+		{ name: "Crafts" },
+		{ name: "Hobbies and Collectibles" },
+		{ name: "Other" }
 	],
 	(err, res) => {
 		if (err) {
