@@ -13,51 +13,17 @@ const IndustryModel = mongoose.model(
 );
 IndustryModel.insertMany(
 	[
-		{
-			name: "Oilfield Services/Equipment"
-		},
-		{
-			name: "Life Insurance"
-		},
-		{
-			name: "Shoe Manufacturing"
-		},
-		{
-			name: "Semiconductors"
-		},
-		{
-			name: "Investment Managers"
-		},
-		{
-			name: "Natural Gas Distribution"
-		},
-		{
-			name: "Beverages (Production/Distribution)"
-		},
-		{
-			name: "Hotels/Resorts"
-		},
-		{
-			name: "Major Pharmaceuticals"
-		},
-		{
-			name: "Integrated oil Companies"
-		},
-		{
-			name: "Property-Casualty Insurers"
-		},
-		{
-			name: "Real Estate"
-		},
-		{
-			name: "Savings Institutions"
-		},
-		{
-			name: "Major Chemicals"
-		},
-		{
-			name: "Electrical Products"
-		}
+		{name: "Automotive"},
+		{name: "Kitchen"},
+		{name: "Tools"},
+		{name: "Hardware"},
+		{name: "Home Decor"},
+		{name: "Home Improvement"},
+		{name: "Art"},
+		{name: "Art Supplies"},
+		{name: "Crafts"},
+		{name: "Hobbies and Collectibles"},
+		{name: "Other"}
 	],
 	(err, res) => {
 		if (err) {

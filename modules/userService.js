@@ -381,3 +381,20 @@ module.exports.changePasswordWithToken = (email, token, newPass) => {
 		});
 	});
 };
+
+
+module.exports.getAllBasic = ()=>{
+	return new Promise((resolve, reject)=>{
+		UserModel.find({}, "aboutBlurb businessName",(err, result)=>{
+			if(err){
+				reject(err)
+			} else{
+				if(result.length > 0){
+					resolve(result)
+				} else{
+					reject("None yet, check back soon (or sign up to be the first!)")
+				}
+			}
+		})
+	})
+}
