@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 const Orders = require("./Models/OrderModel");
+const productService = require("./productService.js");
 
 async function doConnect() {
 	await mongoose.connect("mongodb://localhost/eez", {
@@ -87,6 +88,12 @@ module.exports.addOrder = input => {
 			if (err) {
 				reject(err);
 			} else {
+				try {
+					//non-critical, just dispatch to try and update the product
+					productService.updatePurchased(input.productList);
+				} catch (error) {
+					console.log(error);
+				}
 				resolve(Order);
 			}
 		});

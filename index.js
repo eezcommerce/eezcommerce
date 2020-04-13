@@ -728,7 +728,6 @@ app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 	var shopID = req.params.id;
 	var siteData = await userService.getWebsiteDataById(shopID);
 	let infoToPass = req.body;
-	console.log(req.body);
 
 	var parsedProductList = [];
 	if (validate) {
