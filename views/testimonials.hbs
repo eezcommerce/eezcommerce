@@ -1,50 +1,49 @@
+<div class="container" style="margin-top: 100px; min-height: 800px">
+	<h1 class="mb-3 text-center">Sites made with our service</h1>
+	<div class="browse-container row text-center">
 
-	<!-- <input class="form-control" id="testimonialFilter" type="text" placeholder="Search.."> -->
-	<!--<div id="filterBtnContainer">
-				<button class="btn btn-light active" onclick="filterSelection('all')">Show all</button>
-				<button class="btn btn-light" onclick="filterSelection('food')">Food</button>
-				<button class="btn btn-light" onclick="filterSelection('tech')">Technology</button>
-				<button class="btn btn-light" onclick="filterSelection('appliance')">Appliance</button>
-				<button class="btn btn-light" onclick="filterSelection('beauty')">Beauty</button>
-				<button class="btn btn-light" onclick="filterSelection('activity')">Activity</button>
-			</div>-->
-
-
-<div class="container-fluid bg-secondary">
-  <div class="row pt-5 mt-5" style="padding:15px">
-	  
-    <a href="https://prj666.mystudentlab.ca:6768/sites/5e7d016344e851667b698ffa" class="col-md-4 hover" >
-      <img src="/img/testimonial-coffee.png" class="img-fluid rounded">
-    </a>
-	
-    <a href="https://prj666.mystudentlab.ca:6768/sites/5e83e457f494577a3f7be62c" class="col-md-4 hover">
-      <img src="/img/testimonial-fashion.png" class="img-fluid rounded">
-    </a>
-    <a href="/img/testimonial-food.png" data-toggle="lightbox" data-gallery="gallery" class="col-md-4 hover">
-      <img src="/img/testimonial-food.png" class="img-fluid rounded">
-    </a>
-  </div>
-  <div class="row" style="padding:15px">
-    <a href="/img/testimonial-furniture.png" data-toggle="lightbox" data-gallery="gallery" class="col-md-4 hover">
-      <img src="/img/testimonial-furniture.png" class="img-fluid rounded">
-    </a>
-    <a href="/img/testimonial-makeup.png" data-toggle="lightbox" data-gallery="gallery" class="col-md-4 hover">
-      <img src="/img/testimonial-makeup.png" class="img-fluid rounded">
-    </a>
-    <a href="/img/testimonial-outdoor.png" data-toggle="lightbox" data-gallery="gallery" class="col-md-4 hover">
-      <img src="/img/testimonial-outdoor.png" class="img-fluid rounded">
-    </a>
-  </div>
-
+	</div>
 
 </div>
 
-	<div id="footer" class="row bg-light m-0 h-25 d-flex flex-column align-items-center justify-content-center">
-		<ul class="list-group list-group-horizontal">
-			<li class="list-group-item"><a href="/">Home</a></li>
-			<li class="list-group-item"><a href="#" data-toggle="modal" data-target="#pricingModalCenter">Pricing</a></li>
-			<li class="list-group-item"><a href="mailto:prj666_201a07@myseneca.ca">Contact</a></li>
-			<li class="list-group-item"><a href='/terms'>Terms of Service</a></li>
-		</ul>
-		<p class="mt-3">&copy; 2020 eEz Commerce</p>
-	</div>
+<div id="footer" class="row bg-light m-0 h-25 d-flex flex-column align-items-center justify-content-center">
+	<ul class="list-group list-group-horizontal">
+		<li class="list-group-item"><a href="/">Home</a></li>
+		<li class="list-group-item"><a href="#" data-toggle="modal" data-target="#pricingModalCenter">Pricing</a></li>
+		<li class="list-group-item"><a href="mailto:prj666_201a07@myseneca.ca">Contact</a></li>
+		<li class="list-group-item"><a href='/terms'>Terms of Service</a></li>
+	</ul>
+	<p class="mt-3">&copy; 2020 eEz Commerce</p>
+</div>
+
+<script>
+	$(() => {
+
+		// from stackoverflow: https://stackoverflow.com/questions/1199352/smart-way-to-truncate-long-strings
+		String.prototype.trunc = String.prototype.trunc ||
+			function (n) {
+				return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this;
+			};
+		$.get("/all-sites", (data) => {
+			console.log(data)
+			elem = $(".browse-container")
+			if (data.error) {
+				elem.html(`<h3 class="text-danger d-block w-100">${data.error.toString()}</h3>`)
+			} else {
+				data.forEach(site => {
+					let elemString = `
+						<div class="col-4 card px-3 py-5" style="height: 400px">
+							<div class="card-body">
+								<h5 class="card-title"><a href="/sites/${site._id}">${site.businessName}</a></h5>
+								<h6 class="card-subtitle mb-2 text-muted">About</h6>
+								<p class="card-text">${site.aboutBlurb.trunc(200)}</p>
+								<a class="btn btn-primary rounded-pill" href="/sites/${site._id}" class="card-link">Visit Site</a>
+							</div>
+						</div>
+					`
+					elem.append(elemString)
+				});
+			}
+		})
+	})
+</script>
