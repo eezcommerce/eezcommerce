@@ -166,3 +166,19 @@ module.exports.isDuplicate = (ownerId, testValue) => {
 			});
 	});
 };
+
+module.exports.updatePurchased = productList => {
+	return new Promise((resolve, reject) => {
+		productList.forEach(line => {
+			Products.updateOne({ _id: line.ProductID }, { purchased: line.Qty }, err => {
+				if (err) {
+					console.log(err);
+				} else {
+					console.log("Updated product.");
+				}
+			});
+		});
+
+		resolve();
+	});
+};

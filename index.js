@@ -208,7 +208,11 @@ app.get("/verify_email/:email/:token", (req, res) => {
 	userService
 		.verifyEmail(token, email)
 		.then(() => {
-			req.auth.userDetails.isVerified = true;
+			try {
+				req.auth.userDetails.isVerified = true;
+			} catch (error) {
+				console.log(error);
+			}
 			res.render("EmailVerified", { layout: "NavBar" });
 		})
 		.catch(error => {
@@ -724,7 +728,6 @@ app.post("/sites/:id/shoppingCart/checkout", async (req, res) => {
 	var shopID = req.params.id;
 	var siteData = await userService.getWebsiteDataById(shopID);
 	let infoToPass = req.body;
-	console.log(req.body);
 
 	var parsedProductList = [];
 	if (validate) {
@@ -1023,7 +1026,7 @@ app.post("/edit-user", (req, res) => {
 		}
 
 		passed._id = req.auth.userDetails._id;
-		passed.isVerified = req.auth.userDetails.email === passed.email ? req.auth.userDetails.isVerified : false;
+		passed.isVerified = req.auth.userDetails.email === passed.email;
 
 		userService
 			.edit(passed)

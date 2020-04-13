@@ -202,6 +202,7 @@ module.exports.edit = passed => {
 		UserModel.updateOne(
 			{ _id: passed._id },
 			{
+				isVerified: passed.isVerified,
 				businessName: passed.businessName,
 				email: passed.email,
 				aboutBlurb: passed.about,
