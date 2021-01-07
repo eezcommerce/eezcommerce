@@ -3,7 +3,7 @@ const Orders = require("./Models/OrderModel");
 const productService = require("./productService.js");
 
 async function doConnect() {
-	await mongoose.connect(process.env.MONGO_URL, {
+	await mongoose.connect(process.env.MONGO_SERVER, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useCreateIndex: true

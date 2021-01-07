@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 const Categories = require("./Models/CategoryModel");
 
 async function doConnect() {
-	await mongoose.connect(process.env.MONGO_URL, {
+	await mongoose.connect(process.env.MONGO_SERVER, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useCreateIndex: true

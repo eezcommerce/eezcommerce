@@ -6,7 +6,7 @@ const categoryService = require("./categoryService.js");
 var customizationService = require("./customizationService.js");
 
 async function doConnect() {
-	await mongoose.connect(process.env.MONGO_URL, {
+	await mongoose.connect(process.env.MONGO_SERVER, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useCreateIndex: true

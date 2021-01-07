@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 const Products = require("./Models/ProductModel");
 
 async function doConnect() {
-	await mongoose.connect(process.env.MONGO_URL, {
+	await mongoose.connect(process.env.MONGO_SERVER, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useCreateIndex: true
