@@ -21,11 +21,11 @@
 	"homepage": "https://github.com/lucacataldo/eezcommerce#readme",
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
-		"body-parser": "^1.19.0",
+		"body-parser": "^1.20.1",
 		"bootstrap": "^4.4.1",
 		"client-sessions": "^0.8.0",
 		"dotenv": "^8.2.0",
-		"express": "^4.17.1",
+		"express": "^4.18.2",
 		"express-handlebars": "^3.1.0",
 		"handlebars": "^4.7.6",
 		"handlebars-helpers": "^0.10.0",
